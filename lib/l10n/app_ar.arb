@@ -1,0 +1,6 @@
+{
+  "helloWorld": "مرحبا للعالم",
+  "@helloWorld": {
+    "description": "رسالة المبرمج الأولى"
+  }
+}
