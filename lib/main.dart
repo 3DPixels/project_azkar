@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_azkar/pages/main_page.dart';
-import 'package:project_azkar/providers/navigation_cubit/navigation_cubit.dart';
 import 'package:project_azkar/providers/settings_cubit/settings_cubit.dart';
 import 'package:project_azkar/services/cache_helper.dart';
 import 'package:project_azkar/utils/dark_theme.dart';
@@ -26,11 +25,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => SettingsCubit()),
-        BlocProvider(create: (_) => NavigationCubit()),
-      ],
+    return BlocProvider(
+      create: (_) => SettingsCubit(),
       child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
           return MaterialApp(

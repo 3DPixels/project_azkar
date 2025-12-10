@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../providers/navigation_cubit/navigation_cubit.dart';
 import 'categories_page.dart';
 import 'home_page.dart';
 import 'mood_page.dart';
 import 'other_page.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
   final List<Widget> _tabs = const [
     HomePage(),
     CategoriesPage(),
@@ -18,29 +21,28 @@ class MainPage extends StatelessWidget {
     OtherPage(),
   ];
 
+  int _currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
-    // context.watch() rebuilds the widget when the state changes.
-    final navCubit = context.watch<NavigationCubit>();
-    final navState = navCubit.state;
-
     return Scaffold(
       body: PageTransitionSwitcher(
         duration: const Duration(milliseconds: 700),
         transitionBuilder: (child, animation, secondaryAnimation) {
           return FadeThroughTransition(
-            // fillColor: Theme.of(context).scaffoldBackgroundColor,
+            fillColor: Theme.of(context).scaffoldBackgroundColor,
             animation: animation,
             secondaryAnimation: secondaryAnimation,
             child: child,
           );
         },
-        child: _tabs[navState.mainIndex],
+        child: _tabs[_currentIndex],
       ),
       bottomNavigationBar: NavigationBar(
-        selectedIndex: navState.mainIndex,
+        selectedIndex: _currentIndex,
         onDestinationSelected: (index) {
-          context.read<NavigationCubit>().changeMainIndex(index);
+          _currentIndex = index;
+          setState(() {});
         },
         destinations: [
           NavigationDestination(icon: Icon(Icons.home), label: 'الرئيسية'),

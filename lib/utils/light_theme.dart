@@ -11,9 +11,9 @@ ThemeData lightTheme() {
       onPrimary: Colors.white, // Text on top of orange buttons
       secondary: AppColors.accent, // brown "Accent"
       onSecondary: Colors.white, // Text on top of brown elements
-      surface: AppColors.lightBackground,
+      surface: AppColors.lightSurfaceBackground,
       onSurface: Colors.black, // Text on cards, etc.
     ),
-    textTheme: GoogleFonts.readexProTextTheme(),
+    // textTheme: GoogleFonts.readexProTextTheme(),
   );
 }
