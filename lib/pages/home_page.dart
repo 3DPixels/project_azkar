@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_azkar/pages/settings.dart';
 import 'package:project_azkar/providers/settings_cubit/settings_cubit.dart';
 
-import 'about_page.dart';
+import '../data/zekr_model.dart';
+import 'azkar_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -11,14 +11,56 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('الرئيسية')),
-      body: Center(
-        child: FilledButton(
-          onPressed: () async {
-            context.read<SettingsCubit>().changeTheme();
-          },
-          child: Text('Send Notification'),
-        ),
+      appBar: AppBar(
+        title: Text('الرئيسية'),
+        actions: [
+          IconButton.filled(
+            onPressed: () => context.read<SettingsCubit>().changeTheme(),
+            icon: Icon(Icons.dark_mode),
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AzkarPage(
+                    time: ZekrTime.day,
+                    categories: Categories.happy,
+                  ),
+                ),
+              );
+            },
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text('أذكار الصباح'),
+              ),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AzkarPage(
+                    time: ZekrTime.night,
+                    categories: Categories.happy,
+                  ),
+                ),
+              );
+            },
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text('أذكار المساء'),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

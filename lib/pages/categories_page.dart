@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:project_azkar/data/zekr_model.dart';
 
 import 'azkar_page.dart';
 
@@ -25,7 +26,12 @@ class CategoriesPage extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => AzkarPage()),
+                          MaterialPageRoute(
+                            builder: (context) => AzkarPage(
+                              time: ZekrTime.day,
+                              categories: Categories.angry,
+                            ),
+                          ),
                         );
                       },
                       child: Center(child: Text(categories[index])),
