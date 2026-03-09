@@ -26,17 +26,22 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PageTransitionSwitcher(
-        duration: const Duration(milliseconds: 700),
-        transitionBuilder: (child, animation, secondaryAnimation) {
-          return FadeThroughTransition(
-            fillColor: Theme.of(context).scaffoldBackgroundColor,
-            animation: animation,
-            secondaryAnimation: secondaryAnimation,
-            child: child,
-          );
-        },
-        child: _tabs[_currentIndex],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: PageTransitionSwitcher(
+            duration: const Duration(milliseconds: 700),
+            transitionBuilder: (child, animation, secondaryAnimation) {
+              return FadeThroughTransition(
+                fillColor: Theme.of(context).scaffoldBackgroundColor,
+                animation: animation,
+                secondaryAnimation: secondaryAnimation,
+                child: child,
+              );
+            },
+            child: _tabs[_currentIndex],
+          ),
+        ),
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentIndex,

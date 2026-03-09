@@ -6,18 +6,22 @@ import 'app_colors.dart';
 ThemeData darkTheme() {
   return ThemeData(
     brightness: Brightness.dark,
-    scaffoldBackgroundColor: AppColors.darkBackground,
-    appBarTheme: AppBarTheme(backgroundColor: AppColors.darkBackground),
-    colorScheme: ColorScheme.dark(
-      primary: AppColors.primary, // orange "Primary"
-      onPrimary: Colors.white, // Text on top of orange buttons
-      secondary: AppColors.accent, // brown "Accent"
-      onSecondary: Colors.white, // Text on top of brown elements
-      surface: AppColors.darkSurfaceBackground,
-      onSurface: Colors.white,
+    scaffoldBackgroundColor: AppColors.darkGreen,
+    navigationBarTheme: NavigationBarThemeData(
+      backgroundColor: AppColors.darkerGreen,
+      indicatorColor: Colors.green,
+      iconTheme: WidgetStateProperty.all(
+        const IconThemeData(color: Colors.white),
+      ),
     ),
-    // textTheme: GoogleFonts.readexProTextTheme(
-    //   ThemeData(brightness: Brightness.dark).textTheme,
-    // ),
+    colorScheme: ColorScheme.dark(
+      // primary: AppColors.darkGreen,
+      // secondary: AppColors.darkerGreen,
+      // surface: AppColors.darkerGreen,
+      // onSecondary: Colors.white,
+    ),
+    textTheme: GoogleFonts.ibmPlexSansArabicTextTheme(
+      ThemeData(brightness: Brightness.dark).textTheme,
+    ),
   );
 }
