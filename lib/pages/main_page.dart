@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
 
 import 'categories_page.dart';
-import 'home_page.dart';
+import 'home/home_page.dart';
 import 'mood_page.dart';
 import 'other_page.dart';
 
