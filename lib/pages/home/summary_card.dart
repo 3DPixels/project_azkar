@@ -25,7 +25,6 @@ class SummaryCard extends StatelessWidget {
       ),
       child: Column(
         spacing: 20,
-        // mainAxisSize: MainAxisSize.min,
         children: [
           // First row
           Row(

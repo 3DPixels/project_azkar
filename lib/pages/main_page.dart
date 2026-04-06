@@ -53,7 +53,7 @@ class _MainPageState extends State<MainPage> {
           NavigationDestination(icon: Icon(Icons.home), label: 'الرئيسية'),
           NavigationDestination(icon: Icon(Icons.book), label: 'عبادات'),
           NavigationDestination(icon: Icon(Icons.mood), label: 'الحالة'),
-          NavigationDestination(icon: Icon(Icons.menu), label: 'اخرى'),
+          NavigationDestination(icon: Icon(Icons.settings), label: 'الاعدادات'),
         ],
       ),
     );
