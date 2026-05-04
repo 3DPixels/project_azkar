@@ -1,13 +1,5 @@
 import 'package:flutter/material.dart';
-
-class PrayersPage extends StatelessWidget {
-  const PrayersPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return CarouselExample();
-  }
-}
+import 'package:project_azkar/utils/app_images.dart';
 
 class CarouselExample extends StatefulWidget {
   const CarouselExample({super.key});
@@ -17,42 +9,18 @@ class CarouselExample extends StatefulWidget {
 }
 
 class _CarouselExampleState extends State<CarouselExample> {
-  final CarouselController controller = CarouselController(initialItem: 1);
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Column(
       children: <Widget>[
         SizedBox(
           height: 200,
           child: CarouselView.weighted(
-            controller: controller,
             itemSnapping: true,
-            flexWeights: const <int>[1, 7, 1],
+            flexWeights: const <int>[8, 2],
             children: ImageInfo.values.map((ImageInfo image) {
               return HeroLayoutCard(imageInfo: image);
             }).toList(),
-          ),
-        ),
-        const SizedBox(height: 20),
-        const Padding(
-          padding: EdgeInsetsDirectional.only(top: 8.0, start: 8.0),
-          child: Text('Uncontained layout'),
-        ),
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxHeight: 200),
-          child: CarouselView(
-            itemExtent: 330,
-            shrinkExtent: 200,
-            children: List<Widget>.generate(20, (int index) {
-              return UncontainedLayoutCard(index: index, label: 'Show $index');
-            }),
           ),
         ),
       ],
@@ -75,12 +43,7 @@ class HeroLayoutCard extends StatelessWidget {
           child: OverflowBox(
             maxWidth: width * 7 / 8,
             minWidth: width * 7 / 8,
-            child: Image(
-              fit: BoxFit.cover,
-              image: NetworkImage(
-                'https://flutter.github.io/assets-for-api-docs/assets/material/${imageInfo.url}',
-              ),
-            ),
+            child: Image(fit: BoxFit.cover, image: AssetImage(imageInfo.url)),
           ),
         ),
         Padding(
@@ -142,63 +105,17 @@ class UncontainedLayoutCard extends StatelessWidget {
   }
 }
 
-enum CardInfo {
-  camera('Cameras', Icons.video_call, Color(0xff2354C7), Color(0xffECEFFD)),
-  lighting('Lighting', Icons.lightbulb, Color(0xff806C2A), Color(0xffFAEEDF)),
-  climate('Climate', Icons.thermostat, Color(0xffA44D2A), Color(0xffFAEDE7)),
-  wifi('Wifi', Icons.wifi, Color(0xff417345), Color(0xffE5F4E0)),
-  media('Media', Icons.library_music, Color(0xff2556C8), Color(0xffECEFFD)),
-  security(
-    'Security',
-    Icons.crisis_alert,
-    Color(0xff794C01),
-    Color(0xffFAEEDF),
-  ),
-  safety(
-    'Safety',
-    Icons.medical_services,
-    Color(0xff2251C5),
-    Color(0xffECEFFD),
-  ),
-  more('', Icons.add, Color(0xff201D1C), Color(0xffE3DFD8));
-
-  const CardInfo(this.label, this.icon, this.color, this.backgroundColor);
-  final String label;
-  final IconData icon;
-  final Color color;
-  final Color backgroundColor;
-}
-
 enum ImageInfo {
-  image0(
-    'The Flow',
-    'Sponsored | Season 1 Now Streaming',
-    'content_based_color_scheme_1.png',
-  ),
+  image0('صلاة الكسوف', 'طريقة صلاة الكسوف || اضغط هنا', AppImages.lamp),
   image1(
     'Through the Pane',
     'Sponsored | Season 1 Now Streaming',
-    'content_based_color_scheme_2.png',
+    AppImages.mosqueWhite,
   ),
   image2(
     'Iridescence',
     'Sponsored | Season 1 Now Streaming',
-    'content_based_color_scheme_3.png',
-  ),
-  image3(
-    'Sea Change',
-    'Sponsored | Season 1 Now Streaming',
-    'content_based_color_scheme_4.png',
-  ),
-  image4(
-    'Blue Symphony',
-    'Sponsored | Season 1 Now Streaming',
-    'content_based_color_scheme_5.png',
-  ),
-  image5(
-    'When It Rains',
-    'Sponsored | Season 1 Now Streaming',
-    'content_based_color_scheme_6.png',
+    AppImages.mosqueBrown,
   );
 
   const ImageInfo(this.title, this.subtitle, this.url);

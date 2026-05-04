@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:animations/animations.dart';
+import 'package:flutter/material.dart';
 
-import 'prayers_page.dart';
 import 'home/home_page.dart';
 import 'mood_page.dart';
 import 'other_page.dart';
+import 'prayers/prayers_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
