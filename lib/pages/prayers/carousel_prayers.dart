@@ -14,10 +14,10 @@ class _CarouselExampleState extends State<CarouselExample> {
     return Column(
       children: <Widget>[
         SizedBox(
-          height: 200,
+          height: 150,
           child: CarouselView.weighted(
             itemSnapping: true,
-            flexWeights: const <int>[8, 2],
+            flexWeights: const <int>[7, 3],
             children: ImageInfo.values.map((ImageInfo image) {
               return HeroLayoutCard(imageInfo: image);
             }).toList(),
@@ -58,7 +58,7 @@ class HeroLayoutCard extends StatelessWidget {
                 softWrap: false,
                 style: Theme.of(
                   context,
-                ).textTheme.headlineLarge?.copyWith(color: Colors.white),
+                ).textTheme.headlineSmall?.copyWith(color: Colors.white),
               ),
               const SizedBox(height: 10),
               Text(

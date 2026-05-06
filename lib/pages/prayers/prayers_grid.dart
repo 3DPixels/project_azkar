@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:project_azkar/utils/app_colors.dart';
+
+import '../../utils/styles.dart';
 
 class PrayersGrid extends StatelessWidget {
   const PrayersGrid({super.key});
@@ -8,7 +11,19 @@ class PrayersGrid extends StatelessWidget {
     return Expanded(
       child: GridView.count(
         crossAxisCount: 2,
-        children: [PrayerCard(), PrayerCard(), PrayerCard(), PrayerCard()],
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+        mainAxisExtent: 157,
+        children: [
+          PrayerCard(),
+          PrayerCard(),
+          PrayerCard(),
+          PrayerCard(),
+          PrayerCard(),
+          PrayerCard(),
+          PrayerCard(),
+          PrayerCard(),
+        ],
       ),
     );
   }
@@ -19,16 +34,28 @@ class PrayerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.grey,
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.darkSectionBackground,
+        borderRadius: BorderRadius.circular(16),
+        border: BoxBorder.all(color: Color(0xFF2D2D2D)),
+      ),
+      // padding: EdgeInsets.symmetric(vertical: 26, horizontal: 35),
       child: Column(
+        spacing: 10,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CircleAvatar(
-            backgroundColor: Colors.blueGrey,
-            child: Icon(Icons.compass_calibration),
+            backgroundColor: AppColors.primaryAccent2,
+            radius: 28,
+            child: Icon(
+              Icons.nights_stay_outlined,
+              color: AppColors.primaryAccent,
+              size: 22,
+            ),
           ),
-          Text('صلاة الاستخارة', style: TextStyle(fontSize: 20)),
-          Text('دعاء و توجية'),
+          Text('صلاة الاستخارة', style: Styles.cardTitleStyle),
+          Text('دعاء و توجية', style: Styles.bodyStyle),
         ],
       ),
     );

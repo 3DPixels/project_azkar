@@ -6,10 +6,10 @@ import 'app_colors.dart';
 ThemeData darkTheme() {
   return ThemeData(
     brightness: Brightness.dark,
-    scaffoldBackgroundColor: AppColors.darkGreen,
+    scaffoldBackgroundColor: AppColors.darkBackground2,
     navigationBarTheme: NavigationBarThemeData(
-      backgroundColor: AppColors.darkerGreen,
-      indicatorColor: Colors.green,
+      backgroundColor: AppColors.darkBackground2,
+      indicatorColor: AppColors.primaryAccent,
       iconTheme: WidgetStateProperty.all(
         const IconThemeData(color: Colors.white),
       ),
