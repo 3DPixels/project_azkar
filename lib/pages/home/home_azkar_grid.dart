@@ -1,83 +1,109 @@
 import 'package:flutter/material.dart';
 
+class CardPalette {
+  final Color iconColor;
+  final Color glowColor; // The icon container background
+  final Color gradientColor; // The radial gradient start
+
+  const CardPalette({
+    required this.iconColor,
+    required this.glowColor,
+    required this.gradientColor,
+  });
+}
+
 class HomeAzkarGrid extends StatelessWidget {
   const HomeAzkarGrid({super.key});
-
+  // night prayers HSL Background gradient 208 20 17 100%
+  // night prayers HSL Background 233 23 15 100%
+  // night prayers HSL 234 89 74 100%
+  // morning prayers HSL Background gradient 48 25 16 100%
+  // morning prayers HSL Background 35 23 16 100%
+  // morning prayers HSL 25 95 53 100%
+  // sleep prayers HSL Background gradient 235 12 18 100%
+  // sleep prayers HSL Background 263 23 15 100%
+  // sleep prayers HSL 270 95 75 100%
+  // salah prayers HSL Background gradient 139 34 16 100%
+  // salah prayers HSL Background 142 30 12 100%
+  // salah prayers HSL 140 80 45 100%
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 380,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 16,
-        children: [
-          Text('الأذكار اليومية'),
-          // To make an orange one (like your image)
-          Expanded(
-            child: Row(
-              spacing: 16,
-              children: [
-                Expanded(
-                  child: DynamicGlowCard(
-                    seedColor: Colors.orange,
-                    title: 'أذكار الصباح',
-                    subtitle: 'بداية يوم مبارك',
-                    icon: Icons.wb_sunny,
-                  ),
-                ),
+    final List<Map<String, dynamic>> azkarCards = [
+      {
+        'title': 'أذكار الصباح',
+        'subtitle': 'بداية يوم مبارك',
+        'icon': Icons.wb_sunny,
+        'palette': const CardPalette(
+          iconColor: Color(0xFFF28512), // HSL 25, 95, 53
+          glowColor: Color(0xFF32281F), // HSL 35, 23, 16
+          gradientColor: Color(0xFF332F20), // HSL 48, 25, 16
+        ),
+      },
+      {
+        'title': 'أذكار المساء',
+        'subtitle': 'نهاية يوم هادئة',
+        'icon': Icons.nights_stay,
+        'palette': const CardPalette(
+          iconColor: Color(0xFF7B85FA), // HSL 234, 89, 74
+          glowColor: Color(0xFF1E202F), // HSL 233, 23, 15
+          gradientColor: Color(0xFF222834), // HSL 208, 20, 17
+        ),
+      },
+      {
+        'title': 'أذكار بعد الصلاة',
+        'subtitle': 'ختام الصلاة',
+        'icon': Icons.night_shelter,
+        'palette': const CardPalette(
+          iconColor: Color(0xFF17CE55), // HSL 140, 80, 45
+          glowColor: Color(0xFF15281A), // HSL 142, 30, 12
+          gradientColor: Color(0xFF1B3622), // HSL 139, 34, 16
+        ),
+      },
+      {
+        'title': 'أذكار النوم',
+        'subtitle': 'ختام اليوم',
+        'icon': Icons.bed,
+        'palette': const CardPalette(
+          iconColor: Color(0xFFB983FC), // HSL 270, 95, 75
+          glowColor: Color(0xFF211D2F), // HSL 263, 23, 15
+          gradientColor: Color(0xFF282833), // HSL 235, 12, 18
+        ),
+      },
+    ];
 
-                // To make a blue one
-                Expanded(
-                  child: DynamicGlowCard(
-                    seedColor: Colors.blueAccent,
-                    title: 'أذكار المساء', // Evening Azkar
-                    subtitle: 'نهاية يوم هادئة',
-                    icon: Icons.nights_stay,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Row(
-              spacing: 16,
-              children: [
-                Expanded(
-                  child: DynamicGlowCard(
-                    seedColor: Colors.green,
-                    title: 'أذكار بعد الصلاة',
-                    subtitle: 'ختام الصلاة',
-                    icon: Icons.night_shelter,
-                  ),
-                ),
-
-                // To make a blue one
-                Expanded(
-                  child: DynamicGlowCard(
-                    seedColor: Colors.purple,
-                    title: 'أذكار النوم', // Evening Azkar
-                    subtitle: 'ختام اليوم',
-                    icon: Icons.bed,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 220,
+        crossAxisSpacing: 16.0, // Horizontal space
+        mainAxisSpacing: 16.0, // Vertical space
+        mainAxisExtent: 160.0, // Fixed height so it doesn't stretch vertically
       ),
+
+      itemCount: azkarCards.length,
+      itemBuilder: (context, index) {
+        final card = azkarCards[index];
+        return DynamicGlowCard(
+          palette: card['palette'],
+          title: card['title'],
+          subtitle: card['subtitle'],
+          icon: card['icon'],
+        );
+      },
     );
   }
 }
 
 class DynamicGlowCard extends StatelessWidget {
-  final Color seedColor;
+  final CardPalette palette;
   final String title;
   final String subtitle;
   final IconData icon;
 
   const DynamicGlowCard({
     super.key,
-    required this.seedColor,
+    required this.palette,
     required this.title,
     required this.subtitle,
     required this.icon,
@@ -85,19 +111,6 @@ class DynamicGlowCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 1. Convert the seed color to HSL
-    final hslColor = HSLColor.fromColor(seedColor);
-
-    // 2. Calculate the darker shades by reducing lightness (0.0 to 1.0)
-    // Clamp ensures we don't drop below 0 (pure black)
-    final glowColor = hslColor
-        .withLightness((hslColor.lightness * 0.3).clamp(0.0, 1.0))
-        .toColor();
-    final bgColor = hslColor
-        .withLightness((hslColor.lightness * 0.3).clamp(0.0, 1.0))
-        .withSaturation(.5)
-        .toColor();
-
     return Container(
       padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
@@ -105,7 +118,10 @@ class DynamicGlowCard extends StatelessWidget {
         gradient: RadialGradient(
           center: const Alignment(0.6, -0.6),
           radius: .7,
-          colors: [bgColor, Color.fromARGB(250, 28, 38, 31)],
+          colors: [
+            palette.gradientColor,
+            Theme.of(context).colorScheme.surface,
+          ],
         ),
       ),
       child: Column(
@@ -115,11 +131,12 @@ class DynamicGlowCard extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: glowColor,
-              borderRadius: BorderRadius.circular(16),
+              color: palette.glowColor,
+              borderRadius: BorderRadius.circular(8),
             ),
-            child: Icon(icon, color: seedColor, size: 24),
+            child: Icon(icon, color: palette.iconColor, size: 24),
           ),
+          SizedBox(height: 10),
           Text(
             title,
             style: const TextStyle(

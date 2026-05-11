@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project_azkar/data/mood_model.dart';
-import 'package:project_azkar/utils/app_colors.dart';
 
 import 'home_azkar_grid.dart';
 import 'summary_card.dart';
@@ -13,15 +11,21 @@ class HomePage extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         spacing: 16,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'السلام عليكم',
-                style: Theme.of(context).textTheme.titleLarge,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
-              Text('ربيع الاول، 1447'),
+              Text(
+                'ربيع الاول، 1447',
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(color: Colors.white70),
+              ),
             ],
           ),
           // Prayer card
@@ -29,30 +33,26 @@ class HomePage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('بماذا تشعر اليوم؟'),
-              Text('عرض الكل', style: TextStyle(color: Colors.green)),
+              Text(
+                'بماذا تشعر اليوم؟',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              TextButton(child: Text('عرض الكل'), onPressed: () {}),
             ],
           ),
           // Moods
           SizedBox(
-            height: 85,
-            child: ListView(
+            height: 92,
+            child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              itemExtent: 75,
-              children: [
-                MoodContainer(MoodModel(emoji: '😊', title: 'سعيد')),
-                MoodContainer(MoodModel(emoji: '😢', title: 'حزين')),
-                MoodContainer(MoodModel(emoji: '😟', title: 'قلق')),
-                MoodContainer(MoodModel(emoji: '🤒', title: 'مريض')),
-                MoodContainer(MoodModel(emoji: '🤒', title: 'مريض')),
-                MoodContainer(MoodModel(emoji: '🤒', title: 'مريض')),
-                MoodContainer(MoodModel(emoji: '🤒', title: 'مريض')),
-                MoodContainer(MoodModel(emoji: '🤒', title: 'مريض')),
-                MoodContainer(MoodModel(emoji: '🤒', title: 'مريض')),
-                MoodContainer(MoodModel(emoji: '🤒', title: 'مريض')),
-                MoodContainer(MoodModel(emoji: '🤒', title: 'مريض')),
-              ],
+              itemCount: moodItems.length,
+              separatorBuilder: (context, index) => SizedBox(width: 16),
+              itemBuilder: (context, index) => moodItems[index],
             ),
+          ),
+          Text(
+            'الأذكار اليومية',
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           HomeAzkarGrid(),
         ],
@@ -61,24 +61,44 @@ class HomePage extends StatelessWidget {
   }
 }
 
+final List<Widget> moodItems = [
+  MoodContainer('سعيد', iconData: Icons.sunny, iconColor: Colors.orange),
+  MoodContainer(
+    'حزين',
+    iconData: Icons.cloud_off_outlined,
+    iconColor: Colors.blueAccent,
+  ),
+  MoodContainer('قلق'),
+  MoodContainer('مريض'),
+  MoodContainer('مريض'),
+  MoodContainer('مريض'),
+  MoodContainer('مريض'),
+  MoodContainer('مريض'),
+  MoodContainer('مريض'),
+  MoodContainer('مريض'),
+  MoodContainer('مريض'),
+];
+
 class MoodContainer extends StatelessWidget {
-  final MoodModel mood;
-  const MoodContainer(this.mood, {super.key});
+  final String title;
+  final IconData? iconData;
+  final Color? iconColor;
+  const MoodContainer(this.title, {super.key, this.iconData, this.iconColor});
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: 5,
+      spacing: 8,
       children: [
         Container(
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+          padding: EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: AppColors.darkGradient,
+            color: Theme.of(context).colorScheme.surface,
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Text(mood.emoji, style: TextStyle(fontSize: 25)),
+          child: iconData != null ? Icon(iconData, color: iconColor) : Text(''),
         ),
-        Text(mood.title),
+        Text(title),
       ],
     );
   }

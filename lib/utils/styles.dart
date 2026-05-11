@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'app_colors.dart';
-
 abstract class Styles {
   static const titleStyle = TextStyle(
     fontSize: 20,
@@ -18,6 +16,6 @@ abstract class Styles {
   static const bodyStyle = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,
-    color: AppColors.secondaryText,
+    // color: AppColors.secondaryText,
   );
 }

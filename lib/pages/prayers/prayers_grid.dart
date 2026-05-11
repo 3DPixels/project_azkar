@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project_azkar/utils/app_colors.dart';
 
 import '../../utils/styles.dart';
 
@@ -36,7 +35,7 @@ class PrayerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.darkSectionBackground,
+        // color: AppColors.darkSectionBackground,
         borderRadius: BorderRadius.circular(16),
         border: BoxBorder.all(color: Color(0xFF2D2D2D)),
       ),
@@ -46,11 +45,11 @@ class PrayerCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CircleAvatar(
-            backgroundColor: AppColors.primaryAccent2,
+            // backgroundColor: AppColors.primaryAccent2,
             radius: 28,
             child: Icon(
               Icons.nights_stay_outlined,
-              color: AppColors.primaryAccent,
+              // color: AppColors.primaryAccent,
               size: 22,
             ),
           ),
