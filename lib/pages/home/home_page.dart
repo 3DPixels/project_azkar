@@ -8,54 +8,57 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        spacing: 16,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'السلام عليكم',
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              Text(
-                'ربيع الاول، 1447',
-                style: Theme.of(
-                  context,
-                ).textTheme.titleMedium?.copyWith(color: Colors.white70),
-              ),
-            ],
-          ),
-          // Prayer card
-          SummaryCard(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'بماذا تشعر اليوم؟',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              TextButton(child: Text('عرض الكل'), onPressed: () {}),
-            ],
-          ),
-          // Moods
-          SizedBox(
-            height: 92,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: moodItems.length,
-              separatorBuilder: (context, index) => SizedBox(width: 16),
-              itemBuilder: (context, index) => moodItems[index],
+    return SizedBox(
+      width: 600,
+      child: SingleChildScrollView(
+        child: Column(
+          spacing: 16,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'السلام عليكم',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                Text(
+                  'ربيع الاول، 1447',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleMedium?.copyWith(color: Colors.white70),
+                ),
+              ],
             ),
-          ),
-          Text(
-            'الأذكار اليومية',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          HomeAzkarGrid(),
-        ],
+            // Prayer card
+            SummaryCard(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'بماذا تشعر اليوم؟',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                TextButton(child: Text('عرض الكل'), onPressed: () {}),
+              ],
+            ),
+            // Moods
+            SizedBox(
+              height: 92,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: moodItems.length,
+                separatorBuilder: (context, index) => SizedBox(width: 16),
+                itemBuilder: (context, index) => moodItems[index],
+              ),
+            ),
+            Text(
+              'الأذكار اليومية',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            HomeAzkarGrid(),
+          ],
+        ),
       ),
     );
   }

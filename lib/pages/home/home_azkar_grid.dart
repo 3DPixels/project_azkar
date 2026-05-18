@@ -74,13 +74,12 @@ class HomeAzkarGrid extends StatelessWidget {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 220,
-        crossAxisSpacing: 16.0, // Horizontal space
-        mainAxisSpacing: 16.0, // Vertical space
-        mainAxisExtent: 160.0, // Fixed height so it doesn't stretch vertically
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 16.0,
+        mainAxisSpacing: 16.0,
+        childAspectRatio: 1.4,
       ),
-
       itemCount: azkarCards.length,
       itemBuilder: (context, index) {
         final card = azkarCards[index];
