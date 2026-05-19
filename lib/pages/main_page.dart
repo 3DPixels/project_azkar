@@ -27,26 +27,29 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: PageTransitionSwitcher(
-            duration: const Duration(milliseconds: 700),
-            // A fix for SingleChildScrollView weired snapping when navigating between pages
-            layoutBuilder: (List<Widget> entries) {
-              return Stack(
-                fit: StackFit.expand, // Forces children to fill the screen
-                children: entries,
-              );
-            },
-            transitionBuilder: (child, animation, secondaryAnimation) {
-              return FadeThroughTransition(
-                fillColor: Theme.of(context).scaffoldBackgroundColor,
-                animation: animation,
-                secondaryAnimation: secondaryAnimation,
-                child: child,
-              );
-            },
-            child: _tabs[_currentIndex],
+        child: SizedBox(
+          width: 600,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: PageTransitionSwitcher(
+              duration: const Duration(milliseconds: 700),
+              // A fix for SingleChildScrollView weired snapping when navigating between pages
+              layoutBuilder: (List<Widget> entries) {
+                return Stack(
+                  fit: StackFit.expand, // Forces children to fill the screen
+                  children: entries,
+                );
+              },
+              transitionBuilder: (child, animation, secondaryAnimation) {
+                return FadeThroughTransition(
+                  fillColor: Theme.of(context).scaffoldBackgroundColor,
+                  animation: animation,
+                  secondaryAnimation: secondaryAnimation,
+                  child: child,
+                );
+              },
+              child: _tabs[_currentIndex],
+            ),
           ),
         ),
       ),

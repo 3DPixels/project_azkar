@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:project_azkar/pages/home/widgets/prayer_time.dart';
+import 'package:project_azkar/pages/home/widgets/time_remaining.dart';
 
 import '../../utils/app_colors.dart';
 
@@ -11,8 +13,6 @@ class SummaryCard extends StatefulWidget {
 
 class _SummaryCardState extends State<SummaryCard> {
   ScrollController? _scrollController;
-  // Track the width so we only recalculate if the screen resizes
-  double? _previousMaxWidth;
 
   @override
   void dispose() {
@@ -73,31 +73,7 @@ class _SummaryCardState extends State<SummaryCard> {
                   ),
                 ],
               ),
-              Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  color: Colors.white.withValues(alpha: 0.1),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.1),
-                  ),
-                ),
-                child: Column(
-                  spacing: 5,
-                  children: [
-                    Text(
-                      'باقي على الأذان',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodySmall?.copyWith(color: Colors.white54),
-                    ),
-                    Text(
-                      '00:03:45',
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                  ],
-                ),
-              ),
+              TimeRemaining(),
             ],
           ),
           // Second row
@@ -164,38 +140,6 @@ class _SummaryCardState extends State<SummaryCard> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class PrayerTime extends StatelessWidget {
-  final bool passed;
-  final bool currentPrayer;
-  final String prayer;
-  final String prayerTime;
-  const PrayerTime({
-    super.key,
-    required this.passed,
-    required this.prayer,
-    required this.prayerTime,
-    this.currentPrayer = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      spacing: 5,
-      children: [
-        CircleAvatar(
-          backgroundColor: !currentPrayer
-              ? Colors.transparent
-              : Theme.of(context).colorScheme.secondary,
-          foregroundColor: Theme.of(context).colorScheme.onSecondary,
-          child: Icon(passed ? Icons.check_circle : Icons.check_circle_outline),
-        ),
-        Text(prayer),
-        Text(prayerTime),
-      ],
     );
   }
 }
