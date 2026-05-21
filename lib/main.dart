@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
       child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'Azkar App',
             locale: Locale('ar'),
             localizationsDelegates: AppLocalizations.localizationsDelegates,

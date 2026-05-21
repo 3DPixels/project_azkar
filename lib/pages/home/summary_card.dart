@@ -73,7 +73,9 @@ class _SummaryCardState extends State<SummaryCard> {
                   ),
                 ],
               ),
-              TimeRemaining(),
+              TimeRemaining(
+                targetTime: DateTime.now().add(Duration(hours: 1, minutes: 3)),
+              ),
             ],
           ),
           // Second row

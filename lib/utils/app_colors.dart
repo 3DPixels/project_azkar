@@ -44,3 +44,23 @@ abstract class AppColors {
 // salah prayers HSL Background gradient 139 34 16 100%
 // salah prayers HSL Background 142 30 12 100%
 // salah prayers HSL 140 80 45 100%
+
+// Variable,Original Hex,High-Saturation Hex
+// darkPageBackground,0xFF112116,0xFF092913
+// darkPageBackgroundLight,0xFF213126,0xFF183B21
+// darkNavBarBackground,0xFF111813,0xFF0C1D10
+// darkSurface,0xFF1C261F,0xFF13301A
+// dsPrimary,0xFF17CF54,0xFF00DE4B
+// dsSecondary,0x6417CF54,0x6400DE4B
+// dsTertiary,0xFFFF9887,0xFFFF745C
+// dsNeutral,0xFF707A6E,0xFF667A62
+
+// Opacity,Hex Value,Example
+// 100%,FF,Color(0xFF101622)
+// 95%,F2,Color(0xF2101622)
+// 90%,E6,Color(0xE6101622)
+// 80%,CC,Color(0xCC101622)
+// 75%,BF,Color(0xBF101622)
+// 50%,80,Color(0x80101622)
+// 25%,40,Color(0x40101622)
+// 0% (Invisible),00,Color(0x00101622)

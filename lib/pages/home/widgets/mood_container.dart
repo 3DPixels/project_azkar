@@ -1,7 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
-import '../../mood_details.dart';
+import '../../mood_prayers/mood_details.dart';
 
 class MoodContainer extends StatelessWidget {
   final String title;
@@ -31,8 +31,8 @@ class MoodContainer extends StatelessWidget {
         OpenContainer(
           transitionDuration: const Duration(milliseconds: 500),
           closedColor: _effectiveBackgroundColor,
-          // middleColor: Theme.of(context).scaffoldBackgroundColor,
-          // openColor: Theme.of(context).scaffoldBackgroundColor,
+          middleColor: Theme.of(context).scaffoldBackgroundColor,
+          openColor: Theme.of(context).scaffoldBackgroundColor,
           tappable: false,
           closedShape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(12.0)),

@@ -1,50 +1,81 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 class TimeRemaining extends StatefulWidget {
-  const TimeRemaining({super.key});
+  final DateTime? targetTime;
+
+  const TimeRemaining({super.key, this.targetTime});
 
   @override
   State<TimeRemaining> createState() => _TimeRemainingState();
 }
 
 class _TimeRemainingState extends State<TimeRemaining> {
-  late Timer _timer;
-  // Initial duration: 1 hour and 3 minutes
-  Duration _duration = const Duration(hours: 1, minutes: 3);
+  Timer? _timer;
+  Duration _duration = Duration.zero;
+
+  static final NumberFormat _arabicTwoDigits = NumberFormat("00", "ar_EG");
 
   @override
   void initState() {
     super.initState();
-    _startTimer();
+    _updateDuration();
+    if (widget.targetTime != null) {
+      _startTimer();
+    }
+  }
+
+  // 1. Listens for when the API finally passes data to the widget
+  @override
+  void didUpdateWidget(TimeRemaining oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.targetTime != oldWidget.targetTime) {
+      _updateDuration();
+      // If we just got a valid time and no timer is running, start it
+      if (widget.targetTime != null && _timer == null) {
+        _startTimer();
+      }
+    }
+  }
+
+  void _updateDuration() {
+    // Handle the null case explicitly
+    if (widget.targetTime == null) {
+      _duration = Duration.zero;
+      return;
+    }
+
+    final now = DateTime.now();
+    if (widget.targetTime!.isAfter(now)) {
+      _duration = widget.targetTime!.difference(now);
+    } else {
+      _duration = Duration.zero;
+      _timer?.cancel();
+    }
   }
 
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
-        final seconds = _duration.inSeconds - 1;
-        if (seconds < 0) {
-          _timer.cancel();
-        } else {
-          _duration = Duration(seconds: seconds);
-        }
+        _updateDuration();
       });
     });
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 
-  String _formatDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
-    String hours = twoDigits(duration.inHours);
-    String minutes = twoDigits(duration.inMinutes.remainder(60));
-    String seconds = twoDigits(duration.inSeconds.remainder(60));
-    // If duration is 0 or less, show 00:00:00
-    if (duration.inSeconds <= 0) return "00:00:00";
+  String _formatDurationToArabic(Duration duration) {
+    if (duration.inSeconds <= 0) return "٠٠:٠٠:٠٠";
+
+    String hours = _arabicTwoDigits.format(duration.inHours);
+    String minutes = _arabicTwoDigits.format(duration.inMinutes.remainder(60));
+    String seconds = _arabicTwoDigits.format(duration.inSeconds.remainder(60));
 
     return "$hours:$minutes:$seconds";
   }
@@ -52,7 +83,9 @@ class _TimeRemainingState extends State<TimeRemaining> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      width: 90,
+      height: 70,
+      alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         color: Colors.white.withValues(alpha: 0.1),
@@ -60,6 +93,8 @@ class _TimeRemainingState extends State<TimeRemaining> {
       ),
       child: Column(
         spacing: 5,
+        // Ensures the column only takes up as much space as it needs
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             'باقي على الأذان',
@@ -68,7 +103,9 @@ class _TimeRemainingState extends State<TimeRemaining> {
             ).textTheme.bodySmall?.copyWith(color: Colors.white54),
           ),
           Text(
-            _formatDuration(_duration),
+            widget.targetTime == null
+                ? "--:--:--"
+                : _formatDurationToArabic(_duration),
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ],
