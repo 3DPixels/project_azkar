@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:project_azkar/data/dua_model.dart';
 
 class MoodPrayerCard extends StatefulWidget {
-  const MoodPrayerCard({super.key});
+  final DuaModel supplication;
+  final Color buttonsColor;
+  final Color borderColor;
+  final Color bottomColor;
+  final Color containerBackgroundColor;
+  const MoodPrayerCard({
+    super.key,
+    required this.supplication,
+    required this.buttonsColor,
+    required this.borderColor,
+    required this.bottomColor,
+    required this.containerBackgroundColor,
+  });
 
   @override
   State<MoodPrayerCard> createState() => _MoodPrayerCardState();
@@ -10,14 +22,15 @@ class MoodPrayerCard extends StatefulWidget {
 
 class _MoodPrayerCardState extends State<MoodPrayerCard> {
   bool playing = false;
+  final iconsColor = Color(0xFF94A3B8);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        border: BoxBorder.all(color: Color(0xFF1E293B)),
-        color: Color(0xFF1A202C),
+        border: BoxBorder.all(color: widget.borderColor),
+        color: widget.containerBackgroundColor,
       ),
       child: Column(
         children: [
@@ -35,10 +48,8 @@ class _MoodPrayerCardState extends State<MoodPrayerCard> {
                   },
                   iconSize: 35,
                   style: IconButton.styleFrom(
-                    backgroundColor: const Color(
-                      0xFF2B6CEE,
-                    ).withValues(alpha: .1),
-                    foregroundColor: const Color(0xFF2B6CEE),
+                    backgroundColor: widget.buttonsColor.withValues(alpha: .1),
+                    foregroundColor: widget.buttonsColor,
                   ),
                   icon: Icon(playing ? Icons.pause : Icons.play_arrow_outlined),
                 ),
@@ -48,34 +59,30 @@ class _MoodPrayerCardState extends State<MoodPrayerCard> {
                     spacing: 10,
                     children: [
                       Text(
-                        'اللَّهُمَّ إِنِّي عَبْدُكَ، ابْنُ عَبْدِكَ،ابْنُ أَمَتِكَ، نَاصِيَتِي بِيَدِكَ،مَاضٍ فِيَّ حُكْمُكَ اللَّهُمَّ إِنِّي عَبْدُكَ، ابْنُ عَبْدِكَ،ابْنُ أَمَتِكَ، نَاصِيَتِي بِيَدِكَ،مَاضٍ فِيَّ حُكْمُكَ',
-                        style: GoogleFonts.notoSansArabic(
+                        widget.supplication.dua,
+                        style: TextStyle(
+                          fontFamily: 'NotoSansArabicVar',
                           fontWeight: FontWeight.bold,
                           fontSize: 20,
                         ),
                       ),
-                      Divider(
-                        thickness: 1,
-                        color: Color(0xFF334155).withValues(alpha: .5),
-                      ),
+                      Divider(thickness: 1, color: widget.borderColor),
                       Text(
-                        '"O Allah, I am Your slave, son of Yourslave, son of Your female slave, myforelock is in Your hand..."',
+                        widget.supplication.benefit,
                         textDirection: TextDirection.ltr,
-                        style: GoogleFonts.inter(
-                          color: Color(0xFF94A3B8),
-                          fontSize: 15,
-                        ),
+                        style: TextStyle(color: iconsColor, fontSize: 15),
                       ),
                       TextButton.icon(
                         onPressed: () {},
                         style: TextButton.styleFrom(
-                          foregroundColor: const Color(0xFF2B6CEE),
-                          textStyle: GoogleFonts.notoSansArabic(
+                          foregroundColor: widget.buttonsColor,
+                          textStyle: TextStyle(
+                            fontFamily: 'NotoSansArabicVar',
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        label: Text('حصن المسلم'),
-                        icon: Icon(Icons.menu_book_outlined),
+                        label: Text(widget.supplication.source),
+                        icon: Icon(Icons.menu_book),
                       ),
                     ],
                   ),
@@ -88,9 +95,9 @@ class _MoodPrayerCardState extends State<MoodPrayerCard> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.vertical(bottom: Radius.circular(24)),
               border: BorderDirectional(
-                top: BorderSide(color: Color(0xFF1E293B)),
+                top: BorderSide(color: widget.borderColor),
               ),
-              color: Color(0xFF151A23),
+              color: widget.bottomColor,
             ),
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
             child: Row(
@@ -98,23 +105,23 @@ class _MoodPrayerCardState extends State<MoodPrayerCard> {
                 IconButton(
                   onPressed: () {},
                   icon: Icon(Icons.favorite_border),
-                  color: Color(0xFF94A3B8),
+                  color: iconsColor,
                 ),
                 IconButton(
                   onPressed: () {},
                   icon: Icon(Icons.copy_rounded),
-                  color: Color(0xFF94A3B8),
+                  color: iconsColor,
                 ),
                 IconButton(
                   onPressed: () {},
                   icon: Icon(Icons.share),
-                  color: Color(0xFF94A3B8),
+                  color: iconsColor,
                 ),
                 Spacer(),
                 Text(
                   'Dua #1',
-                  style: GoogleFonts.inter(
-                    color: Color(0xFF94A3B8),
+                  style: TextStyle(
+                    color: iconsColor,
                     fontWeight: FontWeight.w600,
                     fontSize: 15,
                   ),

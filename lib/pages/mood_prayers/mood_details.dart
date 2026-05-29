@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:project_azkar/data/mood_model.dart';
+import 'package:project_azkar/data/supplications_repo.dart';
 import 'package:project_azkar/pages/mood_prayers/widgets/mood_prayer_card.dart';
 import 'package:project_azkar/utils/formatters.dart';
 
 class MoodDetails extends StatelessWidget {
-  const MoodDetails({super.key});
+  final MoodModel mood;
+  const MoodDetails(this.mood, {super.key});
 
   @override
   Widget build(BuildContext context) {
+    final supplications = SupplicationsRepo.getSupplicationByCategory(
+      mood.category,
+    );
     return Scaffold(
-      backgroundColor: Color(0xFF101622),
+      backgroundColor: mood.colorPalette.backgroundColor,
       appBar: AppBar(
-        backgroundColor: Color(0xF2101622),
+        backgroundColor: mood.colorPalette.backgroundColor.withValues(
+          alpha: .95,
+        ),
         centerTitle: true,
         title: Text('أدعية مختارة'),
         toolbarHeight: 73,
@@ -29,10 +36,9 @@ class MoodDetails extends StatelessWidget {
                   begin: AlignmentGeometry.topCenter,
                   end: AlignmentGeometry.bottomCenter,
                   colors: [
-                    Color(0xFF2B6CEE).withValues(alpha: 0.10),
-                    Color(0xFF2B6CEE).withValues(alpha: 0.00),
+                    mood.colorPalette.mainColor.withValues(alpha: 0.10),
+                    mood.colorPalette.mainColor.withValues(alpha: 0.00),
                   ],
-                  stops: const [0.0, 1.0],
                 ),
               ),
               child: Column(
@@ -41,46 +47,68 @@ class MoodDetails extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 45,
-                    backgroundColor: Color(0xFF2B6CEE).withValues(alpha: .2),
-                    foregroundColor: Color(0xFF2B6CEE),
-                    child: Icon(Icons.cloud_off, size: 48),
+                    backgroundColor: mood.colorPalette.mainColor.withValues(
+                      alpha: .2,
+                    ),
+                    foregroundColor: mood.colorPalette.mainColor,
+                    child: Icon(mood.icon, size: 48),
                   ),
                   // SizedBox(height: 10),
                   Text(
-                    'عند الشعور بالحزن',
+                    mood.title,
                     style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                      fontFamily: GoogleFonts.notoSansArabic().fontFamily,
+                      fontFamily: 'NotoSansArabicVar',
                       fontWeight: FontWeight.bold,
                       fontSize: 28,
                     ),
                   ),
                   // SizedBox(height: 10),
                   Text(
-                    'أدعية للصبر و السكينة',
+                    mood.subtitle,
                     style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                      fontFamily: GoogleFonts.notoSansArabic().fontFamily,
+                      fontFamily: 'NotoSansArabicVar',
                       fontSize: 14,
                       color: Color(0xFF94A3B8),
                     ),
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: Color(0xFF2B6CEE).withValues(alpha: 0.10),
+                      color: mood.colorPalette.mainColor.withValues(
+                        alpha: 0.10,
+                      ),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10),
                     child: Text(
-                      '${12.toArabic()} دعاء',
-                      style: TextStyle(color: Color(0xFF93C5FD), fontSize: 14),
+                      '${supplications.length.toArabic()} دعاء',
+                      style: TextStyle(
+                        color: mood.colorPalette.badgeTextColor,
+                        fontSize: 14,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
             // Body
+            /// TODO change to list view builder and use custom scroll view with sliver appbar maybe
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(spacing: 16, children: [MoodPrayerCard()]),
+              child: Column(
+                spacing: 16,
+                children: supplications
+                    .map(
+                      (sup) => MoodPrayerCard(
+                        supplication: sup,
+                        buttonsColor: mood.colorPalette.mainColor,
+                        borderColor: mood.colorPalette.borderColor,
+                        bottomColor: mood.colorPalette.cardBottomColor,
+                        containerBackgroundColor:
+                            mood.colorPalette.cardBackgroundColor,
+                      ),
+                    )
+                    .toList(),
+              ),
             ),
           ],
         ),

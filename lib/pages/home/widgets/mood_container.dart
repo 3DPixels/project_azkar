@@ -1,20 +1,20 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
-import '../../mood_prayers/mood_details.dart';
-
 class MoodContainer extends StatelessWidget {
   final String title;
-  final IconData? iconData;
+  final IconData iconData;
+  final Widget detailsPage;
   final Color iconColor;
   final Color? backgroundColor;
 
-  const MoodContainer(
-    this.title, {
+  const MoodContainer({
     super.key,
-    this.iconData,
-    required this.iconColor,
     this.backgroundColor,
+    required this.title,
+    required this.iconData,
+    required this.iconColor,
+    required this.detailsPage,
   });
 
   Color get _effectiveBackgroundColor {
@@ -42,14 +42,12 @@ class MoodContainer extends StatelessWidget {
               onTap: openContainer,
               child: Padding(
                 padding: const EdgeInsets.all(18.0),
-                child: iconData != null
-                    ? Icon(iconData, color: iconColor)
-                    : const SizedBox.shrink(),
+                child: Icon(iconData, color: iconColor),
               ),
             );
           },
           openBuilder: (BuildContext context, VoidCallback _) {
-            return const MoodDetails();
+            return detailsPage;
           },
         ),
         Text(title),

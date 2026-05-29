@@ -78,7 +78,7 @@ class HomeAzkarGrid extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 16.0,
         mainAxisSpacing: 16.0,
-        childAspectRatio: 1.4,
+        childAspectRatio: 1.3,
       ),
       itemCount: azkarCards.length,
       itemBuilder: (context, index) {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:project_azkar/data/mood_repo.dart';
 import 'package:project_azkar/pages/home/widgets/mood_container.dart';
 
+import '../mood_prayers/mood_details.dart';
 import 'home_azkar_grid.dart';
 import 'summary_card.dart';
 
@@ -46,9 +48,17 @@ class HomePage extends StatelessWidget {
             height: 92,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
-              itemCount: moodItems.length,
+              itemCount: MoodRepo.allMoods.length,
               separatorBuilder: (context, index) => SizedBox(width: 16),
-              itemBuilder: (context, index) => moodItems[index],
+              itemBuilder: (context, index) {
+                final mood = MoodRepo.allMoods[index];
+                return MoodContainer(
+                  title: mood.header,
+                  iconData: mood.icon,
+                  iconColor: mood.colorPalette.mainColor,
+                  detailsPage: MoodDetails(mood),
+                );
+              },
             ),
           ),
           Text(
@@ -61,30 +71,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
-final List<Widget> moodItems = [
-  MoodContainer(
-    'سعيد',
-    iconData: Icons.sunny,
-    iconColor: Color(0xFFF28512),
-    // backgroundColor: Color(0xFF32281F),
-  ),
-  MoodContainer(
-    'حزين',
-    iconData: Icons.cloud_off_outlined,
-    iconColor: Color(0xFF7B85FA), // HSL 234, 89, 74
-    // backgroundColor: Color(0xFF1E202F), // HSL 233, 23, 15
-  ),
-  MoodContainer(
-    'قلق',
-    iconData: Icons.night_shelter,
-    iconColor: Color(0xFF17CE55),
-    // backgroundColor: Color(0xFF15281A),
-  ),
-  MoodContainer(
-    'مريض',
-    iconData: Icons.bed,
-    iconColor: Color(0xFFB983FC),
-    // backgroundColor: Color(0xFF211D2F),
-  ),
-];
