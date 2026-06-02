@@ -23,10 +23,26 @@ class PrayerTime extends StatelessWidget {
               ? Colors.transparent
               : Theme.of(context).colorScheme.secondary,
           foregroundColor: Theme.of(context).colorScheme.onSecondary,
-          child: Icon(passed ? Icons.check_circle : Icons.check_circle_outline),
+          child: Icon(
+            currentPrayer
+                ? Icons.access_time
+                : passed
+                ? Icons.check_circle
+                : Icons.check_circle_outline,
+          ),
         ),
-        Text(prayer),
-        Text(prayerTime),
+        Text(
+          prayer,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            fontWeight: currentPrayer ? FontWeight.bold : null,
+          ),
+        ),
+        Text(
+          prayerTime,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            fontWeight: currentPrayer ? FontWeight.bold : null,
+          ),
+        ),
       ],
     );
   }

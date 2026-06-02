@@ -53,8 +53,16 @@ class PrayerCard extends StatelessWidget {
               size: 22,
             ),
           ),
-          Text('صلاة الاستخارة', style: Styles.cardTitleStyle),
-          Text('دعاء و توجية', style: Styles.bodyStyle),
+          Text(
+            'صلاة الاستخارة',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          ),
+          Text(
+            'دعاء و توجية',
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: Color(0xFF9CA3AF)),
+          ),
         ],
       ),
     );

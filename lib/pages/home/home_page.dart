@@ -21,13 +21,13 @@ class HomePage extends StatelessWidget {
             children: [
               Text(
                 'السلام عليكم',
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               Text(
                 'ربيع الاول، 1447',
                 style: Theme.of(
                   context,
-                ).textTheme.titleMedium?.copyWith(color: Colors.white70),
+                ).textTheme.labelLarge?.copyWith(color: Color(0xFFA0A0A0)),
               ),
             ],
           ),
@@ -38,7 +38,7 @@ class HomePage extends StatelessWidget {
             children: [
               Text(
                 'بماذا تشعر اليوم؟',
-                style: Theme.of(context).textTheme.titleLarge,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
               TextButton(child: Text('عرض الكل'), onPressed: () {}),
             ],
@@ -63,7 +63,7 @@ class HomePage extends StatelessWidget {
           ),
           Text(
             'الأذكار اليومية',
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
           HomeAzkarGrid(),
         ],

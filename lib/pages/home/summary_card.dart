@@ -60,7 +60,7 @@ class _SummaryCardState extends State<SummaryCard> {
                       ),
                       Text(
                         'القاهرة، مصر',
-                        style: Theme.of(context).textTheme.titleMedium
+                        style: Theme.of(context).textTheme.labelMedium
                             ?.copyWith(
                               color: Theme.of(context).colorScheme.primary,
                             ),
@@ -69,7 +69,7 @@ class _SummaryCardState extends State<SummaryCard> {
                   ),
                   Text(
                     'صلاة العصر',
-                    style: Theme.of(context).textTheme.headlineMedium,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ],
               ),
