@@ -22,6 +22,12 @@ class _SummaryCardState extends State<SummaryCard> {
 
   @override
   Widget build(BuildContext context) {
+    //TODO maybe switch the outer container with material widget with these properties to get the elevation and shadow easily without needing to manage the box shadow manually
+    /**
+  color: const Color(0xFF1A2A1F), // Your solid base color goes here
+  borderRadius: BorderRadius.circular(16),
+  elevation: 4, // Bonus: Easily add shadows if your design needs them
+     */
     return Container(
       decoration: BoxDecoration(
         //TODO choose one of these two colors after testing them in the app
