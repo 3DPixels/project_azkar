@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_azkar/pages/supplications/view.dart';
 
 class CardPalette {
   final Color iconColor;
@@ -88,6 +89,12 @@ class HomeAzkarGrid extends StatelessWidget {
           title: card['title'],
           subtitle: card['subtitle'],
           icon: card['icon'],
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Supplications()),
+            );
+          },
         );
       },
     );
@@ -99,6 +106,7 @@ class DynamicGlowCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final IconData icon;
+  final VoidCallback? onTap;
 
   const DynamicGlowCard({
     super.key,
@@ -106,49 +114,53 @@ class DynamicGlowCard extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.icon,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        gradient: RadialGradient(
-          center: const Alignment(0.6, -0.6),
-          radius: .7,
-          colors: [
-            palette.gradientColor,
-            Theme.of(context).colorScheme.surface,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          gradient: RadialGradient(
+            center: const Alignment(0.6, -0.6),
+            radius: .7,
+            colors: [
+              palette.gradientColor,
+              Theme.of(context).colorScheme.surface,
+            ],
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 3,
+          children: [
+            Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: palette.glowColor,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(icon, color: palette.iconColor, size: 24),
+            ),
+            SizedBox(height: 10),
+            Text(
+              title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              subtitle,
+              style: const TextStyle(color: Colors.white70, fontSize: 12),
+            ),
           ],
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        spacing: 3,
-        children: [
-          Container(
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: palette.glowColor,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Icon(icon, color: palette.iconColor, size: 24),
-          ),
-          SizedBox(height: 10),
-          Text(
-            title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
-            subtitle,
-            style: const TextStyle(color: Colors.white70, fontSize: 12),
-          ),
-        ],
       ),
     );
   }
