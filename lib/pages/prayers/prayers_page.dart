@@ -13,10 +13,13 @@ class PrayersPage extends StatelessWidget {
       spacing: 10,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('أدعية و مناسبات خاصة', style: Styles.titleStyle),
-        Text('الأكثر تكرارا', style: Styles.headerStyle),
+        Text(
+          'أدعية و مناسبات خاصة',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        Text('الأكثر تكرارا', style: Theme.of(context).textTheme.titleMedium),
         CarouselExample(),
-        Text('القائمة الكاملة', style: Styles.headerStyle),
+        Text('القائمة الكاملة', style: Theme.of(context).textTheme.titleMedium),
         PrayersGrid(),
       ],
     );

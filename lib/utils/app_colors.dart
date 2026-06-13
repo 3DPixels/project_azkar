@@ -3,7 +3,6 @@ import 'dart:ui';
 abstract class AppColors {
   // Dark Green Theme colors
   static const Color darkPageBackground = Color(0xFF112116);
-  static const Color darkPageBackgroundLight = Color(0xFF213126);
   static const Color darkNavBarBackground = Color(0xFF111813);
   static const Color darkSurface = Color(0xFF1C261F);
   static const Color dsPrimary = Color(0xFF17CF54);

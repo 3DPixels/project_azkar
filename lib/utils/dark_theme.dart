@@ -17,14 +17,15 @@ ThemeData darkTheme() {
     ),
     fontFamily: 'IbmPlexSansArabic',
     textTheme: const TextTheme(
-      titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      titleMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      titleSmall: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-      bodyMedium: TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
-        color: AppColors.dsNeutral,
-      ),
+      titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      titleMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      titleSmall: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+      labelMedium: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+      labelSmall: TextStyle(fontSize: 12),
+      bodyLarge: TextStyle(fontSize: 14, color: Color(0xFF94A3B8)),
+      bodyMedium: TextStyle(fontSize: 12),
+      bodySmall: TextStyle(fontSize: 10),
     ).apply(bodyColor: Colors.white, displayColor: Colors.white),
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: AppColors.darkNavBarBackground,

@@ -6,6 +6,7 @@ import 'package:project_azkar/utils/formatters.dart';
 
 class MoodDetails extends StatelessWidget {
   final MoodModel mood;
+
   const MoodDetails(this.mood, {super.key});
 
   @override
@@ -56,18 +57,15 @@ class MoodDetails extends StatelessWidget {
                   // SizedBox(height: 10),
                   Text(
                     mood.title,
-                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontFamily: 'NotoSansArabicVar',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 28,
                     ),
                   ),
                   // SizedBox(height: 10),
                   Text(
                     mood.subtitle,
-                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       fontFamily: 'NotoSansArabicVar',
-                      fontSize: 14,
                       color: Color(0xFF94A3B8),
                     ),
                   ),
@@ -81,9 +79,8 @@ class MoodDetails extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 2, horizontal: 10),
                     child: Text(
                       '${supplications.length.toArabic()} دعاء',
-                      style: TextStyle(
+                      style: Theme.of(context).textTheme.labelMedium?.copyWith(
                         color: mood.colorPalette.badgeTextColor,
-                        fontSize: 14,
                       ),
                     ),
                   ),

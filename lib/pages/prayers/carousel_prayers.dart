@@ -14,7 +14,7 @@ class _CarouselExampleState extends State<CarouselExample> {
     return Column(
       children: <Widget>[
         SizedBox(
-          height: 150,
+          height: 160,
           child: CarouselView.weighted(
             itemSnapping: true,
             flexWeights: const <int>[7, 3],
@@ -39,13 +39,29 @@ class HeroLayoutCard extends StatelessWidget {
     return Stack(
       alignment: AlignmentDirectional.bottomStart,
       children: <Widget>[
+        // LAYER 1: (Maintains the overflow look)
         ClipRect(
           child: OverflowBox(
-            maxWidth: width * 7 / 8,
-            minWidth: width * 7 / 8,
+            maxWidth: width * 5.2 / 8,
+            minWidth: width * 5.2 / 8,
             child: Image(fit: BoxFit.cover, image: AssetImage(imageInfo.url)),
           ),
         ),
+
+        // LAYER 2: The Gradient Overlay
+        Positioned.fill(
+          child: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+                colors: [Color(0xE6000000), Color(0x00000000)],
+              ),
+            ),
+          ),
+        ),
+
+        // LAYER 3: The Text Content
         Padding(
           padding: const EdgeInsets.all(18.0),
           child: Column(
@@ -58,16 +74,16 @@ class HeroLayoutCard extends StatelessWidget {
                 softWrap: false,
                 style: Theme.of(
                   context,
-                ).textTheme.headlineSmall?.copyWith(color: Colors.white),
+                ).textTheme.titleSmall?.copyWith(color: Colors.white),
               ),
               const SizedBox(height: 10),
               Text(
                 imageInfo.subtitle,
                 overflow: TextOverflow.clip,
                 softWrap: false,
-                style: Theme.of(
-                  context,
-                ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  color: const Color(0xFFD1D5DB),
+                ),
               ),
             ],
           ),
@@ -119,6 +135,7 @@ enum ImageInfo {
   );
 
   const ImageInfo(this.title, this.subtitle, this.url);
+
   final String title;
   final String subtitle;
   final String url;

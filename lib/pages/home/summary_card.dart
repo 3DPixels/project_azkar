@@ -22,125 +22,143 @@ class _SummaryCardState extends State<SummaryCard> {
 
   @override
   Widget build(BuildContext context) {
+    //TODO maybe switch the outer container with material widget with these properties to get the elevation and shadow easily without needing to manage the box shadow manually
+    /**
+  color: const Color(0xFF1A2A1F), // Your solid base color goes here
+  borderRadius: BorderRadius.circular(16),
+  elevation: 4, // Bonus: Easily add shadows if your design needs them
+     */
     return Container(
-      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            AppColors.darkPageBackgroundLight,
-            AppColors.darkPageBackground,
-          ],
-        ),
+        //TODO choose one of these two colors after testing them in the app
+        // color: const Color(0xFF1A2A1F),
+        color: const Color(0xFF1C261F),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
       ),
-      child: Column(
-        spacing: 30,
-        children: [
-          // First row
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                spacing: 5,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.location_on,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      Text(
-                        'القاهرة، مصر',
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    'صلاة العصر',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                ],
-              ),
-              TimeRemaining(
-                targetTime: DateTime.now().add(Duration(hours: 1, minutes: 3)),
-              ),
+      child: Container(
+        padding: EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.red,
+          gradient: LinearGradient(
+            colors: [
+              AppColors.darkPageBackground.withValues(alpha: .8),
+              AppColors.darkPageBackground.withValues(alpha: .4),
+              AppColors.darkPageBackground.withAlpha(0),
             ],
           ),
-          // Second row
-          LayoutBuilder(
-            builder: (context, constraints) {
-              if (_scrollController == null) {
-                final int currentPrayerIndex = 3;
-                final double itemWidth = 85.0;
-
-                double centerOffset =
-                    (currentPrayerIndex * itemWidth) +
-                    (itemWidth / 2) -
-                    (constraints.maxWidth / 2);
-
-                centerOffset = centerOffset < 0 ? 0 : centerOffset;
-
-                _scrollController = ScrollController(
-                  initialScrollOffset: centerOffset,
-                );
-              }
-              return SizedBox(
-                height: 100,
-                child: ListView(
-                  controller: _scrollController,
-                  scrollDirection: Axis.horizontal,
-
-                  itemExtent: 85,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.1),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          spacing: 30,
+          children: [
+            // First row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  spacing: 5,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    PrayerTime(
-                      passed: true,
-                      prayer: 'صلاة الفجر',
-                      prayerTime: '03:35',
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.location_on,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        Text(
+                          'القاهرة، مصر',
+                          style: Theme.of(context).textTheme.labelMedium
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                        ),
+                      ],
                     ),
-                    PrayerTime(
-                      passed: true,
-                      prayer: 'صلاة الشروق',
-                      prayerTime: '03:45',
-                    ),
-                    PrayerTime(
-                      passed: true,
-                      prayer: 'صلاة الظهر',
-                      prayerTime: '03:45',
-                    ),
-                    PrayerTime(
-                      passed: false,
-                      currentPrayer: true,
-                      prayer: 'صلاة العصر',
-                      prayerTime: '03:45',
-                    ),
-                    PrayerTime(
-                      passed: false,
-                      prayer: 'صلاة المغرب',
-                      prayerTime: '03:45',
-                    ),
-                    PrayerTime(
-                      passed: false,
-                      prayer: 'صلاة العشاء',
-                      prayerTime: '03:45',
+                    Text(
+                      'صلاة العصر',
+                      style: Theme.of(context).textTheme.titleLarge,
                     ),
                   ],
                 ),
-              );
-            },
-          ),
-        ],
+                TimeRemaining(
+                  targetTime: DateTime.now().add(
+                    Duration(hours: 1, minutes: 3),
+                  ),
+                ),
+              ],
+            ),
+            // Second row
+            LayoutBuilder(
+              builder: (context, constraints) {
+                if (_scrollController == null) {
+                  final int currentPrayerIndex = 3;
+                  final double itemWidth = 85.0;
+
+                  double centerOffset =
+                      (currentPrayerIndex * itemWidth) +
+                      (itemWidth / 2) -
+                      (constraints.maxWidth / 2);
+
+                  centerOffset = centerOffset < 0 ? 0 : centerOffset;
+
+                  _scrollController = ScrollController(
+                    initialScrollOffset: centerOffset,
+                  );
+                }
+                return SizedBox(
+                  height: 100,
+                  child: ListView(
+                    controller: _scrollController,
+                    scrollDirection: Axis.horizontal,
+
+                    itemExtent: 85,
+                    children: [
+                      PrayerTime(
+                        passed: true,
+                        prayer: 'صلاة الفجر',
+                        prayerTime: '03:35',
+                      ),
+                      PrayerTime(
+                        passed: true,
+                        prayer: 'صلاة الشروق',
+                        prayerTime: '03:45',
+                      ),
+                      PrayerTime(
+                        passed: true,
+                        prayer: 'صلاة الظهر',
+                        prayerTime: '03:45',
+                      ),
+                      PrayerTime(
+                        passed: false,
+                        currentPrayer: true,
+                        prayer: 'صلاة العصر',
+                        prayerTime: '03:45',
+                      ),
+                      PrayerTime(
+                        passed: false,
+                        prayer: 'صلاة المغرب',
+                        prayerTime: '03:45',
+                      ),
+                      PrayerTime(
+                        passed: false,
+                        prayer: 'صلاة العشاء',
+                        prayerTime: '03:45',
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

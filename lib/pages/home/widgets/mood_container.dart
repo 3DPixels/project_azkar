@@ -50,7 +50,7 @@ class MoodContainer extends StatelessWidget {
             return detailsPage;
           },
         ),
-        Text(title),
+        Text(title, style: Theme.of(context).textTheme.labelMedium),
       ],
     );
   }

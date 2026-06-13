@@ -98,15 +98,13 @@ class _TimeRemainingState extends State<TimeRemaining> {
         children: [
           Text(
             'باقي على الأذان',
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall?.copyWith(color: Colors.white54),
+            style: Theme.of(context).textTheme.labelSmall,
           ),
           Text(
             widget.targetTime == null
                 ? "--:--:--"
                 : _formatDurationToArabic(_duration),
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.labelSmall,
           ),
         ],
       ),

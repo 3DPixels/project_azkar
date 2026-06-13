@@ -7,6 +7,7 @@ class MoodPrayerCard extends StatefulWidget {
   final Color borderColor;
   final Color bottomColor;
   final Color containerBackgroundColor;
+
   const MoodPrayerCard({
     super.key,
     required this.supplication,
@@ -60,26 +61,26 @@ class _MoodPrayerCardState extends State<MoodPrayerCard> {
                     children: [
                       Text(
                         widget.supplication.dua,
-                        style: TextStyle(
-                          fontFamily: 'NotoSansArabicVar',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
+                        style: Theme.of(context).textTheme.titleMedium
+                            ?.copyWith(fontFamily: 'NotoSansArabicVar'),
                       ),
                       Divider(thickness: 1, color: widget.borderColor),
                       Text(
                         widget.supplication.benefit,
                         textDirection: TextDirection.ltr,
-                        style: TextStyle(color: iconsColor, fontSize: 15),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodyLarge?.copyWith(color: iconsColor),
                       ),
                       TextButton.icon(
                         onPressed: () {},
                         style: TextButton.styleFrom(
                           foregroundColor: widget.buttonsColor,
-                          textStyle: TextStyle(
-                            fontFamily: 'NotoSansArabicVar',
-                            fontWeight: FontWeight.bold,
-                          ),
+                          textStyle: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                fontFamily: 'NotoSansArabicVar',
+                                fontWeight: FontWeight.w600,
+                              ),
                         ),
                         label: Text(widget.supplication.source),
                         icon: Icon(Icons.menu_book),
