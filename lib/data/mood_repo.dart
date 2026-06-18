@@ -8,7 +8,7 @@ class MoodRepo {
       header: 'حزين',
       title: 'عند الشعور بالحزن',
       subtitle: 'أدعية للصبر و السكينة',
-      category: Categories.sad,
+      category: MoodCategories.sad,
       icon: Icons.cloud_off_outlined,
       colorPalette: ColorPalette(
         mainColor: Color(0xFF2B6CEE),

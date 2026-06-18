@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:project_azkar/data/mood_model.dart';
-import 'package:project_azkar/data/supplications_repo.dart';
-import 'package:project_azkar/pages/mood_prayers/widgets/mood_prayer_card.dart';
+import 'package:project_azkar/data/mood_supplications_repo.dart';
+import 'package:project_azkar/pages/supplications/widgets/dua_card.dart';
 import 'package:project_azkar/utils/formatters.dart';
 
-class MoodDetails extends StatelessWidget {
+class MoodsPage extends StatelessWidget {
   final MoodModel mood;
 
-  const MoodDetails(this.mood, {super.key});
+  const MoodsPage(this.mood, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    final supplications = SupplicationsRepo.getSupplicationByCategory(
+    final supplications = MoodSupplicationsRepo.getSupplicationByCategory(
       mood.category,
     );
     return Scaffold(
@@ -95,7 +95,7 @@ class MoodDetails extends StatelessWidget {
                 spacing: 16,
                 children: supplications
                     .map(
-                      (sup) => MoodPrayerCard(
+                      (sup) => DuaCard(
                         supplication: sup,
                         buttonsColor: mood.colorPalette.mainColor,
                         borderColor: mood.colorPalette.borderColor,

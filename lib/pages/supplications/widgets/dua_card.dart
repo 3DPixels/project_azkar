@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:project_azkar/data/dua_model.dart';
 
-class MoodPrayerCard extends StatefulWidget {
+class DuaCard extends StatefulWidget {
   final DuaModel supplication;
   final Color buttonsColor;
   final Color borderColor;
   final Color bottomColor;
   final Color containerBackgroundColor;
 
-  const MoodPrayerCard({
+  const DuaCard({
     super.key,
     required this.supplication,
     required this.buttonsColor,
@@ -18,10 +18,10 @@ class MoodPrayerCard extends StatefulWidget {
   });
 
   @override
-  State<MoodPrayerCard> createState() => _MoodPrayerCardState();
+  State<DuaCard> createState() => _DuaCardState();
 }
 
-class _MoodPrayerCardState extends State<MoodPrayerCard> {
+class _DuaCardState extends State<DuaCard> {
   bool playing = false;
   final iconsColor = Color(0xFF94A3B8);
 

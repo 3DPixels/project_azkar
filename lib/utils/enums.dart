@@ -1,8 +1,8 @@
-enum DuaEvent { day, night, afterSalah, beforeSleep, afterWakingUp }
+enum DuaTime { day, night, afterSalah, beforeSleep, afterWakingUp }
 
-enum DuaType { ayah, dua, zekr }
+enum DuaType { ayah, dua }
 
-enum Categories {
+enum MoodCategories {
   happy,
   sad,
   angry,

@@ -21,15 +21,16 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.8
   animations: ^2.0.11
-  flutter_animate: ^4.5.2
-  flutter_staggered_animations: ^1.1.1
-  flutter_bloc: ^9.1.1
+  cupertino_icons: ^1.0.8
   equatable: ^2.0.7
+  flutter_animate: ^4.5.2
+  flutter_bloc: ^9.1.1
+  flutter_staggered_animations: ^1.1.1
 #  google_fonts: ^6.3.1
-  shared_preferences: ^2.5.3
   intl: any
+  reel_text: ^0.1.5
+  shared_preferences: ^2.5.3
   flutter_localizations:
     sdk: flutter
 

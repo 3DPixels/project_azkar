@@ -1,10 +1,10 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:project_azkar/pages/settings/view.dart';
+import 'package:project_azkar/pages/supplications/view.dart';
 
-import 'home/home_page.dart';
-import 'mood_page.dart';
-import 'other_page.dart';
-import 'prayers/prayers_page.dart';
+import 'home/view.dart';
+import 'prayers/view.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -17,8 +17,8 @@ class _MainPageState extends State<MainPage> {
   final List<Widget> _tabs = const [
     HomePage(),
     PrayersPage(),
-    MoodPage(),
-    OtherPage(),
+    SupplicationsPage(),
+    SettingsPage(),
   ];
 
   int _currentIndex = 0;
@@ -30,7 +30,10 @@ class _MainPageState extends State<MainPage> {
         child: SizedBox(
           width: 600,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 8.0,
+            ),
             child: PageTransitionSwitcher(
               duration: const Duration(milliseconds: 700),
               // A fix for SingleChildScrollView weired snapping when navigating between pages

@@ -7,8 +7,8 @@ class DuaModel {
   final String benefit; // the benefit of dua
   final String? audioPath;
   final String? description;
-  final List<DuaEvent>? time; // time of dua
-  final List<Categories>? categories;
+  final List<DuaTime>? time; // time of dua
+  final List<MoodCategories>? categories;
 
   DuaModel({
     this.count = 1,

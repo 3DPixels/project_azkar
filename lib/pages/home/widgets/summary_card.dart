@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_azkar/pages/home/widgets/prayer_time.dart';
 import 'package:project_azkar/pages/home/widgets/time_remaining.dart';
 
-import '../../utils/app_colors.dart';
+import '../../../utils/app_colors.dart';
 
 class SummaryCard extends StatefulWidget {
   const SummaryCard({super.key});

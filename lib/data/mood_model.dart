@@ -5,7 +5,7 @@ class MoodModel {
   final String header;
   final String title;
   final String subtitle;
-  final Categories category;
+  final MoodCategories category;
   final ColorPalette colorPalette;
   final IconData icon;
 

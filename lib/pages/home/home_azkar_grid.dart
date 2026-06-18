@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_azkar/pages/supplications/azkar/azkar_page.dart';
 import 'package:project_azkar/pages/supplications/view.dart';
 
 class CardPalette {
@@ -93,7 +94,7 @@ class HomeAzkarGrid extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => Supplications()),
+              MaterialPageRoute(builder: (context) => AzkarPage()),
             );
           },
         );

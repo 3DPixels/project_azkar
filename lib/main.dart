@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_azkar/pages/main_page.dart';
-import 'package:project_azkar/providers/settings_cubit/settings_cubit.dart';
+import 'package:project_azkar/cubits/settings_cubit/settings_cubit.dart';
 import 'package:project_azkar/services/cache_helper.dart';
 import 'package:project_azkar/utils/dark_theme.dart';
 import 'package:project_azkar/utils/light_theme.dart';

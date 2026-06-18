@@ -34,5 +34,9 @@ ThemeData darkTheme() {
       //   const IconThemeData(color: Colors.white),
       // ),
     ),
+    appBarTheme: AppBarTheme(
+      centerTitle: true,
+      backgroundColor: Colors.transparent,
+    ),
   );
 }
