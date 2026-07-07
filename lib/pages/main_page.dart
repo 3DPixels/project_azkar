@@ -14,14 +14,30 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  int _currentIndex = 0;
+  late PageController _pageController;
+
+  // We wrap the pages in our custom KeepAlivePage wrapper to prevent state resets.
   final List<Widget> _tabs = const [
-    HomePage(),
+    KeepAlivePage(child: HomePage()),
     PrayersPage(),
     SupplicationsPage(),
     SettingsPage(),
   ];
 
-  int _currentIndex = 0;
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the controller with the starting index
+    _pageController = PageController(initialPage: _currentIndex);
+  }
+
+  @override
+  void dispose() {
+    // Always dispose controllers to prevent memory leaks
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,24 +50,14 @@ class _MainPageState extends State<MainPage> {
               horizontal: 16.0,
               vertical: 8.0,
             ),
-            child: PageTransitionSwitcher(
-              duration: const Duration(milliseconds: 700),
-              // A fix for SingleChildScrollView weired snapping when navigating between pages
-              layoutBuilder: (List<Widget> entries) {
-                return Stack(
-                  fit: StackFit.expand, // Forces children to fill the screen
-                  children: entries,
-                );
+            child: PageView(
+              controller: _pageController,
+              onPageChanged: (index) {
+                setState(() {
+                  _currentIndex = index;
+                });
               },
-              transitionBuilder: (child, animation, secondaryAnimation) {
-                return FadeThroughTransition(
-                  fillColor: Theme.of(context).scaffoldBackgroundColor,
-                  animation: animation,
-                  secondaryAnimation: secondaryAnimation,
-                  child: child,
-                );
-              },
-              child: _tabs[_currentIndex],
+              children: _tabs,
             ),
           ),
         ),
@@ -59,8 +65,14 @@ class _MainPageState extends State<MainPage> {
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentIndex,
         onDestinationSelected: (index) {
-          _currentIndex = index;
-          setState(() {});
+          setState(() {
+            _currentIndex = index;
+          });
+          _pageController.animateToPage(
+            index,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+          );
         },
         destinations: [
           NavigationDestination(icon: Icon(Icons.home), label: 'الرئيسية'),
@@ -70,5 +82,30 @@ class _MainPageState extends State<MainPage> {
         ],
       ),
     );
+  }
+}
+
+/// A simple wrapper widget that forces its child to stay alive
+/// even when it scrolls off-screen in a PageView.
+class KeepAlivePage extends StatefulWidget {
+  final Widget child;
+
+  const KeepAlivePage({super.key, required this.child});
+
+  @override
+  State<KeepAlivePage> createState() => _KeepAlivePageState();
+}
+
+class _KeepAlivePageState extends State<KeepAlivePage>
+    with AutomaticKeepAliveClientMixin {
+  // Setting this to true tells Flutter not to destroy the widget
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    // This super call is required for the mixin to work correctly
+    super.build(context);
+    return widget.child;
   }
 }
