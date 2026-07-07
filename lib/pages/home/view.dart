@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_azkar/data/mood_repo.dart';
 import 'package:project_azkar/pages/home/widgets/mood_container.dart';
 
-import '../supplications/moods/moods_page.dart';
+import '../supplications/moods/moods_list.dart';
 import 'home_azkar_grid.dart';
 import 'widgets/summary_card.dart';
 
@@ -56,7 +56,7 @@ class HomePage extends StatelessWidget {
                   title: mood.header,
                   iconData: mood.icon,
                   iconColor: mood.colorPalette.mainColor,
-                  detailsPage: MoodsPage(mood),
+                  detailsPage: MoodsList(mood),
                 );
               },
             ),

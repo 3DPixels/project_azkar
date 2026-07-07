@@ -4,10 +4,10 @@ import 'package:project_azkar/data/mood_supplications_repo.dart';
 import 'package:project_azkar/pages/supplications/widgets/dua_card.dart';
 import 'package:project_azkar/utils/formatters.dart';
 
-class MoodsPage extends StatelessWidget {
+class MoodsList extends StatelessWidget {
   final MoodModel mood;
 
-  const MoodsPage(this.mood, {super.key});
+  const MoodsList(this.mood, {super.key});
 
   @override
   Widget build(BuildContext context) {
