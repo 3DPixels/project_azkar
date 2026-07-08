@@ -29,7 +29,7 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
 #  google_fonts: ^6.3.1
   intl: any
-  reel_text: ^0.1.5
+  reel_text: ^0.4.0
   shared_preferences: ^2.5.3
   flutter_localizations:
     sdk: flutter
@@ -37,7 +37,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 flutter:
   generate: true
