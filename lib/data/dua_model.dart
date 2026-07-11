@@ -1,7 +1,7 @@
 import '../utils/enums.dart';
 
 class DuaModel {
-  int count;
+  final int count;
   final String dua;
   final String source; // source of ayah/dua
   final String benefit; // the benefit of dua

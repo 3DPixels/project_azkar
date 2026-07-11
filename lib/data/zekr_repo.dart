@@ -167,12 +167,14 @@ class ZekrRepository {
     ),
   ];
 
+  static List<DuaModel> get allSupplications => _allAzkar;
+
   // Get Azkar by Time (Morning/Night/AfterSalah)
-  // static List<DuaModel> getAzkarByTime(DuaEvent time) {
-  //   return _allAzkar.where((item) {
-  //     return item.time.contains(time);
-  //   }).toList();
-  // }
+  static List<DuaModel> getAzkarByTime(DuaTime time) {
+    return _allAzkar.where((item) {
+      return item.time?.contains(time) ?? false;
+    }).toList();
+  }
 
   // Search functionality
   static List<DuaModel> searchAzkar(String query) {

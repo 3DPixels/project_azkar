@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:project_azkar/data/zekr_repo.dart';
 import 'package:project_azkar/pages/supplications/azkar/azkar_page.dart';
-import 'package:project_azkar/pages/supplications/view.dart';
+import 'package:project_azkar/utils/enums.dart';
 
 class CardPalette {
   final Color iconColor;
@@ -77,7 +78,7 @@ class HomeAzkarGrid extends StatelessWidget {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 16.0,
         mainAxisSpacing: 16.0,
@@ -94,7 +95,11 @@ class HomeAzkarGrid extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AzkarPage()),
+              MaterialPageRoute(
+                builder: (context) => AzkarPage(
+                  allSupplications: ZekrRepository.getAzkarByTime(DuaTime.day),
+                ),
+              ),
             );
           },
         );
