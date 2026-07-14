@@ -29,10 +29,19 @@ class AzkarList extends StatelessWidget {
                 Text('${state.completedZekr}/${state.totalZekr}'),
               ],
             ),
-            LinearProgressIndicator(
-              value: state.progress,
-              backgroundColor: AppColors.darkSurface,
-              color: AppColors.dsPrimary,
+            TweenAnimationBuilder<double>(
+              tween: Tween<double>(begin: 0, end: state.progress),
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              builder: (context, animatedValue, child) {
+                return LinearProgressIndicator(
+                  value: animatedValue,
+                  backgroundColor: AppColors.darkSurface,
+                  color: AppColors.dsPrimary,
+                  minHeight: 6,
+                  borderRadius: BorderRadius.circular(4),
+                );
+              },
             ),
 
             // Choice Chips
@@ -70,13 +79,14 @@ class AzkarList extends StatelessWidget {
                             : 'تم الانتهاء من الأذكار!',
                       ),
                     )
-                  : ListView.separated(
+                  : ListView.builder(
                       itemCount: displayItems.length,
-                      separatorBuilder: (context, index) =>
-                          SizedBox(height: 16),
                       itemBuilder: (context, index) {
                         final item = displayItems[index];
                         return DuaCard(
+                          // THE FIX: This forces Flutter to tie the fade-out state
+                          // ONLY to this specific Zekr, preventing widget reuse bugs.
+                          key: ValueKey(item.supplication.dua),
                           supplication: item.supplication,
                           buttonsColor: AppColors.dsPrimary,
                           borderColor: AppColors.dsPrimary.withValues(
