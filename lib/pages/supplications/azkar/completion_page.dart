@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_azkar/pages/main_page.dart';
+import 'package:project_azkar/services/cache_helper.dart';
 import 'package:reel_text/reel_text.dart';
 
 import '../../../utils/app_colors.dart';
@@ -15,21 +15,21 @@ class CompletionPage extends StatefulWidget {
 }
 
 class _CompletionPageState extends State<CompletionPage> {
-  int displayCount = 0;
+  int displayCount = CacheHelper.getAzkarCount();
 
   @override
   void initState() {
     super.initState();
-
     // We add a slight delay so the page has time to finish sliding in
     // before the numbers start rolling. This makes the animation pop!
     Future.delayed(const Duration(milliseconds: 400), () {
       if (mounted) {
         setState(() {
-          displayCount = widget.totalRead; // Jump to the target number
+          displayCount += widget.totalRead; // Jump to the target number
         });
       }
     });
+    CacheHelper.cacheAzkarCount(displayCount);
   }
 
   @override
@@ -43,7 +43,7 @@ class _CompletionPageState extends State<CompletionPage> {
             const Icon(
               Icons.check_circle_outline,
               size: 100,
-              color: AppColors.dsPrimary,
+              color: AppColors.primary,
             ),
             const SizedBox(height: 24),
             const Text(
@@ -74,7 +74,7 @@ class _CompletionPageState extends State<CompletionPage> {
             ElevatedButton(
               onPressed: () => Navigator.pop(context),
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.dsPrimary,
+                backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
               ),
               child: const Text('العودة للرئيسية'),

@@ -9,9 +9,14 @@ import 'azkar_single.dart';
 import 'completion_page.dart';
 
 class AzkarPage extends StatelessWidget {
+  final String title;
   final List<DuaModel> allSupplications;
 
-  const AzkarPage({super.key, required this.allSupplications});
+  const AzkarPage({
+    super.key,
+    required this.allSupplications,
+    required this.title,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +35,7 @@ class AzkarPage extends StatelessWidget {
           );
         },
         child: Scaffold(
-          appBar: AppBar(title: Text('Zekr')),
+          appBar: AppBar(title: Text(title)),
           body: DefaultTabController(
             length: 2,
             initialIndex: 0,
@@ -38,56 +43,54 @@ class AzkarPage extends StatelessWidget {
               spacing: 32,
               children: [
                 Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16.0),
                   height: 48,
                   decoration: BoxDecoration(
                     color: AppColors.darkSurface,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  padding: const EdgeInsets.all(4.0), // Padding around the pill
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: TabBar(
-                      indicatorSize: TabBarIndicatorSize.tab,
-                      dividerColor: Colors.transparent,
-                      // Removes the bottom line
-                      splashBorderRadius: BorderRadius.circular(8),
-                      // The sliding pill
-                      indicator: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: AppColors.dsSecondary,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: .05),
-                            blurRadius: 4,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      labelColor: Colors.white,
-                      unselectedLabelColor: AppColors.dsNeutral,
-                      tabs: const [
-                        Tab(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            spacing: 8,
-                            children: [
-                              Text('قائمة'),
-                              Icon(Icons.format_list_bulleted, size: 20),
-                            ],
-                          ),
-                        ),
-                        Tab(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            spacing: 8,
-                            children: [
-                              Text('بطاقات'),
-                              Icon(Icons.view_carousel_outlined, size: 20),
-                            ],
-                          ),
+                  child: TabBar(
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    indicatorPadding: EdgeInsetsGeometry.all(4),
+                    overlayColor: WidgetStateProperty.all(Colors.transparent),
+                    dividerColor: Colors.transparent,
+                    splashBorderRadius: BorderRadius.circular(8),
+                    // The sliding pill
+                    indicator: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: AppColors.secondary,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: .05),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
+                    labelColor: Colors.white,
+                    unselectedLabelColor: AppColors.neutral,
+                    tabs: const [
+                      Tab(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          spacing: 8,
+                          children: [
+                            Text('قائمة'),
+                            Icon(Icons.format_list_bulleted, size: 20),
+                          ],
+                        ),
+                      ),
+                      Tab(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          spacing: 8,
+                          children: [
+                            Text('بطاقات'),
+                            Icon(Icons.view_carousel_outlined, size: 20),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const Expanded(

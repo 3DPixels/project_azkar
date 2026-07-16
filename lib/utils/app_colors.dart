@@ -5,10 +5,10 @@ abstract class AppColors {
   static const Color darkPageBackground = Color(0xFF112116);
   static const Color darkNavBarBackground = Color(0xFF111813);
   static const Color darkSurface = Color(0xFF1C261F);
-  static const Color dsPrimary = Color(0xFF17CF54);
-  static const Color dsSecondary = Color(0x6417CF54);
-  static const Color dsTertiary = Color(0xFFFF9887);
-  static const Color dsNeutral = Color(0xFF707A6E);
+  static const Color primary = Color(0xFF17CF54);
+  static const Color secondary = Color(0x6417CF54);
+  static const Color tertiary = Color(0xFFFF9887);
+  static const Color neutral = Color(0xFF707A6E);
 }
 
 // Variable,                    Original Hex,     High-Saturation Hex

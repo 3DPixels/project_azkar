@@ -14,19 +14,19 @@ class CacheHelper {
   }
 
   ///Setters
-  // static Future<void> cacheLanguage(String code) async {
-  //   await prefsWithCache.setString(SharedKeys.langCode.name, code);
-  // }
+  static Future<void> cacheAzkarCount(int count) async {
+    await prefsWithCache.setInt('azkarCount', count);
+  }
 
   static Future<void> cacheThemeMode(bool mode) async {
     await prefsWithCache.setBool('themeMode', mode);
   }
 
   ///Getters
-  // static String getLanguageCode() {
-  //   final code = prefsWithCache.getString(SharedKeys.langCode.name);
-  //   return code ?? 'en';
-  // }
+  static int getAzkarCount() {
+    final count = prefsWithCache.getInt('azkarCount');
+    return count ?? 0;
+  }
 
   static bool getThemeMode() {
     //return true if dark mode

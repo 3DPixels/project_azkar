@@ -30,15 +30,12 @@ class AboutScreen extends StatelessWidget {
             width: 400,
             child: Column(
               children: [
-                // SizedBox(
-                //   height: .22.sh,
-                // ),
                 const CircleAvatar(
                   radius: 60,
                   backgroundImage: AssetImage(AppImages.profile),
                 ),
                 const Text(
-                  'Ammar Ahmad',
+                  'Ammar Ismail',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 35,
@@ -66,7 +63,7 @@ class AboutScreen extends StatelessWidget {
                       selectionHandleColor: Colors.greenAccent,
                     ),
                     child: SelectableText(
-                      'ammar.salim2018@gmail.com',
+                      'ammar.salim2020@outlook.com',
                       style: TextStyle(color: Colors.green),
                     ),
                   ),

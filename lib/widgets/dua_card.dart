@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:project_azkar/utils/app_fonts.dart';
+import 'package:share_plus/share_plus.dart';
 
-import '../../../data/dua_model.dart';
+import '../data/dua_model.dart';
+import '../utils/app_colors.dart';
 
 class DuaCard extends StatefulWidget {
   final DuaModel supplication;
@@ -155,7 +159,7 @@ class _DuaCardState extends State<DuaCard> {
                                             .textTheme
                                             .titleMedium
                                             ?.copyWith(
-                                              fontFamily: 'NotoSansArabicVar',
+                                              fontFamily: AppFonts.notoSans,
                                             ),
                                       ),
                                       Divider(
@@ -164,7 +168,8 @@ class _DuaCardState extends State<DuaCard> {
                                       ),
                                       Text(
                                         widget.supplication.benefit,
-                                        textDirection: TextDirection.ltr,
+                                        maxLines: 3,
+                                        overflow: .ellipsis,
                                         style: Theme.of(context)
                                             .textTheme
                                             .bodyLarge
@@ -178,7 +183,7 @@ class _DuaCardState extends State<DuaCard> {
                                               .textTheme
                                               .bodyMedium
                                               ?.copyWith(
-                                                fontFamily: 'NotoSansArabicVar',
+                                                fontFamily: AppFonts.notoSans,
                                                 fontWeight: FontWeight.w600,
                                               ),
                                         ),
@@ -207,18 +212,54 @@ class _DuaCardState extends State<DuaCard> {
                             ),
                             child: Row(
                               children: [
+                                // IconButton(
+                                //   onPressed: () {},
+                                //   icon: const Icon(Icons.favorite_border),
+                                //   color: iconsColor,
+                                // ),
                                 IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.favorite_border),
-                                  color: iconsColor,
-                                ),
-                                IconButton(
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    await Clipboard.setData(
+                                      ClipboardData(
+                                        text: widget.supplication.dua,
+                                      ),
+                                    );
+                                    if (!context.mounted) return;
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Row(
+                                          spacing: 10,
+                                          children: [
+                                            Icon(Icons.copy_rounded),
+                                            Text(
+                                              "تم نسخ الدعاء",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        backgroundColor:
+                                            AppColors.darkNavBarBackground,
+                                        duration: Duration(seconds: 3),
+                                        behavior: SnackBarBehavior.floating,
+                                      ),
+                                    );
+                                  },
                                   icon: const Icon(Icons.copy_rounded),
                                   color: iconsColor,
                                 ),
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    SharePlus.instance.share(
+                                      ShareParams(
+                                        title: 'Dua share',
+                                        text:
+                                            '${widget.supplication.dua} \n ${widget.supplication.benefit}',
+                                      ),
+                                    );
+                                  },
                                   icon: const Icon(Icons.share),
                                   color: iconsColor,
                                 ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:project_azkar/data/mood_model.dart';
 import 'package:project_azkar/data/mood_supplications_repo.dart';
-import 'package:project_azkar/pages/supplications/widgets/dua_card.dart';
+import 'package:project_azkar/widgets/dua_card.dart';
 import 'package:project_azkar/utils/formatters.dart';
+
+import '../../../utils/app_fonts.dart';
 
 class MoodsList extends StatelessWidget {
   final MoodModel mood;
@@ -58,14 +60,14 @@ class MoodsList extends StatelessWidget {
                   Text(
                     mood.title,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontFamily: 'NotoSansArabicVar',
+                      fontFamily: AppFonts.notoSans,
                     ),
                   ),
                   // SizedBox(height: 10),
                   Text(
                     mood.subtitle,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontFamily: 'NotoSansArabicVar',
+                      fontFamily: AppFonts.notoSans,
                       color: Color(0xFF94A3B8),
                     ),
                   ),

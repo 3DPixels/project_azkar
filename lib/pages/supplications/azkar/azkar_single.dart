@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_azkar/utils/app_colors.dart';
 import 'package:reel_text/reel_text.dart';
 import '../../../cubits/azkar/azkar_cubit.dart';
+import '../../../utils/app_fonts.dart';
 
 class AzkarSingle extends StatelessWidget {
   const AzkarSingle({super.key});
@@ -34,7 +35,7 @@ class AzkarSingle extends StatelessWidget {
             LinearProgressIndicator(
               value: state.progress,
               backgroundColor: AppColors.darkSurface,
-              color: AppColors.dsPrimary,
+              color: AppColors.primary,
               borderRadius: BorderRadius.circular(4),
             ),
             const SizedBox(height: 24),
@@ -48,7 +49,7 @@ class AzkarSingle extends StatelessWidget {
                   color: AppColors.darkSurface,
                   borderRadius: BorderRadius.circular(32),
                   border: Border.all(
-                    color: AppColors.dsPrimary.withValues(alpha: 0.1),
+                    color: AppColors.primary.withValues(alpha: 0.1),
                   ),
                 ),
                 child: Column(
@@ -61,15 +62,15 @@ class AzkarSingle extends StatelessWidget {
                         vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: AppColors.dsPrimary.withValues(alpha: 0.1),
+                        color: AppColors.primary.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: AppColors.dsPrimary.withValues(alpha: 0.3),
+                          color: AppColors.primary.withValues(alpha: 0.3),
                         ),
                       ),
                       child: Text(
                         '${currentItem.targetCount} مرة واحدة', // Or adjust based on count logic
-                        style: const TextStyle(color: AppColors.dsPrimary),
+                        style: const TextStyle(color: AppColors.primary),
                       ),
                     ),
                     const SizedBox(height: 32),
@@ -82,7 +83,7 @@ class AzkarSingle extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.headlineSmall
                               ?.copyWith(
-                                fontFamily: 'NotoSansArabicVar',
+                                fontFamily: AppFonts.notoSans,
                                 height: 1.8,
                               ),
                         ),
@@ -116,10 +117,10 @@ class AzkarSingle extends StatelessWidget {
                 height: 100,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: AppColors.dsPrimary,
+                  color: AppColors.primary,
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.dsPrimary.withValues(alpha: 0.4),
+                      color: AppColors.primary.withValues(alpha: 0.4),
                       blurRadius: 30,
                       spreadRadius: 5,
                     ),

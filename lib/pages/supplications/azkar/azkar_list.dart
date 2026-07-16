@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_azkar/data/zekr_repo.dart';
-import 'package:project_azkar/pages/supplications/widgets/dua_card.dart';
+import 'package:project_azkar/widgets/dua_card.dart';
 import 'package:project_azkar/utils/app_colors.dart';
 
 import '../../../cubits/azkar/azkar_cubit.dart';
@@ -37,7 +37,7 @@ class AzkarList extends StatelessWidget {
                 return LinearProgressIndicator(
                   value: animatedValue,
                   backgroundColor: AppColors.darkSurface,
-                  color: AppColors.dsPrimary,
+                  color: AppColors.primary,
                   minHeight: 6,
                   borderRadius: BorderRadius.circular(4),
                 );
@@ -53,8 +53,8 @@ class AzkarList extends StatelessWidget {
                   selected: !state.showReadList,
                   onSelected: (val) =>
                       context.read<AzkarCubit>().toggleList(false),
-                  selectedColor: AppColors.dsPrimary.withValues(alpha: 0.2),
-                  checkmarkColor: AppColors.dsPrimary,
+                  selectedColor: AppColors.primary.withValues(alpha: 0.2),
+                  checkmarkColor: AppColors.primary,
                   backgroundColor: AppColors.darkSurface,
                 ),
                 ChoiceChip(
@@ -62,8 +62,8 @@ class AzkarList extends StatelessWidget {
                   selected: state.showReadList,
                   onSelected: (val) =>
                       context.read<AzkarCubit>().toggleList(true),
-                  selectedColor: AppColors.dsPrimary.withValues(alpha: 0.2),
-                  checkmarkColor: AppColors.dsPrimary,
+                  selectedColor: AppColors.primary.withValues(alpha: 0.2),
+                  checkmarkColor: AppColors.primary,
                   backgroundColor: AppColors.darkSurface,
                 ),
               ],
@@ -88,8 +88,8 @@ class AzkarList extends StatelessWidget {
                           // ONLY to this specific Zekr, preventing widget reuse bugs.
                           key: ValueKey(item.supplication.dua),
                           supplication: item.supplication,
-                          buttonsColor: AppColors.dsPrimary,
-                          borderColor: AppColors.dsPrimary.withValues(
+                          buttonsColor: AppColors.primary,
+                          borderColor: AppColors.primary.withValues(
                             alpha: 0.15,
                           ),
                           bottomColor: AppColors.darkNavBarBackground,

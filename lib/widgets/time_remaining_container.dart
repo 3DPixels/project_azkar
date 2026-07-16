@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class TimeRemaining extends StatefulWidget {
+class TimeRemainingContainer extends StatefulWidget {
   final DateTime? targetTime;
 
-  const TimeRemaining({super.key, this.targetTime});
+  const TimeRemainingContainer({super.key, this.targetTime});
 
   @override
-  State<TimeRemaining> createState() => _TimeRemainingState();
+  State<TimeRemainingContainer> createState() => _TimeRemainingContainerState();
 }
 
-class _TimeRemainingState extends State<TimeRemaining> {
+class _TimeRemainingContainerState extends State<TimeRemainingContainer> {
   Timer? _timer;
   Duration _duration = Duration.zero;
 
@@ -29,7 +29,7 @@ class _TimeRemainingState extends State<TimeRemaining> {
 
   // 1. Listens for when the API finally passes data to the widget
   @override
-  void didUpdateWidget(TimeRemaining oldWidget) {
+  void didUpdateWidget(TimeRemainingContainer oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.targetTime != oldWidget.targetTime) {
       _updateDuration();

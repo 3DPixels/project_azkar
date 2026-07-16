@@ -31,6 +31,7 @@ dependencies:
   intl: any
   reel_text: ^0.4.0
   shared_preferences: ^2.5.3
+  share_plus: ^13.2.1
   flutter_localizations:
     sdk: flutter
 

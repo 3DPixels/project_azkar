@@ -5,6 +5,7 @@ class DuaModel {
   final String dua;
   final String source; // source of ayah/dua
   final String benefit; // the benefit of dua
+  final String? benefitSource; // the benefit of dua
   final String? audioPath;
   final String? description;
   final List<DuaTime>? time; // time of dua
@@ -15,6 +16,7 @@ class DuaModel {
     required this.dua,
     required this.source,
     required this.benefit,
+    this.benefitSource,
     this.audioPath,
     this.description,
     this.time,

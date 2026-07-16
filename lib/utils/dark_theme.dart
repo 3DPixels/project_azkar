@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
+import 'app_fonts.dart';
 
 ThemeData darkTheme() {
   return ThemeData(
     brightness: Brightness.dark,
     scaffoldBackgroundColor: AppColors.darkPageBackground,
     colorScheme: const ColorScheme.dark(
-      primary: AppColors.dsPrimary,
+      primary: AppColors.primary,
       // onPrimary: Colors.black, // Black text/icons look better on bright green
-      secondary: AppColors.dsSecondary,
+      secondary: AppColors.secondary,
       onSecondary: Colors.white,
-      tertiary: AppColors.dsTertiary,
+      tertiary: AppColors.tertiary,
       surface: AppColors.darkSurface,
-      outline: AppColors.dsNeutral, // Good for borders
+      outline: AppColors.neutral, // Good for borders
     ),
-    fontFamily: 'IbmPlexSansArabic',
+    fontFamily: AppFonts.ibmPlex,
     textTheme: const TextTheme(
       titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
       titleMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

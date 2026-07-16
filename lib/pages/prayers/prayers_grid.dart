@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/styles.dart';
-
 class PrayersGrid extends StatelessWidget {
   const PrayersGrid({super.key});
 

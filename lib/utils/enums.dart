@@ -1,4 +1,4 @@
-enum DuaTime { day, night, afterSalah, beforeSleep, afterWakingUp }
+enum DuaTime { day, night, afterPrayer, beforeSleep, afterSleep }
 
 enum DuaType { ayah, dua }
 

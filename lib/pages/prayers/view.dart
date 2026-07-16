@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:project_azkar/utils/styles.dart';
 
 import 'carousel_prayers.dart';
 import 'prayers_grid.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:project_azkar/pages/home/widgets/prayer_time.dart';
-import 'package:project_azkar/pages/home/widgets/time_remaining.dart';
+import 'package:project_azkar/widgets/prayer_time.dart';
+import 'package:project_azkar/widgets/time_remaining_container.dart';
 
-import '../../../utils/app_colors.dart';
+import '../utils/app_colors.dart';
 
 class SummaryCard extends StatefulWidget {
   const SummaryCard({super.key});
@@ -88,7 +88,7 @@ class _SummaryCardState extends State<SummaryCard> {
                     ),
                   ],
                 ),
-                TimeRemaining(
+                TimeRemainingContainer(
                   targetTime: DateTime.now().add(
                     Duration(hours: 1, minutes: 3),
                   ),
