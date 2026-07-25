@@ -23,22 +23,7 @@ class AzkarSingle extends StatelessWidget {
 
         return Column(
           children: [
-            // Progress Bar at the top of the card view
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('التقدم'),
-                Text('${state.completedZekr} / ${state.totalZekr}'),
-              ],
-            ),
-            const SizedBox(height: 8),
-            LinearProgressIndicator(
-              value: state.progress,
-              backgroundColor: AppColors.darkSurface,
-              color: AppColors.primary,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            const SizedBox(height: 24),
+            // const SizedBox(height: 24),
 
             // The Main Focus Card
             Expanded(

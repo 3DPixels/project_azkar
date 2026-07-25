@@ -104,7 +104,7 @@ class _TimeRemainingContainerState extends State<TimeRemainingContainer> {
             widget.targetTime == null
                 ? "--:--:--"
                 : _formatDurationToArabic(_duration),
-            style: Theme.of(context).textTheme.labelSmall,
+            style: Theme.of(context).textTheme.labelLarge,
           ),
         ],
       ),

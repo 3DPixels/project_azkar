@@ -15,27 +15,33 @@ class CompletionPage extends StatefulWidget {
 }
 
 class _CompletionPageState extends State<CompletionPage> {
-  int displayCount = CacheHelper.getAzkarCount();
+  late int globalCount;
 
   @override
   void initState() {
     super.initState();
-    // We add a slight delay so the page has time to finish sliding in
-    // before the numbers start rolling. This makes the animation pop!
-    Future.delayed(const Duration(milliseconds: 400), () {
+    // 1. Get the current global total BEFORE adding today's session
+    globalCount = CacheHelper.getAzkarCount();
+
+    // 2. Calculate the new lifetime total
+    final newLifetimeTotal = globalCount + widget.totalRead;
+
+    // 3. Cache it in the background immediately
+    CacheHelper.cacheAzkarCount(newLifetimeTotal);
+
+    // 4. Wait for page transition, then trigger ReelText animation
+    Future.delayed(const Duration(milliseconds: 500), () {
       if (mounted) {
         setState(() {
-          displayCount += widget.totalRead; // Jump to the target number
+          globalCount = newLifetimeTotal;
         });
       }
     });
-    CacheHelper.cacheAzkarCount(displayCount);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(title: const Text('إتمام الأذكار')),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -51,22 +57,27 @@ class _CompletionPageState extends State<CompletionPage> {
               style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-
+            Text(
+              'لقد قرأت اليوم ${widget.totalRead.toArabic()} من الأذكار',
+              style: const TextStyle(fontSize: 18, color: Colors.white70),
+            ),
+            const SizedBox(height: 16),
+            // The animated global count
             Row(
-              mainAxisAlignment: .center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'لقد أتممت قراءة',
-                  style: const TextStyle(fontSize: 18, color: Colors.white70),
+                const Text(
+                  'مجموع أذكارك الكلي: ',
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                 ),
                 ReelText(
-                  ' ${displayCount.toArabic()} ',
-                  locale: Locale('ar'),
-                  style: const TextStyle(fontSize: 18, color: Colors.white70),
-                ),
-                Text(
-                  'من الأذكار',
-                  style: const TextStyle(fontSize: 18, color: Colors.white70),
+                  // Isolating the number in ReelText prevents Arabic text bugs
+                  globalCount.toArabic(),
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primary,
+                  ),
                 ),
               ],
             ),

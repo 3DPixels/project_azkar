@@ -20,6 +20,16 @@ class AzkarCubit extends Cubit<AzkarState> {
     emit(AzkarState(items: initialItems));
   }
 
+  void skipZekr(DuaModel supplication) {
+    final updatedItems = state.items.map((item) {
+      if (item.supplication == supplication && item.currentCount > 0) {
+        return item.copyWith(currentCount: 0);
+      }
+      return item;
+    }).toList();
+    emit(state.copyWith(items: updatedItems));
+  }
+
   void decrementCount(DuaModel supplication) {
     final updatedItems = state.items.map((item) {
       if (item.supplication == supplication && item.currentCount > 0) {
