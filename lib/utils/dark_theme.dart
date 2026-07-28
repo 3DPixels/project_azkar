@@ -39,5 +39,9 @@ ThemeData darkTheme() {
       centerTitle: true,
       backgroundColor: Colors.transparent,
     ),
+    bottomSheetTheme: const BottomSheetThemeData(
+      dragHandleColor: Color.fromARGB(70, 255, 255, 255),
+      dragHandleSize: Size(60, 5),
+    ),
   );
 }

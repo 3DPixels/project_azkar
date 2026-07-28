@@ -73,6 +73,9 @@ class _CompletionPageState extends State<CompletionPage> {
                 ReelText(
                   // Isolating the number in ReelText prevents Arabic text bugs
                   globalCount.toArabic(),
+                  options: ReelTextOptions(
+                    duration: Duration(milliseconds: 500),
+                  ),
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,

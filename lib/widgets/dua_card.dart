@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:animations/animations.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -157,253 +159,412 @@ class _DuaCardState extends State<DuaCard> {
               curve: Curves.easeInOut,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 16),
-
-                // Wrap the Material in a GestureDetector
                 child: GestureDetector(
+                  onTap: canTap ? _handleTap : null,
                   onLongPress: canTap ? _startLongPress : null,
                   onLongPressUp: canTap ? _cancelLongPress : null,
                   onLongPressCancel: canTap ? _cancelLongPress : null,
                   child:
-                      Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: canTap ? _handleTap : null,
+                      Container(
+                            decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(24),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(24),
-                                  border: BoxBorder.all(
-                                    color: widget.borderColor,
-                                  ),
-                                  color: widget.containerBackgroundColor,
-                                ),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(20.0),
-                                      child: Row(
-                                        spacing: 16,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          IconButton.filled(
-                                            onPressed: () {
-                                              setState(() {
-                                                isPlaying = !isPlaying;
-                                              });
+                              border: BoxBorder.all(color: widget.borderColor),
+                              color: widget.containerBackgroundColor,
+                            ),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Row(
+                                    spacing: 16,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      // Play button
+                                      IconButton.filled(
+                                        onPressed: () {
+                                          // setState(() {
+                                          //   isPlaying = !isPlaying;
+                                          // });
+                                          showCupertinoModalPopup(
+                                            context: context,
+                                            builder: (context) {
+                                              return CupertinoActionSheet(
+                                                title: Text('عذراً'),
+                                                message: Text(
+                                                  'لم يتم الانتهاء من اضافة هذه الخاصية',
+                                                ),
+                                                actions: [
+                                                  CupertinoActionSheetAction(
+                                                    child: Text('غلق'),
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                ],
+                                              );
                                             },
-                                            iconSize: 35,
-                                            style: IconButton.styleFrom(
-                                              backgroundColor: widget
-                                                  .buttonsColor
-                                                  .withValues(alpha: .1),
-                                              foregroundColor:
-                                                  widget.buttonsColor,
-                                            ),
-                                            icon: Icon(
-                                              isPlaying
-                                                  ? Icons.pause
-                                                  : Icons.play_arrow_outlined,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              spacing: 10,
-                                              children: [
-                                                Text(
-                                                  widget.supplication.dua,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .titleMedium
-                                                      ?.copyWith(
-                                                        fontFamily:
-                                                            AppFonts.notoSans,
-                                                      ),
-                                                ),
-                                                Divider(
-                                                  thickness: 1,
-                                                  color: widget.borderColor,
-                                                ),
-                                                Text(
-                                                  widget.supplication.benefit,
-                                                  maxLines: 3,
-                                                  overflow: .ellipsis,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .bodyLarge
-                                                      ?.copyWith(
-                                                        color: iconsColor,
-                                                      ),
-                                                ),
-                                                TextButton.icon(
-                                                  onPressed: () {},
-                                                  style: TextButton.styleFrom(
-                                                    foregroundColor:
-                                                        widget.buttonsColor,
-                                                    textStyle: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyMedium
-                                                        ?.copyWith(
-                                                          fontFamily:
-                                                              AppFonts.notoSans,
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                        ),
-                                                  ),
-                                                  label: Text(
-                                                    widget.supplication.source,
-                                                  ),
-                                                  icon: const Icon(
-                                                    Icons.menu_book,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius:
-                                            const BorderRadius.vertical(
-                                              bottom: Radius.circular(24),
-                                            ),
-                                        border: BorderDirectional(
-                                          top: BorderSide(
-                                            color: widget.borderColor,
-                                          ),
+                                          );
+                                        },
+                                        iconSize: 35,
+                                        style: IconButton.styleFrom(
+                                          backgroundColor: widget.buttonsColor
+                                              .withValues(alpha: .1),
+                                          foregroundColor: widget.buttonsColor,
                                         ),
-                                        color: widget.bottomColor,
+                                        icon: Icon(
+                                          isPlaying
+                                              ? Icons.pause
+                                              : Icons.play_arrow_outlined,
+                                        ),
                                       ),
-                                      padding: const EdgeInsets.symmetric(
-                                        vertical: 10,
-                                        horizontal: 16,
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          // IconButton(
-                                          //   onPressed: () {},
-                                          //   icon: const Icon(Icons.favorite_border),
-                                          //   color: iconsColor,
-                                          // ),
-                                          IconButton(
-                                            onPressed: () async {
-                                              await Clipboard.setData(
-                                                ClipboardData(
-                                                  text: widget.supplication.dua,
-                                                ),
-                                              );
-                                              if (!context.mounted) return;
-                                              ScaffoldMessenger.of(
-                                                context,
-                                              ).showSnackBar(
-                                                const SnackBar(
-                                                  content: Row(
-                                                    spacing: 10,
-                                                    children: [
-                                                      Icon(Icons.copy_rounded),
-                                                      Text(
-                                                        "تم نسخ الدعاء",
-                                                        style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontSize: 18,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  backgroundColor: AppColors
-                                                      .darkNavBarBackground,
-                                                  duration: Duration(
-                                                    seconds: 3,
-                                                  ),
-                                                  behavior:
-                                                      SnackBarBehavior.floating,
-                                                ),
-                                              );
-                                            },
-                                            icon: const Icon(
-                                              Icons.copy_rounded,
-                                            ),
-                                            color: iconsColor,
-                                          ),
-                                          IconButton(
-                                            onPressed: () {
-                                              String originalText =
-                                                  '${widget.supplication.dua} - ${widget.supplication.benefit}';
-                                              // \u200F is the Unicode Right-to-Left Mark
-                                              // It forces the receiving app's text editor to treat the string as RTL
-                                              String textToShare =
-                                                  '\u200F$originalText';
-                                              SharePlus.instance.share(
-                                                ShareParams(
-                                                  title: 'Dua share',
-                                                  text: textToShare,
-                                                ),
-                                              );
-                                            },
-                                            icon: const Icon(Icons.share),
-                                            color: iconsColor,
-                                          ),
-                                          const Spacer(),
-
-                                          // The 3 States Logic
-                                          if (!widget.enableCounter)
-                                            // State 1: Counter disabled (Standard view for rest of app)
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          spacing: 10,
+                                          children: [
                                             Text(
-                                              'Dua #1',
-                                              style: TextStyle(
-                                                color: iconsColor,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 15,
-                                              ),
-                                            )
-                                          else if (widget.currentCount == 0)
-                                            // State 3: Counter enabled, but count is 0 (Show Undo)
+                                              widget.supplication.dua,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium
+                                                  ?.copyWith(
+                                                    fontFamily:
+                                                        AppFonts.notoSans,
+                                                  ),
+                                            ),
+                                            Divider(
+                                              thickness: 1,
+                                              color: widget.borderColor,
+                                            ),
+                                            Text(
+                                              widget.supplication.benefit,
+                                              maxLines: 3,
+                                              overflow: .ellipsis,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge
+                                                  ?.copyWith(color: iconsColor),
+                                            ),
                                             TextButton.icon(
-                                              onPressed: _handleUndo,
-                                              icon: const Icon(Icons.undo),
-                                              label: const Text('تراجع'),
+                                              onPressed: () {
+                                                // showModalBottomSheet(
+                                                //   context: context,
+                                                //   isScrollControlled:
+                                                //       true, // 1. REQUIRED for the sheet to expand beyond 50%
+                                                //   builder: (context) {
+                                                //     return DraggableScrollableSheet(
+                                                //       initialChildSize:
+                                                //           0.4, // Starts at 40% of screen height
+                                                //       minChildSize:
+                                                //           0.2, // Can collapse down to 20%
+                                                //       maxChildSize:
+                                                //           0.9, // Can expand up to 90%
+                                                //       expand:
+                                                //           false, // Keeps the modal constraints
+                                                //       // 2. The builder gives you the crucial scrollController
+                                                //       builder: (context, scrollController) {
+                                                //         // 3. You MUST attach it to a scrollable widget
+                                                //         return SingleChildScrollView(
+                                                //           controller:
+                                                //               scrollController,
+                                                //           child: Padding(
+                                                //             padding:
+                                                //                 const EdgeInsets.symmetric(
+                                                //                   horizontal:
+                                                //                       10.0,
+                                                //                 ),
+                                                //             child: Column(
+                                                //               children: [
+                                                //                 // Your content goes here
+                                                //               ],
+                                                //             ),
+                                                //           ),
+                                                //         );
+                                                //       },
+                                                //     );
+                                                //   },
+                                                // );
+                                                showModalBottomSheet(
+                                                  context: context,
+                                                  backgroundColor: widget
+                                                      .containerBackgroundColor,
+                                                  showDragHandle: true,
+                                                  enableDrag: false,
+
+                                                  builder: (context) => Padding(
+                                                    padding:
+                                                        const EdgeInsets.symmetric(
+                                                          horizontal: 10.0,
+                                                        ),
+                                                    child: Column(
+                                                      spacing: 10,
+                                                      crossAxisAlignment:
+                                                          .start,
+                                                      mainAxisSize: .min,
+                                                      children: [
+                                                        Text(
+                                                          'تفاصيل المصدر',
+                                                          style: TextStyle(
+                                                            fontSize: 20,
+                                                            fontWeight: .bold,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          widget
+                                                              .supplication
+                                                              .source,
+                                                          style: TextStyle(
+                                                            fontSize: 20,
+                                                            fontWeight: .bold,
+                                                            color: widget
+                                                                .buttonsColor,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          widget
+                                                              .supplication
+                                                              .source,
+                                                          style: TextStyle(
+                                                            color: Colors.grey,
+                                                            fontWeight: .w600,
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          widget
+                                                                  .supplication
+                                                                  .benefitSource ??
+                                                              '',
+                                                          style: TextStyle(
+                                                            fontWeight: .w600,
+                                                          ),
+                                                        ),
+                                                        OutlinedButton(
+                                                          onPressed: () =>
+                                                              Navigator.pop(
+                                                                context,
+                                                              ),
+                                                          style: OutlinedButton.styleFrom(
+                                                            side: BorderSide(
+                                                              color: widget
+                                                                  .buttonsColor,
+                                                            ),
+                                                            minimumSize: Size(
+                                                              .infinity,
+                                                              45,
+                                                            ),
+                                                          ),
+                                                          child: Text(
+                                                            'إغلاق',
+                                                            style: TextStyle(
+                                                              color: widget
+                                                                  .buttonsColor,
+                                                              fontSize: 20,
+                                                              fontWeight: .bold,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        SizedBox(height: 5),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+
+                                                showCupertinoSheet(
+                                                  context: context,
+                                                  showDragHandle: true,
+                                                  scrollableBuilder:
+                                                      (
+                                                        context,
+                                                        scrollController,
+                                                      ) {
+                                                        return CupertinoActionSheet(
+                                                          title: Text('Source'),
+                                                          message: Text(
+                                                            widget
+                                                                    .supplication
+                                                                    .benefitSource ??
+                                                                '',
+                                                          ),
+                                                          cancelButton:
+                                                              CupertinoActionSheetAction(
+                                                                onPressed: () {
+                                                                  Navigator.pop(
+                                                                    context,
+                                                                  );
+                                                                },
+                                                                child: Text(
+                                                                  'cancel',
+                                                                ),
+                                                              ),
+                                                          actions: [
+                                                            CupertinoActionSheetAction(
+                                                              child: Text(
+                                                                'action',
+                                                              ),
+                                                              onPressed: () {},
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                );
+                                              },
                                               style: TextButton.styleFrom(
                                                 foregroundColor:
                                                     widget.buttonsColor,
+                                                textStyle: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium
+                                                    ?.copyWith(
+                                                      fontFamily:
+                                                          AppFonts.notoSans,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
                                               ),
-                                            )
-                                          else
-                                            // State 2: Counter enabled, count > 0 (Show Progress)
-                                            Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                    horizontal: 16,
-                                                    vertical: 8,
-                                                  ),
-                                              decoration: BoxDecoration(
-                                                color: widget.buttonsColor
-                                                    .withValues(alpha: 0.1),
-                                                borderRadius:
-                                                    BorderRadius.circular(20),
+                                              label: Text(
+                                                widget.supplication.source,
                                               ),
-                                              child: Text(
-                                                '${widget.currentCount} / ${widget.targetCount}',
-                                                style: TextStyle(
-                                                  color: widget.buttonsColor,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 15,
-                                                ),
-                                              ),
+                                              icon: const Icon(Icons.menu_book),
                                             ),
-                                        ],
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                // Bottom container
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.vertical(
+                                      bottom: Radius.circular(24),
+                                    ),
+                                    border: BorderDirectional(
+                                      top: BorderSide(
+                                        color: widget.borderColor,
                                       ),
                                     ),
-                                  ],
+                                    color: widget.bottomColor,
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 10,
+                                    horizontal: 16,
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      // IconButton(
+                                      //   onPressed: () {},
+                                      //   icon: const Icon(Icons.favorite_border),
+                                      //   color: iconsColor,
+                                      // ),
+                                      IconButton(
+                                        onPressed: () async {
+                                          await Clipboard.setData(
+                                            ClipboardData(
+                                              text: widget.supplication.dua,
+                                            ),
+                                          );
+                                          if (!context.mounted) return;
+                                          ScaffoldMessenger.of(
+                                            context,
+                                          ).showSnackBar(
+                                            const SnackBar(
+                                              content: Row(
+                                                spacing: 10,
+                                                children: [
+                                                  Icon(Icons.copy_rounded),
+                                                  Text(
+                                                    "تم نسخ الدعاء",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              backgroundColor: AppColors
+                                                  .darkNavBarBackground,
+                                              duration: Duration(seconds: 3),
+                                              behavior:
+                                                  SnackBarBehavior.floating,
+                                            ),
+                                          );
+                                        },
+                                        icon: const Icon(Icons.copy_rounded),
+                                        color: iconsColor,
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          String originalText =
+                                              '${widget.supplication.dua} - ${widget.supplication.benefit}';
+                                          // \u200F is the Unicode Right-to-Left Mark
+                                          // It forces the receiving app's text editor to treat the string as RTL
+                                          String textToShare =
+                                              '\u200F$originalText';
+                                          SharePlus.instance.share(
+                                            ShareParams(
+                                              title: 'Dua share',
+                                              text: textToShare,
+                                            ),
+                                          );
+                                        },
+                                        icon: const Icon(Icons.share),
+                                        color: iconsColor,
+                                      ),
+                                      const Spacer(),
+
+                                      // The 3 States Logic
+                                      if (!widget.enableCounter)
+                                        // State 1: Counter disabled (Standard view for rest of app)
+                                        Text(
+                                          'Dua #1',
+                                          style: TextStyle(
+                                            color: iconsColor,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15,
+                                          ),
+                                        )
+                                      else if (widget.currentCount == 0)
+                                        // State 3: Counter enabled, but count is 0 (Show Undo)
+                                        TextButton.icon(
+                                          onPressed: _handleUndo,
+                                          icon: const Icon(Icons.undo),
+                                          label: const Text('تراجع'),
+                                          style: TextButton.styleFrom(
+                                            foregroundColor:
+                                                widget.buttonsColor,
+                                          ),
+                                        )
+                                      else
+                                        // State 2: Counter enabled, count > 0 (Show Progress)
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 16,
+                                            vertical: 8,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: widget.buttonsColor
+                                                .withValues(alpha: 0.1),
+                                            borderRadius: BorderRadius.circular(
+                                              20,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            '${widget.currentCount} / ${widget.targetCount}',
+                                            style: TextStyle(
+                                              color: widget.buttonsColor,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15,
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
                           )
-                          // The flutter_animate magic!
-                          // It sits quietly at scale 1 until isLongPressing becomes true
                           .animate(target: isLongPressing ? 1 : 0)
                           .scale(
                             end: const Offset(1.05, 1.05),

@@ -10,94 +10,114 @@ class AzkarList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AzkarCubit, AzkarState>(
-      builder: (context, state) {
-        // Decide which list to show based on the ChoiceChip
-        final displayItems = state.showReadList
-            ? state.readItems
-            : state.unreadItems;
-
-        return CustomScrollView(
-          key: const PageStorageKey<String>('list_tab'),
-          slivers: [
-            // Choice Chips
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16.0,
-                  vertical: 10.0,
-                ),
-                child: Row(
-                  spacing: 12,
-                  children: [
-                    ChoiceChip(
-                      label: const Text('أذكار باقية'),
-                      selected: !state.showReadList,
-                      onSelected: (_) =>
-                          context.read<AzkarCubit>().toggleList(false),
-                      selectedColor: AppColors.primary.withValues(alpha: 0.2),
-                      checkmarkColor: AppColors.primary,
-                      backgroundColor: AppColors.darkSurface,
-                    ),
-                    ChoiceChip(
-                      label: const Text('تمت قراءتها'),
-                      selected: state.showReadList,
-                      onSelected: (_) =>
-                          context.read<AzkarCubit>().toggleList(true),
-                      selectedColor: AppColors.primary.withValues(alpha: 0.2),
-                      checkmarkColor: AppColors.primary,
-                      backgroundColor: AppColors.darkSurface,
-                    ),
-                  ],
-                ),
-              ),
+    return CustomScrollView(
+      key: const PageStorageKey<String>('list_tab'),
+      slivers: [
+        // Choice Chips
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 10.0,
             ),
+            child: ListChoiceChips(),
+          ),
+        ),
 
-            // The List
-            displayItems.isEmpty
-                ? SliverFillRemaining(
-                    child: Center(
-                      child: Text(
-                        state.showReadList
-                            ? 'لا توجد أذكار مقروءة'
-                            : 'تم الانتهاء من الأذكار!',
-                      ),
-                    ),
-                  )
-                : SliverList.builder(
-                    itemCount: displayItems.length,
-                    itemBuilder: (context, index) {
-                      final item = displayItems[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: DuaCard(
-                          key: ValueKey(item.supplication.dua),
-                          supplication: item.supplication,
-                          buttonsColor: AppColors.primary,
-                          borderColor: AppColors.primary.withValues(
-                            alpha: 0.15,
-                          ),
-                          bottomColor: AppColors.darkNavBarBackground,
-                          containerBackgroundColor: AppColors.darkSurface,
-                          enableCounter: true,
-                          currentCount: item.currentCount,
-                          targetCount: item.targetCount,
-                          onTap: () => context
-                              .read<AzkarCubit>()
-                              .decrementCount(item.supplication),
-                          onUndo: () => context.read<AzkarCubit>().undoCount(
-                            item.supplication,
-                          ),
-                          onSkip: () => context.read<AzkarCubit>().skipZekr(
-                            item.supplication,
-                          ),
-                        ),
-                      );
-                    },
+        // List View Container
+        BlocSelector<AzkarCubit, AzkarState, List<ZekrStateItem>>(
+          selector: (state) =>
+              state.showReadList ? state.readItems : state.unreadItems,
+          builder: (context, displayItems) {
+            if (displayItems.isEmpty) {
+              final showRead = context.select(
+                (AzkarCubit c) => c.state.showReadList,
+              );
+              return SliverFillRemaining(
+                child: Center(
+                  child: Text(
+                    showRead
+                        ? 'لا توجد أذكار مقروءة'
+                        : 'تم الانتهاء من الأذكار!',
                   ),
-          ],
-        );
-      },
+                ),
+              );
+            }
+
+            return SliverList.builder(
+              itemCount: displayItems.length,
+              itemBuilder: (context, index) {
+                final initialItem = displayItems[index];
+                return BlocSelector<AzkarCubit, AzkarState, ZekrStateItem>(
+                  key: ValueKey(initialItem.supplication.dua),
+                  selector: (state) => state.items.firstWhere(
+                    (e) => e.supplication == initialItem.supplication,
+                    orElse: () => initialItem,
+                  ),
+                  builder: (context, item) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: DuaCard(
+                        supplication: item.supplication,
+                        buttonsColor: AppColors.primary,
+                        borderColor: AppColors.primary.withValues(alpha: 0.15),
+                        bottomColor: AppColors.darkNavBarBackground,
+                        containerBackgroundColor: AppColors.darkSurface,
+                        enableCounter: true,
+                        currentCount: item.currentCount,
+                        targetCount: item.targetCount,
+                        onTap: () => context.read<AzkarCubit>().decrementCount(
+                          item.supplication,
+                        ),
+                        onUndo: () => context.read<AzkarCubit>().undoCount(
+                          item.supplication,
+                        ),
+                        onSkip: () => context.read<AzkarCubit>().skipZekr(
+                          item.supplication,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class ListChoiceChips extends StatelessWidget {
+  const ListChoiceChips({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Rebuilds ONLY this widget when the bool changes
+    final showReadList = context.select(
+      (AzkarCubit cubit) => cubit.state.showReadList,
+    );
+
+    return Row(
+      spacing: 12,
+      children: [
+        ChoiceChip(
+          label: const Text('أذكار باقية'),
+          selected: !showReadList,
+          onSelected: (_) => context.read<AzkarCubit>().toggleList(false),
+          selectedColor: AppColors.primary.withValues(alpha: 0.2),
+          checkmarkColor: AppColors.primary,
+          backgroundColor: AppColors.darkSurface,
+        ),
+        ChoiceChip(
+          label: const Text('تمت قراءتها'),
+          selected: showReadList,
+          onSelected: (_) => context.read<AzkarCubit>().toggleList(true),
+          selectedColor: AppColors.primary.withValues(alpha: 0.2),
+          checkmarkColor: AppColors.primary,
+          backgroundColor: AppColors.darkSurface,
+        ),
+      ],
     );
   }
 }
