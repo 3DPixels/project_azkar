@@ -332,7 +332,7 @@ class _DuaCardState extends State<DuaCard> {
                                           IconButton(
                                             onPressed: () {
                                               String originalText =
-                                                  '${widget.supplication.dua}\n${widget.supplication.benefit}';
+                                                  '${widget.supplication.dua} - ${widget.supplication.benefit}';
                                               // \u200F is the Unicode Right-to-Left Mark
                                               // It forces the receiving app's text editor to treat the string as RTL
                                               String textToShare =

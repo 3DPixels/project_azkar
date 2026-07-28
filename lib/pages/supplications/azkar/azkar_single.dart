@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_azkar/utils/app_colors.dart';
+import 'package:project_azkar/utils/app_fonts.dart';
 import 'package:reel_text/reel_text.dart';
+import 'package:share_plus/share_plus.dart';
+
 import '../../../cubits/azkar/azkar_cubit.dart';
-import '../../../utils/app_fonts.dart';
+import '../../../data/dua_model.dart';
 
 class AzkarSingle extends StatelessWidget {
   const AzkarSingle({super.key});
@@ -12,122 +17,303 @@ class AzkarSingle extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AzkarCubit, AzkarState>(
       builder: (context, state) {
-        // Get the first unread item
         final currentItem = state.unreadItems.isNotEmpty
             ? state.unreadItems.first
             : null;
 
         if (currentItem == null) {
-          return const Center(child: Text('تم الانتهاء من جميع الأذكار!'));
+          return const Center(
+            child: Text(
+              'تم الانتهاء من جميع الأذكار!',
+              style: TextStyle(fontSize: 18, color: Colors.white70),
+            ),
+          );
         }
 
-        return Column(
-          children: [
-            // const SizedBox(height: 24),
+        final supplication = currentItem.supplication;
 
-            // The Main Focus Card
-            Expanded(
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: AppColors.darkSurface,
-                  borderRadius: BorderRadius.circular(32),
-                  border: Border.all(
-                    color: AppColors.primary.withValues(alpha: 0.1),
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: AzkarSingleCard(
+                  key: ValueKey(supplication.dua),
+                  supplication: supplication,
+                ),
+              ),
+              SizedBox(height: 25),
+              GestureDetector(
+                onTap: () =>
+                    context.read<AzkarCubit>().decrementCount(supplication),
+                child: Container(
+                  width: 90,
+                  height: 90,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.primary,
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.primary.withValues(alpha: 0.35),
+                        blurRadius: 18,
+                        spreadRadius: 2,
+                      ),
+                    ],
                   ),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Count Badge
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: AppColors.primary.withValues(alpha: 0.3),
-                        ),
-                      ),
-                      child: Text(
-                        '${currentItem.targetCount} مرة واحدة', // Or adjust based on count logic
-                        style: const TextStyle(color: AppColors.primary),
-                      ),
+                  alignment: Alignment.center,
+                  child: ReelText(
+                    '${currentItem.currentCount}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 36,
+                      fontWeight: FontWeight.bold,
                     ),
-                    const SizedBox(height: 32),
-
-                    // Dua Text
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Text(
-                          currentItem.supplication.dua,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.headlineSmall
-                              ?.copyWith(
-                                fontFamily: AppFonts.notoSans,
-                                height: 1.8,
-                              ),
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 20),
-                    // Source
-                    Text(
-                      currentItem.supplication.source,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: Colors.white54,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 40),
-
-            // Big Circular Tap Button
-            GestureDetector(
-              onTap: () => context.read<AzkarCubit>().decrementCount(
-                currentItem.supplication,
-              ),
-              child: Container(
-                width: 100,
-                height: 100,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.primary,
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.4),
-                      blurRadius: 30,
-                      spreadRadius: 5,
-                    ),
-                  ],
-                ),
-                alignment: Alignment.center,
-                child: ReelText(
-                  '${currentItem.currentCount}',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-            const Text('اضغط للعد', style: TextStyle(color: Colors.white54)),
-            const SizedBox(height: 40),
-          ],
+              SizedBox(height: 22),
+              const Text(
+                'اضغط للعد',
+                style: TextStyle(color: Colors.white54, fontSize: 13),
+              ),
+            ],
+          ),
         );
       },
     );
+  }
+}
+
+class AzkarSingleCard extends StatefulWidget {
+  final DuaModel supplication;
+
+  const AzkarSingleCard({super.key, required this.supplication});
+
+  @override
+  State<AzkarSingleCard> createState() => _AzkarSingleCardState();
+}
+
+class _AzkarSingleCardState extends State<AzkarSingleCard> {
+  bool isPlaying = false;
+  bool isAutoPlay = false;
+  double playSpeed = 1.0;
+
+  final iconsColor = const Color(0xFF94A3B8);
+
+  void _toggleSpeed() {
+    setState(() {
+      if (playSpeed == 1.0) {
+        playSpeed = 1.25;
+      } else if (playSpeed == 1.25) {
+        playSpeed = 1.5;
+      } else if (playSpeed == 1.5) {
+        playSpeed = 2.0;
+      } else {
+        playSpeed = 1.0;
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: AppColors.darkSurface,
+            borderRadius: BorderRadius.circular(28),
+            border: Border.all(
+              color: AppColors.primary.withValues(alpha: 0.15),
+            ),
+          ),
+          child: Column(
+            children: [
+              // Scrollable Content Area (Dua + Benefit + Source)
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        widget.supplication.dua,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontFamily: AppFonts.notoSans,
+                          height: 1.8,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Divider(
+                        thickness: 1,
+                        color: AppColors.primary.withValues(alpha: 0.15),
+                      ),
+                      const SizedBox(height: 12),
+                      if (widget.supplication.benefit.isNotEmpty) ...[
+                        Text(
+                          widget.supplication.benefit,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodyLarge
+                              ?.copyWith(color: iconsColor, height: 1.6),
+                        ),
+                        const SizedBox(height: 12),
+                      ],
+                      TextButton.icon(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(
+                          foregroundColor: AppColors.primary,
+                          textStyle: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                fontFamily: AppFonts.notoSans,
+                                fontWeight: FontWeight.w600,
+                              ),
+                        ),
+                        label: Text(widget.supplication.source),
+                        icon: const Icon(Icons.menu_book, size: 18),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              // Bottom Toolbar (Copy, Share, Play, Speed, AutoPlay)
+              Container(
+                decoration: BoxDecoration(
+                  color: AppColors.darkNavBarBackground,
+                  borderRadius: const BorderRadius.vertical(
+                    bottom: Radius.circular(28),
+                  ),
+                  border: BorderDirectional(
+                    top: BorderSide(
+                      color: AppColors.primary.withValues(alpha: 0.15),
+                    ),
+                  ),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        IconButton(
+                          tooltip: 'نسخ',
+                          onPressed: () async {
+                            await Clipboard.setData(
+                              ClipboardData(text: widget.supplication.dua),
+                            );
+                            if (!context.mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Row(
+                                  spacing: 10,
+                                  children: [
+                                    Icon(Icons.copy_rounded),
+                                    Text(
+                                      "تم نسخ الدعاء",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                backgroundColor: AppColors.darkNavBarBackground,
+                                duration: Duration(seconds: 2),
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.copy_rounded),
+                          color: iconsColor,
+                        ),
+                        IconButton(
+                          tooltip: 'مشاركة',
+                          onPressed: () {
+                            String textToShare =
+                                '\u200F${widget.supplication.dua} - ${widget.supplication.benefit}';
+                            SharePlus.instance.share(
+                              ShareParams(
+                                title: 'Dua share',
+                                text: textToShare,
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.share),
+                          color: iconsColor,
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        InkWell(
+                          onTap: _toggleSpeed,
+                          borderRadius: BorderRadius.circular(12),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            child: Text(
+                              '${playSpeed == playSpeed.toInt() ? playSpeed.toInt() : playSpeed}x',
+                              style: TextStyle(
+                                color: playSpeed > 1.0
+                                    ? AppColors.primary
+                                    : iconsColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          tooltip: 'تشغيل تلقائي',
+                          onPressed: () {
+                            setState(() {
+                              isAutoPlay = !isAutoPlay;
+                            });
+                          },
+                          icon: Icon(
+                            isAutoPlay
+                                ? Icons.autorenew_rounded
+                                : Icons.sync_disabled_rounded,
+                          ),
+                          color: isAutoPlay ? AppColors.primary : iconsColor,
+                        ),
+                        IconButton.filled(
+                          onPressed: () {
+                            setState(() {
+                              isPlaying = !isPlaying;
+                            });
+                          },
+                          style: IconButton.styleFrom(
+                            backgroundColor: AppColors.primary.withValues(
+                              alpha: 0.15,
+                            ),
+                            foregroundColor: AppColors.primary,
+                          ),
+                          icon: Icon(
+                            isPlaying
+                                ? Icons.pause_rounded
+                                : Icons.play_arrow_rounded,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        )
+        .animate()
+        .fadeIn(duration: 300.ms, curve: Curves.easeOut)
+        .scale(
+          begin: const Offset(0.95, 0.95),
+          end: const Offset(1.0, 1.0),
+          duration: 300.ms,
+          curve: Curves.easeOut,
+        );
   }
 }

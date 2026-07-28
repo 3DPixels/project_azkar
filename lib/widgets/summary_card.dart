@@ -36,7 +36,7 @@ class _SummaryCardState extends State<SummaryCard> {
         borderRadius: BorderRadius.circular(16),
       ),
       child: Container(
-        padding: EdgeInsets.all(20),
+        // padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Colors.red,
           gradient: LinearGradient(
@@ -57,43 +57,46 @@ class _SummaryCardState extends State<SummaryCard> {
           ],
         ),
         child: Column(
-          spacing: 30,
+          spacing: 10,
           children: [
             // First row
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  spacing: 5,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.location_on,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        Text(
-                          'القاهرة، مصر',
-                          style: Theme.of(context).textTheme.labelMedium
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      'صلاة العصر',
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                  ],
-                ),
-                TimeRemainingContainer(
-                  targetTime: DateTime.now().add(
-                    Duration(hours: 1, minutes: 3),
+            Padding(
+              padding: EdgeInsets.all(20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    spacing: 5,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.location_on,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          Text(
+                            'القاهرة، مصر',
+                            style: Theme.of(context).textTheme.labelMedium
+                                ?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        'صلاة العصر',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  TimeRemainingContainer(
+                    targetTime: DateTime.now().add(
+                      Duration(hours: 1, minutes: 3),
+                    ),
+                  ),
+                ],
+              ),
             ),
             // Second row
             LayoutBuilder(

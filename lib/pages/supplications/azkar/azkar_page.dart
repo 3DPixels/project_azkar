@@ -42,15 +42,36 @@ class AzkarPage extends StatelessWidget {
             length: 2,
             initialIndex: 0,
             child: NestedScrollView(
-              floatHeaderSlivers: true,
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return [
-                  // COMBINED: Everything is now securely in ONE SliverAppBar
                   SliverAppBar(
-                    title: Text(title),
-                    floating: true,
-                    // snap: true,
-                    pinned: false,
+                    pinned: true,
+                    toolbarHeight: 0,
+                    expandedHeight: 170,
+                    forceElevated: innerBoxIsScrolled,
+                    scrolledUnderElevation: 0,
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: Text(
+                            title,
+                            textAlign: .center,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    shape: Border(
+                      bottom: BorderSide(
+                        color: AppColors.primary.withValues(alpha: 0.15),
+                      ),
+                    ),
                     bottom: PreferredSize(
                       preferredSize: const Size.fromHeight(130),
                       child: Padding(
@@ -60,6 +81,7 @@ class AzkarPage extends StatelessWidget {
                           bottom: 16.0,
                         ),
                         child: Column(
+                          spacing: 20,
                           children: [
                             // --- Shared Progress Section ---
                             BlocBuilder<AzkarCubit, AzkarState>(
@@ -103,7 +125,6 @@ class AzkarPage extends StatelessWidget {
                                 );
                               },
                             ),
-                            const SizedBox(height: 20),
                             // --- Shared TabBar ---
                             Container(
                               height: 48,
@@ -166,6 +187,7 @@ class AzkarPage extends StatelessWidget {
                                 ],
                               ),
                             ),
+                            // const SizedBox(height: 12),
                           ],
                         ),
                       ),
@@ -173,18 +195,7 @@ class AzkarPage extends StatelessWidget {
                   ),
                 ];
               },
-              body: const TabBarView(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: AzkarList(),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: AzkarSingle(),
-                  ),
-                ],
-              ),
+              body: const TabBarView(children: [AzkarList(), AzkarSingle()]),
             ),
           ),
         ),

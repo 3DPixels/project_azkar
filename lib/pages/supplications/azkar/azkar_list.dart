@@ -18,19 +18,22 @@ class AzkarList extends StatelessWidget {
             : state.unreadItems;
 
         return CustomScrollView(
-          key: const PageStorageKey<String>('azkar_list_tab'),
+          key: const PageStorageKey<String>('list_tab'),
           slivers: [
             // Choice Chips
-            SliverPadding(
-              padding: const EdgeInsets.only(bottom: 20),
-              sliver: SliverToBoxAdapter(
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 10.0,
+                ),
                 child: Row(
                   spacing: 12,
                   children: [
                     ChoiceChip(
                       label: const Text('أذكار باقية'),
                       selected: !state.showReadList,
-                      onSelected: (val) =>
+                      onSelected: (_) =>
                           context.read<AzkarCubit>().toggleList(false),
                       selectedColor: AppColors.primary.withValues(alpha: 0.2),
                       checkmarkColor: AppColors.primary,
@@ -39,7 +42,7 @@ class AzkarList extends StatelessWidget {
                     ChoiceChip(
                       label: const Text('تمت قراءتها'),
                       selected: state.showReadList,
-                      onSelected: (val) =>
+                      onSelected: (_) =>
                           context.read<AzkarCubit>().toggleList(true),
                       selectedColor: AppColors.primary.withValues(alpha: 0.2),
                       checkmarkColor: AppColors.primary,
@@ -65,24 +68,29 @@ class AzkarList extends StatelessWidget {
                     itemCount: displayItems.length,
                     itemBuilder: (context, index) {
                       final item = displayItems[index];
-                      return DuaCard(
-                        key: ValueKey(item.supplication.dua),
-                        supplication: item.supplication,
-                        buttonsColor: AppColors.primary,
-                        borderColor: AppColors.primary.withValues(alpha: 0.15),
-                        bottomColor: AppColors.darkNavBarBackground,
-                        containerBackgroundColor: AppColors.darkSurface,
-                        enableCounter: true,
-                        currentCount: item.currentCount,
-                        targetCount: item.targetCount,
-                        onTap: () => context.read<AzkarCubit>().decrementCount(
-                          item.supplication,
-                        ),
-                        onUndo: () => context.read<AzkarCubit>().undoCount(
-                          item.supplication,
-                        ),
-                        onSkip: () => context.read<AzkarCubit>().skipZekr(
-                          item.supplication,
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: DuaCard(
+                          key: ValueKey(item.supplication.dua),
+                          supplication: item.supplication,
+                          buttonsColor: AppColors.primary,
+                          borderColor: AppColors.primary.withValues(
+                            alpha: 0.15,
+                          ),
+                          bottomColor: AppColors.darkNavBarBackground,
+                          containerBackgroundColor: AppColors.darkSurface,
+                          enableCounter: true,
+                          currentCount: item.currentCount,
+                          targetCount: item.targetCount,
+                          onTap: () => context
+                              .read<AzkarCubit>()
+                              .decrementCount(item.supplication),
+                          onUndo: () => context.read<AzkarCubit>().undoCount(
+                            item.supplication,
+                          ),
+                          onSkip: () => context.read<AzkarCubit>().skipZekr(
+                            item.supplication,
+                          ),
                         ),
                       );
                     },
