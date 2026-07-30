@@ -5,9 +5,10 @@ class MoodModel {
   final String header;
   final String title;
   final String subtitle;
-  final MoodCategories category;
+  final DuaCategories category;
   final ColorPalette colorPalette;
   final IconData icon;
+  final List<String> searchTags;
 
   MoodModel({
     required this.header,
@@ -16,6 +17,7 @@ class MoodModel {
     required this.category,
     required this.colorPalette,
     required this.icon,
+    required this.searchTags,
   });
 }
 

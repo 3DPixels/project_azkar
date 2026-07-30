@@ -9,7 +9,7 @@ class DuaModel {
   final String? audioPath;
   final String? description;
   final List<DuaTime>? time; // time of dua
-  final List<MoodCategories>? categories;
+  final List<DuaCategories>? categories;
 
   DuaModel({
     this.count = 1,
