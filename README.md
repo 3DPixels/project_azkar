@@ -37,7 +37,7 @@ App name and icon still undecided.
 - ~~Maybe add a hold gesture gesture to dismiss the card without having to get the count to 0, maybe add a size with shake animation with it and some haptics.~~
 
 ### Moods page
-- Make the mood list top part as a sliver appbar or something like that, but make sure to keep the gradient background and make it scroll.
+- ~~Make the mood list top part as a sliver appbar or something like that, but make sure to keep the gradient background and make it scroll.~~
 - Finish all mood supplications.
 
 ### Prayers page
