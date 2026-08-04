@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project_azkar/data/dua_model.dart';
 import 'package:project_azkar/data/mood_model.dart';
 import 'package:project_azkar/data/mood_supplications_repo.dart';
 import 'package:project_azkar/widgets/dua_card.dart';
@@ -18,12 +19,18 @@ class MoodsList extends StatefulWidget {
 class _MoodsListState extends State<MoodsList> {
   late ScrollController _scrollController;
   bool _isCollapsed = false;
-
   final double _expandedHeight = 248.0;
+
+  late final List<DuaModel> supplications;
 
   @override
   void initState() {
     super.initState();
+
+    supplications = MoodSupplicationsRepo.getSupplicationByCategory(
+      widget.mood.category,
+    );
+
     _scrollController = ScrollController()
       ..addListener(() {
         // We add a 50px buffer so the transition starts right before it fully snaps
@@ -48,10 +55,6 @@ class _MoodsListState extends State<MoodsList> {
 
   @override
   Widget build(BuildContext context) {
-    final supplications = MoodSupplicationsRepo.getSupplicationByCategory(
-      widget.mood.category,
-    );
-
     return Scaffold(
       backgroundColor: widget.mood.colorPalette.backgroundColor,
       body: CustomScrollView(
@@ -62,14 +65,8 @@ class _MoodsListState extends State<MoodsList> {
             toolbarHeight: 73,
             leadingWidth: 64,
             pinned: true,
-            // Transparent when expanded for a seamless look, solid when collapsed
-            // backgroundColor: _isCollapsed
-            //     ? widget.mood.colorPalette.backgroundColor.withValues(
-            //         alpha: .95,
-            //       )
-            //     : Colors.transparent,
-            elevation: 0,
-            centerTitle: true,
+            scrolledUnderElevation: 0,
+            backgroundColor: widget.mood.colorPalette.backgroundColor,
             // Fade in the title only when collapsed
             title: AnimatedOpacity(
               duration: const Duration(milliseconds: 200),
@@ -82,7 +79,7 @@ class _MoodsListState extends State<MoodsList> {
                 duration: const Duration(milliseconds: 200),
                 opacity: _isCollapsed ? 1.0 : 0.0,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Icon(
                     widget.mood.icon,
                     color: widget.mood.colorPalette.mainColor,
@@ -106,6 +103,7 @@ class _MoodsListState extends State<MoodsList> {
                     ],
                   ),
                 ),
+                //TODO check if safe area is necessary here on phones
                 // SafeArea prevents your custom column from clipping into the status bar
                 child: SafeArea(
                   child: Column(
@@ -161,7 +159,6 @@ class _MoodsListState extends State<MoodsList> {
           // Body List
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            // SliverList.separated natively replaces the Column with spacing you had
             sliver: SliverList.separated(
               itemCount: supplications.length,
               itemBuilder: (context, index) {
