@@ -1,4 +1,4 @@
-import '../utils/enums.dart';
+import '../../utils/enums.dart';
 
 class DuaModel {
   final int count;

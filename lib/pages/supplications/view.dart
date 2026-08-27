@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_azkar/data/zekr_repo.dart';
+import 'package:project_azkar/data/repos/zekr_repo.dart';
 import 'package:project_azkar/widgets/dua_card.dart';
 
 class SupplicationsPage extends StatelessWidget {

@@ -8,7 +8,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:project_azkar/utils/app_fonts.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../data/dua_model.dart';
+import '../data/models/dua_model.dart';
 import '../utils/app_colors.dart';
 
 class DuaCard extends StatefulWidget {

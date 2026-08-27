@@ -1,6 +1,6 @@
-import 'package:project_azkar/data/dua_model.dart';
+import 'package:project_azkar/data/models/dua_model.dart';
 
-import '../utils/enums.dart';
+import '../../utils/enums.dart';
 
 class MoodSupplicationsRepo {
   static final List<DuaModel> _allMoodSupplications = [

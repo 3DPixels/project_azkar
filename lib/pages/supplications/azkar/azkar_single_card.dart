@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../../data/dua_model.dart';
+import '../../../data/models/dua_model.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_fonts.dart';
 

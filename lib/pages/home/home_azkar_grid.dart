@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project_azkar/data/zekr_repo.dart';
+import 'package:project_azkar/data/repos/zekr_repo.dart';
 import 'package:project_azkar/pages/supplications/azkar/azkar_page.dart';
 import 'package:project_azkar/utils/enums.dart';
 
-import '../../data/card_pallete_model.dart';
+import '../../data/models/card_pallete_model.dart';
 import '../../widgets/gradient_card.dart';
 
 class AzkarCardData {
@@ -95,7 +95,7 @@ class HomeAzkarGrid extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => AzkarPage(
-                  allSupplications: ZekrRepository.getAzkarByTime(card.duaTime),
+                  allSupplications: ZekrRepo.getAzkarByTime(card.duaTime),
                   title: card.title,
                 ),
               ),

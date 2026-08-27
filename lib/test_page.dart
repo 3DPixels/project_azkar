@@ -4,7 +4,7 @@ import 'package:project_azkar/pages/prayers/carousel_prayers.dart';
 import 'package:project_azkar/utils/app_colors.dart';
 
 import 'cubits/azkar/azkar_cubit.dart';
-import 'data/dua_model.dart';
+import 'data/models/dua_model.dart';
 import 'widgets/dua_card.dart';
 
 class TestPage extends StatelessWidget {

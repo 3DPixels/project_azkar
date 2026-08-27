@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_azkar/data/dua_model.dart';
+import 'package:project_azkar/data/models/dua_model.dart';
 
 part 'azkar_state.dart';
 
