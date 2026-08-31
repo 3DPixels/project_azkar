@@ -14,6 +14,6 @@ enum DuaCategories {
   contentment, // Happy, Content, Grateful, Peaceful, Satisfied, Love, Confident, Determined, Nostalgic
   injustice, // Oppressed, Wronged, Victimhood, Betrayed, Injustice
   debt, // Indebted, Financial Hardship, Burdened, Financial Distress, Poverty
-  distress, // Despair, Severe Distress, Anguish, Hopelessness, Agony
+  distress, // Despair, Severe Distress, Anguish, Hopelessness, Agony, Suicidal
   healing, // Sick, Unwell, Ailing, Physical Pain, Mental Exhaustion, Afflicted
 }

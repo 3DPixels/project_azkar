@@ -3,7 +3,7 @@
 *By Ammar Ismail*
 
 App name and icon still undecided.
-
+٠ ٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩
 ## App features
 * Show prayer times with local notifications using location and astronimical calculations instead of API.
 * Show Hiri date and other information like Ramadan or other Islamic events.
