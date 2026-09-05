@@ -91,9 +91,9 @@ echo -e "\nTarget Version: \033[1;32m$FINAL_VERSION\033[0m\n"
 TARGET_BRANCH=$(git branch --show-current)
 echo "Target branch automatically set to: $TARGET_BRANCH"
 
-echo "Opening editor for release notes..."
 TMP_FILE=$(mktemp)
-nano "$TMP_FILE" 
+echo "Release notes for version $FINAL_VERSION:" > "$TMP_FILE"
+nano "$TMP_FILE"
 RELEASE_NOTES=$(cat "$TMP_FILE")
 rm "$TMP_FILE"
 
