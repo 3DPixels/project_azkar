@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_azkar/pages/settings/view.dart';
 import 'package:project_azkar/pages/supplications/view.dart';
+import 'package:project_azkar/utils/app_colors.dart';
 
 import 'home/view.dart';
 import 'prayers/view.dart';
@@ -17,8 +18,11 @@ class _MainPageState extends State<MainPage> {
   late PageController _pageController;
 
   // We wrap the pages in our custom KeepAlivePage wrapper to prevent state resets.
-  final List<Widget> _tabs = const [
-    KeepAlivePage(child: HomePage()),
+  final List<Widget> _tabs = [
+    Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: KeepAlivePage(child: HomePage()),
+    ),
     PrayersPage(),
     SupplicationsPage(),
     SettingsPage(),
@@ -40,47 +44,55 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Center(
-          child: SizedBox(
-            width: 600,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 8.0,
-              ),
-              child: PageView(
-                controller: _pageController,
-                onPageChanged: (index) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-                children: _tabs,
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+      color: _currentIndex != 0
+          ? Color(0xFF121212)
+          : AppColors.darkPageBackground,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
+          child: Center(
+            child: SizedBox(
+              width: 600,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: PageView(
+                  controller: _pageController,
+                  onPageChanged: (index) {
+                    setState(() {
+                      _currentIndex = index;
+                    });
+                  },
+                  children: _tabs,
+                ),
               ),
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-          _pageController.animateToPage(
-            index,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-          );
-        },
-        destinations: [
-          NavigationDestination(icon: Icon(Icons.home), label: 'الرئيسية'),
-          NavigationDestination(icon: Icon(Icons.book), label: 'عبادات'),
-          NavigationDestination(icon: Icon(Icons.mood), label: 'الحالة'),
-          NavigationDestination(icon: Icon(Icons.settings), label: 'الاعدادات'),
-        ],
+        bottomNavigationBar: NavigationBar(
+          selectedIndex: _currentIndex,
+          onDestinationSelected: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+            _pageController.animateToPage(
+              index,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.ease,
+            );
+          },
+          destinations: [
+            NavigationDestination(icon: Icon(Icons.home), label: 'الرئيسية'),
+            NavigationDestination(icon: Icon(Icons.book), label: 'عبادات'),
+            NavigationDestination(icon: Icon(Icons.mood), label: 'الحالة'),
+            NavigationDestination(
+              icon: Icon(Icons.settings),
+              label: 'الاعدادات',
+            ),
+          ],
+        ),
       ),
     );
   }

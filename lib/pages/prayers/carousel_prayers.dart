@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:project_azkar/utils/app_images.dart';
 
-class CarouselExample extends StatefulWidget {
-  const CarouselExample({super.key});
+class CarouselPrayers extends StatefulWidget {
+  const CarouselPrayers({super.key});
 
   @override
-  State<CarouselExample> createState() => _CarouselExampleState();
+  State<CarouselPrayers> createState() => _CarouselPrayersState();
 }
 
-class _CarouselExampleState extends State<CarouselExample> {
+class _CarouselPrayersState extends State<CarouselPrayers> {
   @override
   Widget build(BuildContext context) {
     return Column(

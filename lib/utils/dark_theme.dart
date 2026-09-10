@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
@@ -30,10 +31,17 @@ ThemeData darkTheme() {
     ).apply(bodyColor: Colors.white, displayColor: Colors.white),
     navigationBarTheme: NavigationBarThemeData(
       backgroundColor: AppColors.darkNavBarBackground,
-      // indicatorColor: AppColors.dsPrimary.withAlpha(100), // Toned down primary
+      // indicatorColor: AppColors.primary.withAlpha(100), // Toned down primary
       // iconTheme: WidgetStateProperty.all(
       //   const IconThemeData(color: Colors.white),
       // ),
+    ),
+    pageTransitionsTheme: const PageTransitionsTheme(
+      builders: {
+        TargetPlatform.android: SharedAxisPageTransitionsBuilder(
+          transitionType: SharedAxisTransitionType.scaled,
+        ),
+      },
     ),
     appBarTheme: AppBarTheme(
       centerTitle: true,

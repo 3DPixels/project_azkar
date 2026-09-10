@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Azkar App',
-            locale: Locale('ar'),
+            locale: Locale('ar', 'SA'),
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: [Locale('ar')],
             theme: lightTheme(),
