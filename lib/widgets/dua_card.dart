@@ -483,8 +483,8 @@ class _DuaCardState extends State<DuaCard> {
                                                   ),
                                                 ],
                                               ),
-                                              backgroundColor: AppColors
-                                                  .darkNavBarBackground,
+                                              backgroundColor:
+                                                  AppColors.darkGreenNavBarBG,
                                               duration: Duration(seconds: 3),
                                               behavior:
                                                   SnackBarBehavior.floating,

@@ -41,9 +41,9 @@ class _SummaryCardState extends State<SummaryCard> {
           color: Colors.red,
           gradient: LinearGradient(
             colors: [
-              AppColors.darkPageBackground.withValues(alpha: .8),
-              AppColors.darkPageBackground.withValues(alpha: .4),
-              AppColors.darkPageBackground.withAlpha(0),
+              AppColors.darkGreenPageBG.withValues(alpha: .8),
+              AppColors.darkGreenPageBG.withValues(alpha: .4),
+              AppColors.darkGreenPageBG.withAlpha(0),
             ],
           ),
           borderRadius: BorderRadius.circular(16),

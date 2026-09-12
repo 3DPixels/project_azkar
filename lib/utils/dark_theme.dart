@@ -7,15 +7,13 @@ import 'app_fonts.dart';
 ThemeData darkTheme() {
   return ThemeData(
     brightness: Brightness.dark,
-    scaffoldBackgroundColor: AppColors.darkPageBackground,
+    scaffoldBackgroundColor: AppColors.darkGreenPageBG,
     colorScheme: const ColorScheme.dark(
       primary: AppColors.primary,
-      // onPrimary: Colors.black, // Black text/icons look better on bright green
       secondary: AppColors.secondary,
       onSecondary: Colors.white,
-      tertiary: AppColors.tertiary,
-      surface: AppColors.darkSurface,
-      outline: AppColors.neutral, // Good for borders
+      surface: AppColors.darkGreenSurface,
+      // outline: AppColors.darkGreenBorder,
     ),
     fontFamily: AppFonts.ibmPlex,
     textTheme: const TextTheme(
@@ -29,13 +27,13 @@ ThemeData darkTheme() {
       bodyMedium: TextStyle(fontSize: 12),
       bodySmall: TextStyle(fontSize: 10),
     ).apply(bodyColor: Colors.white, displayColor: Colors.white),
-    navigationBarTheme: NavigationBarThemeData(
-      backgroundColor: AppColors.darkNavBarBackground,
-      // indicatorColor: AppColors.primary.withAlpha(100), // Toned down primary
-      // iconTheme: WidgetStateProperty.all(
-      //   const IconThemeData(color: Colors.white),
-      // ),
-    ),
+    // navigationBarTheme: NavigationBarThemeData(
+    //   backgroundColor: AppColors.darkGreenNavBarBG,
+    //   // indicatorColor: AppColors.primary.withAlpha(100), // Toned down primary
+    //   // iconTheme: WidgetStateProperty.all(
+    //   //   const IconThemeData(color: Colors.white),
+    //   // ),
+    // ),
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: {
         TargetPlatform.android: SharedAxisPageTransitionsBuilder(

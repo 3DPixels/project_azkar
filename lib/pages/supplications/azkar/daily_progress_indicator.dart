@@ -35,7 +35,7 @@ class DailyProgressWidget extends StatelessWidget {
           builder: (context, animatedValue, child) {
             return LinearProgressIndicator(
               value: animatedValue,
-              backgroundColor: AppColors.darkSurface,
+              backgroundColor: AppColors.darkGreenSurface,
               color: AppColors.primary,
               minHeight: 6,
               borderRadius: BorderRadius.circular(4),

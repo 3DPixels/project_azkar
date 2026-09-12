@@ -61,8 +61,8 @@ class AzkarList extends StatelessWidget {
                         supplication: item.supplication,
                         buttonsColor: AppColors.primary,
                         borderColor: AppColors.primary.withValues(alpha: 0.15),
-                        bottomColor: AppColors.darkNavBarBackground,
-                        containerBackgroundColor: AppColors.darkSurface,
+                        bottomColor: AppColors.darkGreenNavBarBG,
+                        containerBackgroundColor: AppColors.darkGreenSurface,
                         enableCounter: true,
                         currentCount: item.currentCount,
                         targetCount: item.targetCount,
@@ -107,7 +107,7 @@ class ListChoiceChips extends StatelessWidget {
           onSelected: (_) => context.read<AzkarCubit>().toggleList(false),
           selectedColor: AppColors.primary.withValues(alpha: 0.2),
           checkmarkColor: AppColors.primary,
-          backgroundColor: AppColors.darkSurface,
+          backgroundColor: AppColors.darkGreenSurface,
         ),
         ChoiceChip(
           label: const Text('تمت قراءتها'),
@@ -115,7 +115,7 @@ class ListChoiceChips extends StatelessWidget {
           onSelected: (_) => context.read<AzkarCubit>().toggleList(true),
           selectedColor: AppColors.primary.withValues(alpha: 0.2),
           checkmarkColor: AppColors.primary,
-          backgroundColor: AppColors.darkSurface,
+          backgroundColor: AppColors.darkGreenSurface,
         ),
       ],
     );

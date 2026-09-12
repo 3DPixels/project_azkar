@@ -10,7 +10,7 @@ class CustomTabBar extends StatelessWidget {
     return Container(
       height: 48,
       decoration: BoxDecoration(
-        color: AppColors.darkSurface,
+        color: AppColors.darkGreenSurface,
         borderRadius: BorderRadius.circular(12),
       ),
       child: TabBar(
@@ -31,7 +31,7 @@ class CustomTabBar extends StatelessWidget {
           ],
         ),
         labelColor: Colors.white,
-        unselectedLabelColor: AppColors.neutral,
+        unselectedLabelColor: AppColors.darkGreenBorder,
         tabs: const [
           Tab(
             child: Row(

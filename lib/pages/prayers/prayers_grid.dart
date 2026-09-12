@@ -36,24 +36,20 @@ class PrayerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Color(0xFF1E1E1E),
-        // color: AppColors.darkSectionBackground,
+        color: AppColors.darkSurface,
         borderRadius: BorderRadius.circular(16),
-        border: BoxBorder.all(color: Color(0xFF2D2D2D)),
+        border: BoxBorder.all(color: AppColors.darkBorder),
       ),
-      // padding: EdgeInsets.symmetric(vertical: 26, horizontal: 35),
       child: Column(
         spacing: 10,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CircleAvatar(
-            backgroundColor: Color(0xFF586C42).withValues(alpha: .1),
-            // backgroundColor: AppColors.primaryAccent2,
+            backgroundColor: AppColors.accent.withValues(alpha: .1),
             radius: 28,
             child: Icon(
               Icons.nights_stay_outlined,
-              color: Color(0xFF586C42),
-              // color: AppColors.primaryAccent,
+              color: AppColors.accent,
               size: 22,
             ),
           ),
@@ -65,7 +61,7 @@ class PrayerCard extends StatelessWidget {
             'دعاء و توجية',
             style: Theme.of(
               context,
-            ).textTheme.bodySmall?.copyWith(color: Color(0xFF9CA3AF)),
+            ).textTheme.bodySmall?.copyWith(color: AppColors.hint),
           ),
         ],
       ),

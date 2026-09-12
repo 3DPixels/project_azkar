@@ -42,7 +42,7 @@ class _AzkarSingleCardState extends State<AzkarSingleCard> {
     return Container(
           width: double.infinity,
           decoration: BoxDecoration(
-            color: AppColors.darkSurface,
+            color: AppColors.darkGreenSurface,
             borderRadius: BorderRadius.circular(28),
             border: Border.all(
               color: AppColors.primary.withValues(alpha: 0.15),
@@ -101,7 +101,7 @@ class _AzkarSingleCardState extends State<AzkarSingleCard> {
               // Bottom Toolbar (Copy, Share, Play, Speed, AutoPlay)
               Container(
                 decoration: BoxDecoration(
-                  color: AppColors.darkNavBarBackground,
+                  color: AppColors.darkGreenNavBarBG,
                   borderRadius: const BorderRadius.vertical(
                     bottom: Radius.circular(28),
                   ),
@@ -142,7 +142,7 @@ class _AzkarSingleCardState extends State<AzkarSingleCard> {
                                     ),
                                   ],
                                 ),
-                                backgroundColor: AppColors.darkNavBarBackground,
+                                backgroundColor: AppColors.darkGreenNavBarBG,
                                 duration: Duration(seconds: 2),
                                 behavior: SnackBarBehavior.floating,
                               ),

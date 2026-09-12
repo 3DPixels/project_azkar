@@ -13,35 +13,44 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-        spacing: 16,
+        spacing: 18,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'السلام عليكم',
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              Text(
-                'ربيع الاول، 1447',
-                style: Theme.of(
-                  context,
-                ).textTheme.labelLarge?.copyWith(color: Color(0xFFA0A0A0)),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'السلام عليكم',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                Text(
+                  'ربيع الاول، 1447',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.labelLarge?.copyWith(color: Color(0xFFA0A0A0)),
+                ),
+              ],
+            ),
           ),
           // Prayer card
-          SummaryCard(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'بماذا تشعر اليوم؟',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              TextButton(child: Text('عرض الكل'), onPressed: () {}),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: SummaryCard(),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'بماذا تشعر اليوم؟',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                // TextButton(child: Text('عرض الكل'), onPressed: () {}),
+              ],
+            ),
           ),
           // Moods
           SizedBox(
@@ -49,6 +58,7 @@ class HomePage extends StatelessWidget {
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: MoodRepo.allMoods.length,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               separatorBuilder: (context, index) => SizedBox(width: 16),
               itemBuilder: (context, index) {
                 final mood = MoodRepo.allMoods[index];
@@ -61,11 +71,17 @@ class HomePage extends StatelessWidget {
               },
             ),
           ),
-          Text(
-            'الأذكار اليومية',
-            style: Theme.of(context).textTheme.titleMedium,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              'الأذكار اليومية',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           ),
-          HomeAzkarGrid(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: HomeAzkarGrid(),
+          ),
         ],
       ),
     );

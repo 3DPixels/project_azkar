@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:project_azkar/pages/settings/view.dart';
-import 'package:project_azkar/pages/supplications/view.dart';
 import 'package:project_azkar/utils/app_colors.dart';
 
 import 'home/view.dart';
@@ -17,83 +16,88 @@ class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
   late PageController _pageController;
 
-  // We wrap the pages in our custom KeepAlivePage wrapper to prevent state resets.
   final List<Widget> _tabs = [
-    Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: KeepAlivePage(child: HomePage()),
-    ),
+    KeepAlivePage(child: HomePage()),
     PrayersPage(),
-    SupplicationsPage(),
     SettingsPage(),
   ];
 
   @override
   void initState() {
     super.initState();
-    // Initialize the controller with the starting index
     _pageController = PageController(initialPage: _currentIndex);
   }
 
   @override
   void dispose() {
-    // Always dispose controllers to prevent memory leaks
     _pageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-      color: _currentIndex != 0
-          ? Color(0xFF121212)
-          : AppColors.darkPageBackground,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SafeArea(
-          child: Center(
-            child: SizedBox(
-              width: 600,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: PageView(
-                  controller: _pageController,
-                  onPageChanged: (index) {
-                    setState(() {
-                      _currentIndex = index;
-                    });
-                  },
-                  children: _tabs,
+    return ListenableBuilder(
+      listenable: _pageController,
+      builder: (context, child) {
+        final double page = _pageController.hasClients
+            ? (_pageController.page ?? _currentIndex.toDouble())
+            : _currentIndex.toDouble();
+
+        final double transitionProgress = page.clamp(0.0, 1.0);
+
+        final backgroundColor = Color.lerp(
+          AppColors.darkGreenPageBG,
+          AppColors.darkPageBG,
+          transitionProgress,
+        );
+        final barBackgroundColor = Color.lerp(
+          AppColors.darkGreenNavBarBG,
+          AppColors.darkNavBarBG,
+          transitionProgress,
+        );
+
+        return Scaffold(
+          backgroundColor: backgroundColor,
+          body: SafeArea(
+            child: Center(
+              child: SizedBox(
+                width: 600,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: PageView(
+                    controller: _pageController,
+                    onPageChanged: (index) {
+                      setState(() {
+                        _currentIndex = index;
+                      });
+                    },
+                    children: _tabs,
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        bottomNavigationBar: NavigationBar(
-          selectedIndex: _currentIndex,
-          onDestinationSelected: (index) {
-            setState(() {
-              _currentIndex = index;
-            });
-            _pageController.animateToPage(
-              index,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.ease,
-            );
-          },
-          destinations: [
-            NavigationDestination(icon: Icon(Icons.home), label: 'الرئيسية'),
-            NavigationDestination(icon: Icon(Icons.book), label: 'عبادات'),
-            NavigationDestination(icon: Icon(Icons.mood), label: 'الحالة'),
-            NavigationDestination(
-              icon: Icon(Icons.settings),
-              label: 'الاعدادات',
-            ),
-          ],
-        ),
-      ),
+          bottomNavigationBar: NavigationBar(
+            selectedIndex: _currentIndex,
+            backgroundColor: barBackgroundColor,
+            onDestinationSelected: (index) {
+              _pageController.animateToPage(
+                index,
+                duration: const Duration(milliseconds: 600),
+                curve: Curves.ease,
+              );
+            },
+            destinations: const [
+              NavigationDestination(icon: Icon(Icons.home), label: 'الرئيسية'),
+              NavigationDestination(icon: Icon(Icons.book), label: 'عبادات'),
+              NavigationDestination(
+                icon: Icon(Icons.settings),
+                label: 'الاعدادات',
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

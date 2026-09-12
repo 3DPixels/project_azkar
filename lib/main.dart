@@ -5,7 +5,6 @@ import 'package:project_azkar/pages/main_page.dart';
 import 'package:project_azkar/cubits/settings_cubit/settings_cubit.dart';
 import 'package:project_azkar/services/cache_helper.dart';
 import 'package:project_azkar/utils/dark_theme.dart';
-import 'package:project_azkar/utils/light_theme.dart';
 
 import 'l10n/app_localizations.dart';
 
@@ -35,9 +34,7 @@ class MyApp extends StatelessWidget {
             locale: Locale('ar', 'SA'),
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: [Locale('ar')],
-            theme: lightTheme(),
-            darkTheme: darkTheme(),
-            themeMode: ThemeMode.dark,
+            theme: darkTheme(),
             home: const MainPage(),
           );
         },
