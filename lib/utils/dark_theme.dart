@@ -7,7 +7,7 @@ import 'app_fonts.dart';
 ThemeData darkTheme() {
   return ThemeData(
     brightness: Brightness.dark,
-    scaffoldBackgroundColor: AppColors.darkGreenPageBG,
+    scaffoldBackgroundColor: AppColors.darkPageBG,
     colorScheme: const ColorScheme.dark(
       primary: AppColors.primary,
       secondary: AppColors.secondary,
@@ -44,6 +44,7 @@ ThemeData darkTheme() {
     appBarTheme: AppBarTheme(
       centerTitle: true,
       backgroundColor: Colors.transparent,
+      surfaceTintColor: Colors.transparent,
     ),
     bottomSheetTheme: const BottomSheetThemeData(
       dragHandleColor: Color.fromARGB(70, 255, 255, 255),
