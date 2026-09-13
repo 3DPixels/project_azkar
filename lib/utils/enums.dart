@@ -17,3 +17,5 @@ enum DuaCategories {
   distress, // Despair, Severe Distress, Anguish, Hopelessness, Agony, Suicidal
   healing, // Sick, Unwell, Ailing, Physical Pain, Mental Exhaustion, Afflicted
 }
+
+enum PrayerCategories { duha, wetr, janazah, jummah, eid, estkhara }

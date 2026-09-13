@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:project_azkar/data/models/prayer_model.dart';
+import 'package:project_azkar/data/repos/prayers_repo.dart';
 import 'package:project_azkar/pages/prayers/prayer_details.dart';
 
 import '../../utils/app_colors.dart';
@@ -15,23 +17,17 @@ class PrayersGrid extends StatelessWidget {
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
         mainAxisExtent: 157,
-        children: [
-          PrayerCard(),
-          PrayerCard(),
-          PrayerCard(),
-          PrayerCard(),
-          PrayerCard(),
-          PrayerCard(),
-          PrayerCard(),
-          PrayerCard(),
-        ],
+        children: PrayersRepo.allPrayers
+            .map((prayer) => PrayerCard(prayer))
+            .toList(),
       ),
     );
   }
 }
 
 class PrayerCard extends StatelessWidget {
-  const PrayerCard({super.key});
+  final PrayerModel prayer;
+  const PrayerCard(this.prayer, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +38,9 @@ class PrayerCard extends StatelessWidget {
         splashColor: AppColors.primary.withAlpha(50),
         highlightColor: Colors.transparent,
         onTap: () {
-          Navigator.of(
-            context,
-          ).push(MaterialPageRoute(builder: (context) => PrayerDetails()));
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => PrayerDetails(prayer)),
+          );
         },
         borderRadius: BorderRadius.circular(16),
         child: Container(
@@ -66,15 +62,15 @@ class PrayerCard extends StatelessWidget {
                 ),
               ),
               Text(
-                'صلاة الاستخارة',
+                prayer.title,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
-              Text(
-                'دعاء و توجية',
-                style: Theme.of(
-                  context,
-                ).textTheme.bodySmall?.copyWith(color: AppColors.hint),
-              ),
+              // Text(
+              //   'دعاء و توجية',
+              //   style: Theme.of(
+              //     context,
+              //   ).textTheme.bodySmall?.copyWith(color: AppColors.hint),
+              // ),
             ],
           ),
         ),

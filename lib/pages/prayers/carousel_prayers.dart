@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:project_azkar/data/models/prayer_model.dart';
+import 'package:project_azkar/data/repos/prayers_repo.dart';
 import 'package:project_azkar/utils/app_colors.dart';
-import 'package:project_azkar/utils/app_images.dart';
+import 'package:project_azkar/utils/enums.dart';
 
 class CarouselPrayers extends StatefulWidget {
   const CarouselPrayers({super.key});
@@ -10,6 +12,9 @@ class CarouselPrayers extends StatefulWidget {
 }
 
 class _CarouselPrayersState extends State<CarouselPrayers> {
+  final wetr = PrayersRepo.getPrayerByType(PrayerCategories.wetr);
+  final estkhara = PrayersRepo.getPrayerByType(PrayerCategories.estkhara);
+  final janazah = PrayersRepo.getPrayerByType(PrayerCategories.janazah);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -25,9 +30,11 @@ class _CarouselPrayersState extends State<CarouselPrayers> {
               borderRadius: BorderRadiusGeometry.circular(24),
               side: BorderSide(color: AppColors.darkBorder, width: .5),
             ),
-            children: ImageInfo.values.map((ImageInfo image) {
-              return UncontainedLayoutCard(imageInfo: image);
-            }).toList(),
+            children: [
+              UncontainedLayoutCard(wetr),
+              UncontainedLayoutCard(estkhara),
+              UncontainedLayoutCard(janazah),
+            ],
           ),
         ),
       ],
@@ -36,9 +43,9 @@ class _CarouselPrayersState extends State<CarouselPrayers> {
 }
 
 class UncontainedLayoutCard extends StatelessWidget {
-  const UncontainedLayoutCard({super.key, required this.imageInfo});
+  const UncontainedLayoutCard(this.prayer, {super.key});
 
-  final ImageInfo imageInfo;
+  final PrayerModel prayer;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +58,7 @@ class UncontainedLayoutCard extends StatelessWidget {
           maxWidth: width * 7 / 8,
           minWidth: 390,
 
-          child: Image(fit: BoxFit.cover, image: AssetImage(imageInfo.url)),
+          child: Image(fit: BoxFit.cover, image: AssetImage(prayer.imagePath)),
         ),
         // LAYER 2: The Gradient Overlay
         Positioned.fill(
@@ -74,7 +81,7 @@ class UncontainedLayoutCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text(
-                imageInfo.title,
+                prayer.title,
                 overflow: TextOverflow.clip,
                 softWrap: false,
                 style: Theme.of(
@@ -83,7 +90,7 @@ class UncontainedLayoutCard extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                imageInfo.subtitle,
+                'طريقة ${prayer.title} || اضغط هنا',
                 overflow: TextOverflow.clip,
                 softWrap: false,
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
@@ -96,20 +103,4 @@ class UncontainedLayoutCard extends StatelessWidget {
       ],
     );
   }
-}
-
-enum ImageInfo {
-  image0(
-    'صلاة الكسوف',
-    'طريقة صلاة الكسوف || اضغط هنا',
-    AppImages.prayerKhusuf,
-  ),
-  image1('صلاة الوتر', 'طريقة صلاة الوتر || اضغط هنا', AppImages.prayerWetr),
-  image2('صلاة الضحى', 'طريقة صلاة الضحى || اضغط هنا', AppImages.prayerDuha);
-
-  const ImageInfo(this.title, this.subtitle, this.url);
-
-  final String title;
-  final String subtitle;
-  final String url;
 }

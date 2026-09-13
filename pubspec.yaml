@@ -21,7 +21,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  animations: ^2.0.11
+  animations: ^3.0.0
   cupertino_icons: ^1.0.8
   equatable: ^2.0.7
   flutter_animate: ^4.5.2
@@ -29,7 +29,7 @@ dependencies:
   flutter_staggered_animations: ^1.1.1
 #  google_fonts: ^6.3.1
   intl: any
-  reel_text: ^0.4.0
+  reel_text: ^0.5.0
   shared_preferences: ^2.5.3
   share_plus: ^13.2.1
   flutter_localizations:

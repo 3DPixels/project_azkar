@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:project_azkar/utils/app_images.dart';
+import 'package:project_azkar/data/models/prayer_model.dart';
 
 class PrayerDetails extends StatefulWidget {
-  const PrayerDetails({super.key});
+  final PrayerModel prayer;
+  const PrayerDetails(this.prayer, {super.key});
 
   @override
   State<PrayerDetails> createState() => _PrayerDetailsState();
@@ -49,8 +50,8 @@ class _PrayerDetailsState extends State<PrayerDetails> {
             title: AnimatedOpacity(
               duration: const Duration(milliseconds: 200),
               opacity: _isCollapsed ? 1.0 : 0.0,
-              child: const Text(
-                'فضل صلاة الجنازة',
+              child: Text(
+                'كيفية ${widget.prayer.title}',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
@@ -66,7 +67,7 @@ class _PrayerDetailsState extends State<PrayerDetails> {
               background: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.asset("assets/images/prayer2.png", fit: BoxFit.cover),
+                  Image.asset(widget.prayer.imagePath, fit: BoxFit.cover),
                   Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
@@ -92,42 +93,47 @@ class _PrayerDetailsState extends State<PrayerDetails> {
                         // Tags Row
                         Row(
                           children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 4,
+                            if (widget.prayer.chipText != null)
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 4,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF425A38),
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: Text(
+                                  widget.prayer.chipText!,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                ),
                               ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF425A38),
-                                borderRadius: BorderRadius.circular(6),
+                            const SizedBox(width: 8),
+                            if (widget.prayer.chipText != null &&
+                                widget.prayer.hintText != null)
+                              const Icon(
+                                Icons.access_time,
+                                color: Colors.white70,
+                                size: 16,
                               ),
-                              child: const Text(
-                                'فضلها',
+                            const SizedBox(width: 4),
+                            if (widget.prayer.chipText != null &&
+                                widget.prayer.hintText != null)
+                              Text(
+                                widget.prayer.hintText!,
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.white70,
                                   fontSize: 12,
                                 ),
                               ),
-                            ),
-                            const SizedBox(width: 8),
-                            const Icon(
-                              Icons.access_time,
-                              color: Colors.white70,
-                              size: 16,
-                            ),
-                            const SizedBox(width: 4),
-                            const Text(
-                              '٢ دقيقة',
-                              style: TextStyle(
-                                color: Colors.white70,
-                                fontSize: 12,
-                              ),
-                            ),
                           ],
                         ),
                         const SizedBox(height: 12),
-                        const Text(
-                          'فضل صلاة الجنازة',
+                        Text(
+                          'فضل ${widget.prayer.title}',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 28,
@@ -135,8 +141,8 @@ class _PrayerDetailsState extends State<PrayerDetails> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        const Text(
-                          'صلاة الجنازة فرض كفاية، ولها أجر عظيم، وهي دعاء للميت بالرحمة والمغفرة، وتذكير للحي بالمصير المحتوم.',
+                        Text(
+                          widget.prayer.subtitle,
                           style: TextStyle(
                             color: Color(0xFFB0B0B0),
                             fontSize: 14,
@@ -235,53 +241,66 @@ class StepTile extends StatelessWidget {
     required this.innerText,
   });
 
+  // Converts 1, 2, 3, 4 to Arabic numerals
+  String _toArabicIndic(int number) {
+    const arabicDigits = ['١', '٢', '٣', '٤'];
+    return arabicDigits[number - 1];
+  }
+
   @override
   Widget build(BuildContext context) {
-    // IntrinsicHeight allows the vertical line to stretch exactly to the height of the card
+    // Colors matching the green stepper in the image
+    const lineColor = Color(0xFF2E4326);
+    const greenBorderColor = Color(0xFF4C6B3E);
+    const numberColor = Color(0xFF88B06F);
+
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Timeline Indicator Column
+          // 1. Timeline Indicator Column
           SizedBox(
             width: 40,
             child: Column(
               children: [
-                // Top line segment (hidden on first item)
-                Container(
-                  height: 24,
-                  width: 1,
-                  color: index == 0
-                      ? Colors.transparent
-                      : const Color(0xFF333333),
-                ),
-                // Number Circle
+                // Green-bordered Circle
                 Container(
                   width: 36,
                   height: 36,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    border: Border.all(color: const Color(0xFF333333)),
-                    color: const Color(0xFF1E1E1E),
+                    border: Border.all(color: greenBorderColor, width: 1.5),
+                    color: const Color(0xFF141C11),
                   ),
                   alignment: Alignment.center,
-                  // Using Arabic numerals based on index
                   child: Text(
-                    index == 0 ? '١' : '٢',
+                    _toArabicIndic(index + 1),
                     style: const TextStyle(
-                      color: Color(0xFF7A9F63),
+                      color: numberColor,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                // Bottom line segment (stretches to fill space, hidden on last item)
+                // Connecting Line (Fades out on the last item)
                 Expanded(
                   child: Container(
-                    width: 1,
-                    color: isLast
-                        ? Colors.transparent
-                        : const Color(0xFF333333),
+                    width: 2,
+                    margin: const EdgeInsets.only(top: 4),
+                    decoration: BoxDecoration(
+                      gradient: isLast
+                          ? const LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                lineColor,
+                                Colors
+                                    .transparent, // Fades out smoothly at the bottom
+                              ],
+                            )
+                          : null,
+                      color: isLast ? null : lineColor,
+                    ),
                   ),
                 ),
               ],
@@ -289,7 +308,7 @@ class StepTile extends StatelessWidget {
           ),
           const SizedBox(width: 16),
 
-          // Card Content
+          // 2. Step Card Content
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 24.0),
@@ -303,7 +322,6 @@ class StepTile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Card Header Row
                     Row(
                       children: [
                         const Icon(
@@ -322,16 +340,9 @@ class StepTile extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Icon(
-                          index == 0
-                              ? Icons.pan_tool_outlined
-                              : Icons.favorite_border,
-                          color: const Color(0xFF5A6C49),
-                          size: 20,
-                        ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 12),
                     Text(
                       subtitle,
                       style: const TextStyle(
@@ -340,7 +351,6 @@ class StepTile extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    // Inner Quote/Dua Container
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(16),
@@ -353,7 +363,7 @@ class StepTile extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 16,
+                          fontSize: 15,
                           height: 1.8,
                         ),
                       ),
