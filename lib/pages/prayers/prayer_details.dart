@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project_azkar/data/models/prayer_model.dart';
 
+import '../../utils/formatters.dart';
+
 class PrayerDetails extends StatefulWidget {
   final PrayerModel prayer;
   const PrayerDetails(this.prayer, {super.key});
@@ -12,7 +14,7 @@ class PrayerDetails extends StatefulWidget {
 class _PrayerDetailsState extends State<PrayerDetails> {
   late ScrollController _scrollController;
   bool _isCollapsed = false;
-  final double _expandedHeight = 300.0;
+  final double _expandedHeight = 280.0;
 
   @override
   void initState() {
@@ -38,6 +40,7 @@ class _PrayerDetailsState extends State<PrayerDetails> {
 
   @override
   Widget build(BuildContext context) {
+    final steps = widget.prayer.prayerSteps;
     return Scaffold(
       body: CustomScrollView(
         controller: _scrollController,
@@ -93,7 +96,7 @@ class _PrayerDetailsState extends State<PrayerDetails> {
                         // Tags Row
                         Row(
                           children: [
-                            if (widget.prayer.chipText != null)
+                            if (widget.prayer.chipText != null) ...[
                               Container(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 10,
@@ -105,30 +108,29 @@ class _PrayerDetailsState extends State<PrayerDetails> {
                                 ),
                                 child: Text(
                                   widget.prayer.chipText!,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 12,
                                   ),
                                 ),
                               ),
-                            const SizedBox(width: 8),
-                            if (widget.prayer.chipText != null &&
-                                widget.prayer.hintText != null)
+                              const SizedBox(width: 8),
+                            ],
+                            if (widget.prayer.hintText != null) ...[
                               const Icon(
                                 Icons.access_time,
                                 color: Colors.white70,
                                 size: 16,
                               ),
-                            const SizedBox(width: 4),
-                            if (widget.prayer.chipText != null &&
-                                widget.prayer.hintText != null)
+                              const SizedBox(width: 4),
                               Text(
                                 widget.prayer.hintText!,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.white70,
                                   fontSize: 12,
                                 ),
                               ),
+                            ],
                           ],
                         ),
                         const SizedBox(height: 12),
@@ -165,7 +167,7 @@ class _PrayerDetailsState extends State<PrayerDetails> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    'خطوات الصلاة',
+                    'خطوات العبادة',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 20,
@@ -182,8 +184,8 @@ class _PrayerDetailsState extends State<PrayerDetails> {
                       borderRadius: BorderRadius.circular(20),
                       color: const Color(0xFF161F12),
                     ),
-                    child: const Text(
-                      '٤ تكبيرات',
+                    child: Text(
+                      '${steps.length.toArabic()} خطوات',
                       style: TextStyle(color: Color(0xFF7A9F63), fontSize: 12),
                     ),
                   ),
@@ -196,25 +198,99 @@ class _PrayerDetailsState extends State<PrayerDetails> {
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return StepTile(
-                    index: index,
-                    isLast:
-                        index == 1, // Set to index == 3 if you add all 4 steps
-                    title: index == 0 ? 'التكبيرة الأولى' : 'التكبيرة الثانية',
-                    subtitle: index == 0
-                        ? 'يقرأ بعد التكبيرة الأولى سورة الفاتحة سراً.'
-                        : 'يصلى على النبي ﷺ الصلاة الإبراهيمية.',
-                    innerText: index == 0
-                        ? 'بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ ۝ الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ۝ الرَّحْمَنِ الرَّحِيمِ ۝ مَالِكِ يَوْمِ الدِّينِ'
-                        : 'اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ، كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ، إِنَّكَ حَمِيدٌ مَجِيدٌ',
-                  );
-                },
-                childCount: 9, // Adjust to 4 for all steps
-              ),
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final step = steps[index];
+                return StepTile(
+                  index: index,
+                  isLast: index == steps.length - 1,
+                  title: step.title,
+                  subtitle: step.subtitle,
+                  innerText: step.desc,
+                );
+              }, childCount: steps.length),
             ),
           ),
+
+          if (widget.prayer.importantStep != null)
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1A1A1A),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: const Color(0xFF262626)),
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 12,
+                    children: [
+                      Text(
+                        widget.prayer.importantStep!.title,
+                        style: Theme.of(context).textTheme.titleMedium!
+                            .copyWith(
+                              color: Color(0xFF586C42),
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                      Text(
+                        widget.prayer.importantStep!.subtitle,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.titleMedium!
+                            .copyWith(height: 2, fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+          if (widget.prayer.info != null)
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF536C41).withValues(alpha: .1),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: const Color(0xFF536C41).withValues(alpha: .2),
+                      // width: .5,
+                    ),
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    crossAxisAlignment: .start,
+                    spacing: 10,
+                    children: [
+                      Icon(
+                        Icons.info_outline,
+                        color: Color(0xFF536C41),
+                        size: 22,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        spacing: 5,
+                        children: [
+                          Text(
+                            'ملاحظة هامة',
+                            style: TextStyle(fontSize: 14, fontWeight: .bold),
+                          ),
+                          Text(
+                            widget.prayer.info!,
+                            style: const TextStyle(
+                              color: Color(0xFF9E9E9E),
+                              fontSize: 13,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
 
           const SliverToBoxAdapter(child: SizedBox(height: 40)),
         ],
@@ -223,14 +299,12 @@ class _PrayerDetailsState extends State<PrayerDetails> {
   }
 }
 
-/// A custom timeline widget that uses IntrinsicHeight to draw the connecting line
-/// without needing third-party packages.
 class StepTile extends StatelessWidget {
   final int index;
   final bool isLast;
   final String title;
   final String subtitle;
-  final String innerText;
+  final String? innerText;
 
   const StepTile({
     super.key,
@@ -241,72 +315,54 @@ class StepTile extends StatelessWidget {
     required this.innerText,
   });
 
-  // Converts 1, 2, 3, 4 to Arabic numerals
-  String _toArabicIndic(int number) {
-    const arabicDigits = ['١', '٢', '٣', '٤'];
-    return arabicDigits[number - 1];
-  }
-
   @override
   Widget build(BuildContext context) {
-    // Colors matching the green stepper in the image
-    const lineColor = Color(0xFF2E4326);
-    const greenBorderColor = Color(0xFF4C6B3E);
-    const numberColor = Color(0xFF88B06F);
+    const lineColor = Color(0xFF596D42);
+    const greenBorderColor = Color(0xFF596D42);
+    const numberColor = Color(0xFF596D42);
 
     return IntrinsicHeight(
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        spacing: 16,
         children: [
           // 1. Timeline Indicator Column
-          SizedBox(
-            width: 40,
-            child: Column(
-              children: [
-                // Green-bordered Circle
-                Container(
-                  width: 36,
-                  height: 36,
+          Column(
+            children: [
+              Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: greenBorderColor, width: 1.5),
+                  color: const Color(0xFF1A1A1A),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  (index + 1).toArabic(),
+                  style: const TextStyle(
+                    color: numberColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  width: 2,
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: greenBorderColor, width: 1.5),
-                    color: const Color(0xFF141C11),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    _toArabicIndic(index + 1),
-                    style: const TextStyle(
-                      color: numberColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    gradient: isLast
+                        ? const LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [lineColor, Colors.transparent],
+                          )
+                        : null,
+                    color: isLast ? null : lineColor,
                   ),
                 ),
-                // Connecting Line (Fades out on the last item)
-                Expanded(
-                  child: Container(
-                    width: 2,
-                    margin: const EdgeInsets.only(top: 4),
-                    decoration: BoxDecoration(
-                      gradient: isLast
-                          ? const LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                lineColor,
-                                Colors
-                                    .transparent, // Fades out smoothly at the bottom
-                              ],
-                            )
-                          : null,
-                      color: isLast ? null : lineColor,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-          const SizedBox(width: 16),
 
           // 2. Step Card Content
           Expanded(
@@ -322,25 +378,13 @@ class StepTile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.play_circle_outline,
-                          color: Color(0xFF6B8399),
-                          size: 24,
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            title,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ],
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 12),
                     Text(
@@ -350,24 +394,26 @@ class StepTile extends StatelessWidget {
                         fontSize: 13,
                       ),
                     ),
-                    const SizedBox(height: 16),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF242424),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        innerText,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 15,
-                          height: 1.8,
+                    if (innerText != null && innerText!.isNotEmpty) ...[
+                      const SizedBox(height: 16),
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF242424),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          innerText!,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            height: 1.8,
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ],
                 ),
               ),

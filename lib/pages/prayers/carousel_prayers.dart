@@ -77,21 +77,20 @@ class UncontainedLayoutCard extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(18.0),
           child: Column(
+            spacing: 10,
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Text(
                 prayer.title,
-                overflow: TextOverflow.clip,
-                softWrap: false,
                 style: Theme.of(
                   context,
                 ).textTheme.titleSmall?.copyWith(color: Colors.white),
               ),
-              const SizedBox(height: 10),
+
               Text(
-                'طريقة ${prayer.title} || اضغط هنا',
-                overflow: TextOverflow.clip,
+                prayer.subtitle,
+                overflow: TextOverflow.ellipsis,
                 softWrap: false,
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
                   color: const Color(0xFFD1D5DB),
