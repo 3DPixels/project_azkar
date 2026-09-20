@@ -18,4 +18,16 @@ enum DuaCategories {
   healing, // Sick, Unwell, Ailing, Physical Pain, Mental Exhaustion, Afflicted
 }
 
-enum PrayerCategories { duha, wetr, janazah, jummah, eid, estkhara }
+enum PrayerCategories {
+  duha,
+  wetr,
+  janazah,
+  jummah,
+  eid,
+  kusuf,
+  khusuf,
+  istisqa,
+  istikhara,
+  taraweeh,
+  rawatib,
+}

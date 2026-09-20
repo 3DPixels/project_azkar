@@ -38,6 +38,7 @@ ThemeData darkTheme() {
       builders: {
         TargetPlatform.android: SharedAxisPageTransitionsBuilder(
           transitionType: SharedAxisTransitionType.scaled,
+          fillColor: Colors.transparent,
         ),
       },
     ),
