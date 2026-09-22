@@ -30,7 +30,7 @@ App name and icon still undecided.
 - Figure out audio play, audio should be able to play, stop, autoplay all azkar, speed increase, every zekr played should be removed from list, and maybe have background play.
 - ~~In azkar single page, finish card design.~~
 - ~~In azkar completed page, make it so it calculates the sum of all azkar read with their count, and add a total of azkar read since the begining.~~
-- Make a condition in DuaCard that if source is empty to hide the source button.
+- ~~Make a condition in DuaCard that if source is empty to hide the source button.~~
 - ~~Make the source and benefit dialog in DuaCard so when you click on it, it opens up a dialog with all the benefits of the azkar.~~
 - ~~Maybe add animation for azkar single card, maybe a fade in animation, Maybe add ability to slide between the single cards and that could also work as the animation.~~
 - ~~Figure out how to handle azkar when the counter could conflict with the logic, like for example when reading something that takes 1 count normally but 3 after other prayers. Maybe add conditions to cancel the counter ui and make the card dismiss with one tap instead of count.~~
@@ -38,14 +38,14 @@ App name and icon still undecided.
 
 ### Moods page
 - ~~Make the mood list top part as a sliver appbar or something like that, but make sure to keep the gradient background and make it scroll.~~
-- Finish all mood supplications.
+- ~~Finish all mood supplications.~~
 
 ### Prayers page
-- Finish working on the page.
-- The carousel could use some work.
-- Make a prayers model.
-- Make the prayers list.
-- Prayer details page should also use sliver. 
+- ~~Finish working on the page.~~
+- ~~The carousel could use some work.~~
+- ~~Make a prayers model.~~
+- ~~Make the prayers list.~~
+- ~~Prayer details page should also use sliver. ~~
 
 ### Supplications page (Future work)
 - Make the page and its data.
