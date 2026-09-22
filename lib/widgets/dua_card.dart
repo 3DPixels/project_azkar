@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:animations/animations.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -61,6 +59,7 @@ class _DuaCardState extends State<DuaCard> {
   // --- Normal Tap Logic (Kept EXACTLY the same) ---
   void _handleTap() async {
     if (widget.currentCount == 1) {
+      HapticFeedback.vibrate();
       setState(() {
         isFading = true;
       });
@@ -75,6 +74,7 @@ class _DuaCardState extends State<DuaCard> {
 
       widget.onTap?.call();
     } else {
+      HapticFeedback.successNotification();
       widget.onTap?.call();
     }
   }
@@ -181,43 +181,24 @@ class _DuaCardState extends State<DuaCard> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       // Play button
-                                      IconButton.filled(
-                                        onPressed: () {
-                                          // setState(() {
-                                          //   isPlaying = !isPlaying;
-                                          // });
-                                          showCupertinoModalPopup(
-                                            context: context,
-                                            builder: (context) {
-                                              return CupertinoActionSheet(
-                                                title: Text('عذراً'),
-                                                message: Text(
-                                                  'لم يتم الانتهاء من اضافة هذه الخاصية',
-                                                ),
-                                                actions: [
-                                                  CupertinoActionSheetAction(
-                                                    child: Text('غلق'),
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          );
-                                        },
-                                        iconSize: 35,
-                                        style: IconButton.styleFrom(
-                                          backgroundColor: widget.buttonsColor
-                                              .withValues(alpha: .1),
-                                          foregroundColor: widget.buttonsColor,
-                                        ),
-                                        icon: Icon(
-                                          isPlaying
-                                              ? Icons.pause
-                                              : Icons.play_arrow_outlined,
-                                        ),
-                                      ),
+                                      // IconButton.filled(
+                                      //   onPressed: () {
+                                      //     setState(() {
+                                      //       isPlaying = !isPlaying;
+                                      //     });
+                                      //   },
+                                      //   iconSize: 35,
+                                      //   style: IconButton.styleFrom(
+                                      //     backgroundColor: widget.buttonsColor
+                                      //         .withValues(alpha: .1),
+                                      //     foregroundColor: widget.buttonsColor,
+                                      //   ),
+                                      //   icon: Icon(
+                                      //     isPlaying
+                                      //         ? Icons.pause
+                                      //         : Icons.play_arrow_outlined,
+                                      //   ),
+                                      // ),
                                       Expanded(
                                         child: Column(
                                           crossAxisAlignment:
@@ -247,187 +228,158 @@ class _DuaCardState extends State<DuaCard> {
                                                   .bodyLarge
                                                   ?.copyWith(color: iconsColor),
                                             ),
-                                            TextButton.icon(
-                                              onPressed: () {
-                                                // showModalBottomSheet(
-                                                //   context: context,
-                                                //   isScrollControlled:
-                                                //       true, // 1. REQUIRED for the sheet to expand beyond 50%
-                                                //   builder: (context) {
-                                                //     return DraggableScrollableSheet(
-                                                //       initialChildSize:
-                                                //           0.4, // Starts at 40% of screen height
-                                                //       minChildSize:
-                                                //           0.2, // Can collapse down to 20%
-                                                //       maxChildSize:
-                                                //           0.9, // Can expand up to 90%
-                                                //       expand:
-                                                //           false, // Keeps the modal constraints
-                                                //       // 2. The builder gives you the crucial scrollController
-                                                //       builder: (context, scrollController) {
-                                                //         // 3. You MUST attach it to a scrollable widget
-                                                //         return SingleChildScrollView(
-                                                //           controller:
-                                                //               scrollController,
-                                                //           child: Padding(
-                                                //             padding:
-                                                //                 const EdgeInsets.symmetric(
-                                                //                   horizontal:
-                                                //                       10.0,
-                                                //                 ),
-                                                //             child: Column(
-                                                //               children: [
-                                                //                 // Your content goes here
-                                                //               ],
-                                                //             ),
-                                                //           ),
-                                                //         );
-                                                //       },
-                                                //     );
-                                                //   },
-                                                // );
-                                                showModalBottomSheet(
-                                                  context: context,
-                                                  backgroundColor: widget
-                                                      .containerBackgroundColor,
-                                                  showDragHandle: true,
-                                                  enableDrag: false,
+                                            if (widget
+                                                .supplication
+                                                .source
+                                                .isEmpty)
+                                              TextButton.icon(
+                                                onPressed: () {
+                                                  // showModalBottomSheet(
+                                                  //   context: context,
+                                                  //   isScrollControlled:
+                                                  //       true, // 1. REQUIRED for the sheet to expand beyond 50%
+                                                  //   builder: (context) {
+                                                  //     return DraggableScrollableSheet(
+                                                  //       initialChildSize:
+                                                  //           0.4, // Starts at 40% of screen height
+                                                  //       minChildSize:
+                                                  //           0.2, // Can collapse down to 20%
+                                                  //       maxChildSize:
+                                                  //           0.9, // Can expand up to 90%
+                                                  //       expand:
+                                                  //           false, // Keeps the modal constraints
+                                                  //       // 2. The builder gives you the crucial scrollController
+                                                  //       builder: (context, scrollController) {
+                                                  //         // 3. You MUST attach it to a scrollable widget
+                                                  //         return SingleChildScrollView(
+                                                  //           controller:
+                                                  //               scrollController,
+                                                  //           child: Padding(
+                                                  //             padding:
+                                                  //                 const EdgeInsets.symmetric(
+                                                  //                   horizontal:
+                                                  //                       10.0,
+                                                  //                 ),
+                                                  //             child: Column(
+                                                  //               children: [
+                                                  //                 // Your content goes here
+                                                  //               ],
+                                                  //             ),
+                                                  //           ),
+                                                  //         );
+                                                  //       },
+                                                  //     );
+                                                  //   },
+                                                  // );
+                                                  showModalBottomSheet(
+                                                    context: context,
+                                                    backgroundColor: widget
+                                                        .containerBackgroundColor,
+                                                    showDragHandle: true,
+                                                    enableDrag: false,
 
-                                                  builder: (context) => Padding(
-                                                    padding:
-                                                        const EdgeInsets.symmetric(
-                                                          horizontal: 10.0,
-                                                        ),
-                                                    child: Column(
-                                                      spacing: 10,
-                                                      crossAxisAlignment:
-                                                          .start,
-                                                      mainAxisSize: .min,
-                                                      children: [
-                                                        Text(
-                                                          'تفاصيل المصدر',
-                                                          style: TextStyle(
-                                                            fontSize: 20,
-                                                            fontWeight: .bold,
+                                                    builder: (context) => Padding(
+                                                      padding:
+                                                          const EdgeInsets.symmetric(
+                                                            horizontal: 10.0,
                                                           ),
-                                                        ),
-                                                        Text(
-                                                          widget
-                                                              .supplication
-                                                              .source,
-                                                          style: TextStyle(
-                                                            fontSize: 20,
-                                                            fontWeight: .bold,
-                                                            color: widget
-                                                                .buttonsColor,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          widget
-                                                              .supplication
-                                                              .source,
-                                                          style: TextStyle(
-                                                            color: Colors.grey,
-                                                            fontWeight: .w600,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          widget
-                                                                  .supplication
-                                                                  .benefitSource ??
-                                                              '',
-                                                          style: TextStyle(
-                                                            fontWeight: .w600,
-                                                          ),
-                                                        ),
-                                                        OutlinedButton(
-                                                          onPressed: () =>
-                                                              Navigator.pop(
-                                                                context,
-                                                              ),
-                                                          style: OutlinedButton.styleFrom(
-                                                            side: BorderSide(
-                                                              color: widget
-                                                                  .buttonsColor,
-                                                            ),
-                                                            minimumSize: Size(
-                                                              .infinity,
-                                                              45,
-                                                            ),
-                                                          ),
-                                                          child: Text(
-                                                            'إغلاق',
+                                                      child: Column(
+                                                        spacing: 10,
+                                                        crossAxisAlignment:
+                                                            .start,
+                                                        mainAxisSize: .min,
+                                                        children: [
+                                                          Text(
+                                                            'تفاصيل المصدر',
                                                             style: TextStyle(
-                                                              color: widget
-                                                                  .buttonsColor,
                                                               fontSize: 20,
                                                               fontWeight: .bold,
                                                             ),
                                                           ),
-                                                        ),
-                                                        SizedBox(height: 5),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                );
-
-                                                showCupertinoSheet(
-                                                  context: context,
-                                                  showDragHandle: true,
-                                                  scrollableBuilder:
-                                                      (
-                                                        context,
-                                                        scrollController,
-                                                      ) {
-                                                        return CupertinoActionSheet(
-                                                          title: Text('Source'),
-                                                          message: Text(
+                                                          Text(
+                                                            widget
+                                                                .supplication
+                                                                .source,
+                                                            style: TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight: .bold,
+                                                              color: widget
+                                                                  .buttonsColor,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            widget
+                                                                .supplication
+                                                                .source,
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.grey,
+                                                              fontWeight: .w600,
+                                                            ),
+                                                          ),
+                                                          Text(
                                                             widget
                                                                     .supplication
                                                                     .benefitSource ??
-                                                                '',
-                                                          ),
-                                                          cancelButton:
-                                                              CupertinoActionSheetAction(
-                                                                onPressed: () {
-                                                                  Navigator.pop(
-                                                                    context,
-                                                                  );
-                                                                },
-                                                                child: Text(
-                                                                  'cancel',
-                                                                ),
-                                                              ),
-                                                          actions: [
-                                                            CupertinoActionSheetAction(
-                                                              child: Text(
-                                                                'action',
-                                                              ),
-                                                              onPressed: () {},
+                                                                widget
+                                                                    .supplication
+                                                                    .benefit,
+                                                            style: TextStyle(
+                                                              fontWeight: .w600,
                                                             ),
-                                                          ],
-                                                        );
-                                                      },
-                                                );
-                                              },
-                                              style: TextButton.styleFrom(
-                                                foregroundColor:
-                                                    widget.buttonsColor,
-                                                textStyle: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium
-                                                    ?.copyWith(
-                                                      fontFamily:
-                                                          AppFonts.notoSans,
-                                                      fontWeight:
-                                                          FontWeight.w600,
+                                                          ),
+                                                          OutlinedButton(
+                                                            onPressed: () =>
+                                                                Navigator.pop(
+                                                                  context,
+                                                                ),
+                                                            style: OutlinedButton.styleFrom(
+                                                              side: BorderSide(
+                                                                color: widget
+                                                                    .buttonsColor,
+                                                              ),
+                                                              minimumSize: Size(
+                                                                .infinity,
+                                                                45,
+                                                              ),
+                                                            ),
+                                                            child: Text(
+                                                              'إغلاق',
+                                                              style: TextStyle(
+                                                                color: widget
+                                                                    .buttonsColor,
+                                                                fontSize: 20,
+                                                                fontWeight:
+                                                                    .bold,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(height: 5),
+                                                        ],
+                                                      ),
                                                     ),
+                                                  );
+                                                },
+                                                style: TextButton.styleFrom(
+                                                  foregroundColor:
+                                                      widget.buttonsColor,
+                                                  textStyle: Theme.of(context)
+                                                      .textTheme
+                                                      .bodyMedium
+                                                      ?.copyWith(
+                                                        fontFamily:
+                                                            AppFonts.notoSans,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      ),
+                                                ),
+                                                label: Text(
+                                                  widget.supplication.source,
+                                                ),
+                                                icon: const Icon(
+                                                  Icons.menu_book,
+                                                ),
                                               ),
-                                              label: Text(
-                                                widget.supplication.source,
-                                              ),
-                                              icon: const Icon(Icons.menu_book),
-                                            ),
                                           ],
                                         ),
                                       ),

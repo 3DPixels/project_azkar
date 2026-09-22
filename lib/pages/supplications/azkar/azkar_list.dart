@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_azkar/widgets/dua_card.dart';
 import 'package:project_azkar/utils/app_colors.dart';
 
-import '../../../cubits/azkar/azkar_cubit.dart';
+import '../../../cubits/azkar_cubit/azkar_cubit.dart';
 
 class AzkarList extends StatelessWidget {
   const AzkarList({super.key});

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_azkar/utils/app_colors.dart';
 
-import '../../../cubits/azkar/azkar_cubit.dart';
+import '../../../cubits/azkar_cubit/azkar_cubit.dart';
 import '../../../data/models/dua_model.dart';
 import 'azkar_list.dart';
 import 'azkar_single.dart';

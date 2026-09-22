@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_azkar/utils/app_colors.dart';
 import 'package:reel_text/reel_text.dart';
 
-import '../../../cubits/azkar/azkar_cubit.dart';
+import '../../../cubits/azkar_cubit/azkar_cubit.dart';
 import 'azkar_single_card.dart';
 
 class AzkarSingle extends StatelessWidget {

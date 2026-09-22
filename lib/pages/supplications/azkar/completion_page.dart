@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_azkar/services/cache_helper.dart';
+import 'package:project_azkar/services/cache_service.dart';
 import 'package:reel_text/reel_text.dart';
 
 import '../../../utils/app_colors.dart';
@@ -21,13 +21,13 @@ class _CompletionPageState extends State<CompletionPage> {
   void initState() {
     super.initState();
     // 1. Get the current global total BEFORE adding today's session
-    globalCount = CacheHelper.getAzkarCount();
+    globalCount = CacheService.getAzkarCount();
 
     // 2. Calculate the new lifetime total
     final newLifetimeTotal = globalCount + widget.totalRead;
 
     // 3. Cache it in the background immediately
-    CacheHelper.cacheAzkarCount(newLifetimeTotal);
+    CacheService.cacheAzkarCount(newLifetimeTotal);
 
     // 4. Wait for page transition, then trigger ReelText animation
     Future.delayed(const Duration(milliseconds: 500), () {

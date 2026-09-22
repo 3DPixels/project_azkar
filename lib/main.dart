@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_azkar/pages/main_page.dart';
 import 'package:project_azkar/cubits/settings_cubit/settings_cubit.dart';
-import 'package:project_azkar/services/cache_helper.dart';
+import 'package:project_azkar/services/cache_service.dart';
 import 'package:project_azkar/utils/dark_theme.dart';
 
 import 'l10n/app_localizations.dart';
@@ -11,7 +11,7 @@ import 'l10n/app_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await NotificationService().initialize();
-  await CacheHelper.init(); //cache services
+  await CacheService.init(); //cache services
   //To prevent app from landscape orientation
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

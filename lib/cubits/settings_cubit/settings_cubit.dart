@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
-import '../../services/cache_helper.dart';
+import '../../services/cache_service.dart';
 
 part 'settings_state.dart';
 
@@ -13,7 +13,7 @@ class SettingsCubit extends Cubit<SettingsState> {
   }
 
   void getSavedThemeMode() {
-    final bool isDarkMode = CacheHelper.getThemeMode();
+    final bool isDarkMode = CacheService.getThemeMode();
     final themeMode = isDarkMode ? ThemeMode.dark : ThemeMode.light;
     // Emit a new state with the loaded theme.
     emit(state.copyWith(themeMode: themeMode));
@@ -28,7 +28,7 @@ class SettingsCubit extends Cubit<SettingsState> {
     emit(state.copyWith(themeMode: newTheme));
 
     // Then, save the preference asynchronously.
-    await CacheHelper.cacheThemeMode(newTheme == ThemeMode.dark);
+    await CacheService.cacheThemeMode(newTheme == ThemeMode.dark);
   }
 
   void toggleNotifications() {

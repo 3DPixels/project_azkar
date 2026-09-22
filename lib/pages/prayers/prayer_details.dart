@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_azkar/data/models/prayer_model.dart';
 
+import '../../utils/app_fonts.dart';
 import '../../utils/formatters.dart';
 
 class PrayerDetails extends StatefulWidget {
@@ -269,22 +270,25 @@ class _PrayerDetailsState extends State<PrayerDetails> {
                         color: Color(0xFF536C41),
                         size: 22,
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        spacing: 5,
-                        children: [
-                          Text(
-                            'ملاحظة هامة',
-                            style: TextStyle(fontSize: 14, fontWeight: .bold),
-                          ),
-                          Text(
-                            widget.prayer.info!,
-                            style: const TextStyle(
-                              color: Color(0xFF9E9E9E),
-                              fontSize: 13,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 5,
+                          children: [
+                            Text(
+                              'ملاحظة هامة',
+                              style: TextStyle(fontSize: 14, fontWeight: .bold),
                             ),
-                          ),
-                        ],
+                            Text(
+                              widget.prayer.info!,
+
+                              style: const TextStyle(
+                                color: Color(0xFF9E9E9E),
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -406,11 +410,8 @@ class StepTile extends StatelessWidget {
                         child: Text(
                           innerText!,
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            height: 1.8,
-                          ),
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(fontFamily: AppFonts.notoSans),
                         ),
                       ),
                     ],
