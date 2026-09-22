@@ -45,7 +45,7 @@ App name and icon still undecided.
 - ~~The carousel could use some work.~~
 - ~~Make a prayers model.~~
 - ~~Make the prayers list.~~
-- ~~Prayer details page should also use sliver. ~~
+- ~~Prayer details page should also use sliver.~~
 
 ### Supplications page (Future work)
 - Make the page and its data.
