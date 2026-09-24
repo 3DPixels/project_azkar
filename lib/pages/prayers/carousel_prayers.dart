@@ -69,10 +69,10 @@ class UncontainedLayoutCard extends StatelessWidget {
       children: <Widget>[
         OverflowBox(
           maxWidth: width * 7 / 8,
-          minWidth: 390,
-
+          minWidth: width * 7 / 8,
           child: Image(fit: BoxFit.cover, image: AssetImage(prayer.imagePath)),
         ),
+
         // LAYER 2: The Gradient Overlay
         Positioned.fill(
           child: Container(

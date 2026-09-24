@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
@@ -34,14 +35,12 @@ ThemeData darkTheme() {
     //   //   const IconThemeData(color: Colors.white),
     //   // ),
     // ),
-    pageTransitionsTheme: const PageTransitionsTheme(
-      builders: {
-        TargetPlatform.android: SharedAxisPageTransitionsBuilder(
-          transitionType: SharedAxisTransitionType.scaled,
-          fillColor: Colors.transparent,
-        ),
-      },
-    ),
+    // pageTransitionsTheme: PageTransitionsTheme(
+    //   builders: {
+    //     TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+    //     TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+    //   },
+    // ),
     appBarTheme: AppBarTheme(
       centerTitle: true,
       backgroundColor: Colors.transparent,

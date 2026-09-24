@@ -1,60 +1,77 @@
+import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-
 import 'cache_service.dart';
 
-class LocationService {
-  /// Returns cached location immediately if present using CacheService
-  Future<Map<String, dynamic>?> getCachedLocation() async {
-    return CacheService.getCachedLocation();
-  }
+enum LocationPermissionResult {
+  granted,
+  denied,
+  permanentlyDenied,
+  serviceDisabled,
+}
 
-  /// Requests permissions and gets current location from GPS
-  Future<Map<String, dynamic>> fetchFreshLocation() async {
+class LocationService {
+  /// Check permissions without requesting them yet
+  Future<LocationPermissionResult> checkPermissionStatus() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) throw Exception('Location services are disabled.');
+    if (!serviceEnabled) return LocationPermissionResult.serviceDisabled;
 
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        throw Exception('Location permissions are denied.');
-      }
+      return LocationPermissionResult.denied;
     }
-
     if (permission == LocationPermission.deniedForever) {
-      throw Exception('Location permissions are permanently denied.');
+      return LocationPermissionResult.permanentlyDenied;
     }
+    return LocationPermissionResult.granted;
+  }
 
-    // UPDATE 1: Geolocator now uses LocationSettings instead of desiredAccuracy
-    final locationSettings = const LocationSettings(
-      accuracy: LocationAccuracy.low,
-    );
+  /// Request permissions from OS
+  Future<LocationPermissionResult> requestPermission() async {
+    LocationPermission permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      return LocationPermissionResult.denied;
+    }
+    if (permission == LocationPermission.deniedForever) {
+      return LocationPermissionResult.permanentlyDenied;
+    }
+    return LocationPermissionResult.granted;
+  }
 
-    final position = await Geolocator.getCurrentPosition(
-      locationSettings: locationSettings,
+  /// Fetch location fast: Cache -> Last Known GPS -> Fresh GPS
+  Future<Map<String, dynamic>> fetchLocation() async {
+    // 1. Check last known position for instant response
+    Position? position = await Geolocator.getLastKnownPosition();
+
+    // 2. Fallback to fresh position if last known is null
+    position ??= await Geolocator.getCurrentPosition(
+      locationSettings: const LocationSettings(accuracy: LocationAccuracy.low),
     );
 
     String cityFormatted = 'القاهرة، مصر';
     try {
-      // UPDATE 2: Geocoding methods are now called on a Geocoding instance
-      final Geocoding geocoding = Geocoding();
-
+      final geocoding = Geocoding();
       List<Placemark> placemarks = await geocoding.placemarkFromCoordinates(
         position.latitude,
         position.longitude,
+        locale: Locale('ar'), // Force Arabic locale for reverse geocoding
       );
 
       if (placemarks.isNotEmpty) {
         final place = placemarks.first;
-        cityFormatted =
-            '${place.locality ?? place.subAdministrativeArea}، ${place.country}';
+        final city =
+            place.locality ??
+            place.subAdministrativeArea ??
+            place.administrativeArea;
+        final country = place.country ?? '';
+        cityFormatted = city != null && city.isNotEmpty
+            ? '$city، $country'
+            : country;
       }
     } catch (_) {
-      // Fallback to the default if reverse geocoding fails
+      // Fallback city string remains Cairo if geocoding fails
     }
 
-    // Cache results using your CacheService
     await CacheService.cacheLocation(
       position.latitude,
       position.longitude,

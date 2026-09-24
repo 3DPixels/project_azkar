@@ -15,15 +15,17 @@ final class PrayerLoaded extends PrayerState {
   final String locationName;
   final String hijriDate;
   final List<Map<String, dynamic>> prayers;
-  final Prayer currentOrNextPrayer;
+  final String currentOrNextPrayerTitle;
   final DateTime? nextPrayerDateTime;
+  final bool showPermissionDialog;
 
   const PrayerLoaded({
     required this.locationName,
     required this.hijriDate,
     required this.prayers,
-    required this.currentOrNextPrayer,
+    required this.currentOrNextPrayerTitle,
     this.nextPrayerDateTime,
+    this.showPermissionDialog = false,
   });
 
   @override
@@ -31,8 +33,9 @@ final class PrayerLoaded extends PrayerState {
     locationName,
     hijriDate,
     prayers,
-    currentOrNextPrayer,
+    currentOrNextPrayerTitle,
     nextPrayerDateTime,
+    showPermissionDialog,
   ];
 }
 

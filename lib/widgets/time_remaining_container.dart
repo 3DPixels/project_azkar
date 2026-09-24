@@ -5,9 +5,13 @@ import 'package:intl/intl.dart';
 
 class TimeRemainingContainer extends StatefulWidget {
   final DateTime? targetTime;
+  final VoidCallback? onTimerComplete;
 
-  const TimeRemainingContainer({super.key, this.targetTime});
-
+  const TimeRemainingContainer({
+    super.key,
+    this.targetTime,
+    this.onTimerComplete,
+  });
   @override
   State<TimeRemainingContainer> createState() => _TimeRemainingContainerState();
 }
@@ -53,6 +57,7 @@ class _TimeRemainingContainerState extends State<TimeRemainingContainer> {
     } else {
       _duration = Duration.zero;
       _timer?.cancel();
+      widget.onTimerComplete?.call();
     }
   }
 

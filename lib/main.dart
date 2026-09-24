@@ -6,7 +6,10 @@ import 'package:project_azkar/cubits/settings_cubit/settings_cubit.dart';
 import 'package:project_azkar/services/cache_service.dart';
 import 'package:project_azkar/utils/dark_theme.dart';
 
+import 'cubits/prayer_cubit/prayer_cubit.dart';
 import 'l10n/app_localizations.dart';
+import 'services/location_service.dart';
+import 'services/prayer_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,8 +27,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => SettingsCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => SettingsCubit()),
+        BlocProvider(
+          create: (context) =>
+              PrayerCubit(LocationService(), PrayerService())
+                ..initPrayerTimes(),
+        ),
+      ],
       child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
           return MaterialApp(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project_azkar/data/repos/mood_repo.dart';
 import 'package:project_azkar/widgets/mood_container.dart';
 
+import '../../cubits/prayer_cubit/prayer_cubit.dart';
 import '../supplications/moods/moods_list.dart';
 import 'home_azkar_grid.dart';
 import '../../widgets/summary_card.dart';
@@ -25,11 +27,18 @@ class HomePage extends StatelessWidget {
                   'السلام عليكم',
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
-                Text(
-                  'ربيع الاول، 1447',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.labelLarge?.copyWith(color: Color(0xFFA0A0A0)),
+                BlocBuilder<PrayerCubit, PrayerState>(
+                  builder: (context, state) {
+                    if (state is PrayerLoaded) {
+                      return Text(
+                        state.hijriDate,
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                          color: const Color(0xFFA0A0A0),
+                        ),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
                 ),
               ],
             ),
