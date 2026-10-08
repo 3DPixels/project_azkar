@@ -1,17 +1,19 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class TimeRemainingContainer extends StatefulWidget {
   final DateTime? targetTime;
+  final bool isPostAdhan;
   final VoidCallback? onTimerComplete;
 
   const TimeRemainingContainer({
     super.key,
     this.targetTime,
+    this.isPostAdhan = false,
     this.onTimerComplete,
   });
+
   @override
   State<TimeRemainingContainer> createState() => _TimeRemainingContainerState();
 }
@@ -20,52 +22,57 @@ class _TimeRemainingContainerState extends State<TimeRemainingContainer> {
   Timer? _timer;
   Duration _duration = Duration.zero;
 
-  static final NumberFormat _arabicTwoDigits = NumberFormat("00", "ar_EG");
-
   @override
   void initState() {
     super.initState();
     _updateDuration();
-    if (widget.targetTime != null) {
-      _startTimer();
-    }
+    if (widget.targetTime != null) _startTimer();
   }
 
-  // 1. Listens for when the API finally passes data to the widget
   @override
   void didUpdateWidget(TimeRemainingContainer oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.targetTime != oldWidget.targetTime) {
+    if (widget.targetTime != oldWidget.targetTime ||
+        widget.isPostAdhan != oldWidget.isPostAdhan) {
       _updateDuration();
-      // If we just got a valid time and no timer is running, start it
-      if (widget.targetTime != null && _timer == null) {
-        _startTimer();
-      }
+      if (widget.targetTime != null && _timer == null) _startTimer();
     }
   }
 
   void _updateDuration() {
-    // Handle the null case explicitly
     if (widget.targetTime == null) {
       _duration = Duration.zero;
       return;
     }
 
     final now = DateTime.now();
-    if (widget.targetTime!.isAfter(now)) {
-      _duration = widget.targetTime!.difference(now);
+
+    if (widget.isPostAdhan) {
+      if (now.isAfter(widget.targetTime!)) {
+        _duration = now.difference(widget.targetTime!);
+        if (_duration.inMinutes >= 25) {
+          _timer?.cancel();
+          _timer = null;
+          widget.onTimerComplete?.call();
+        }
+      } else {
+        _duration = Duration.zero;
+      }
     } else {
-      _duration = Duration.zero;
-      _timer?.cancel();
-      widget.onTimerComplete?.call();
+      if (widget.targetTime!.isAfter(now)) {
+        _duration = widget.targetTime!.difference(now);
+      } else {
+        _duration = Duration.zero;
+        _timer?.cancel();
+        _timer = null;
+        widget.onTimerComplete?.call();
+      }
     }
   }
 
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        _updateDuration();
-      });
+      setState(() => _updateDuration());
     });
   }
 
@@ -75,41 +82,54 @@ class _TimeRemainingContainerState extends State<TimeRemainingContainer> {
     super.dispose();
   }
 
-  String _formatDurationToArabic(Duration duration) {
-    if (duration.inSeconds <= 0) return "٠٠:٠٠:٠٠";
+  String _formatDuration(Duration duration) {
+    if (duration.inSeconds <= 0 && !widget.isPostAdhan) return "00:00:00";
 
-    String hours = _arabicTwoDigits.format(duration.inHours);
-    String minutes = _arabicTwoDigits.format(duration.inMinutes.remainder(60));
-    String seconds = _arabicTwoDigits.format(duration.inSeconds.remainder(60));
+    // Standard numbers formatted to 2 digits
+    String hours = duration.inHours.toString().padLeft(2, '0');
+    String minutes = duration.inMinutes
+        .remainder(60)
+        .toString()
+        .padLeft(2, '0');
+    String seconds = duration.inSeconds
+        .remainder(60)
+        .toString()
+        .padLeft(2, '0');
 
-    return "$hours:$minutes:$seconds";
+    String formatted = "$hours:$minutes:$seconds";
+    return widget.isPostAdhan ? "+ $formatted" : formatted;
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 90,
-      height: 70,
-      alignment: Alignment.center,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         color: Colors.white.withValues(alpha: 0.1),
-        border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
       ),
       child: Column(
-        spacing: 5,
-        // Ensures the column only takes up as much space as it needs
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            'باقي على الأذان',
-            style: Theme.of(context).textTheme.labelSmall,
+            widget.isPostAdhan ? 'منذ الأذان' : 'باقي على الأذان',
+            style: Theme.of(
+              context,
+            ).textTheme.labelSmall?.copyWith(fontSize: 12),
           ),
-          Text(
-            widget.targetTime == null
-                ? "--:--:--"
-                : _formatDurationToArabic(_duration),
-            style: Theme.of(context).textTheme.labelLarge,
+          const SizedBox(height: 4),
+          // Forced LTR direction so the time format doesn't flip in Arabic
+          Directionality(
+            textDirection: TextDirection.ltr,
+            child: Text(
+              widget.targetTime == null
+                  ? "--:--:--"
+                  : _formatDuration(_duration),
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.5,
+              ),
+            ),
           ),
         ],
       ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_azkar/cubits/adhan_cubit.dart';
 import 'package:project_azkar/widgets/prayer_time.dart';
 import 'package:project_azkar/widgets/time_remaining_container.dart';
 
-import '../cubits/prayer_cubit/prayer_cubit.dart';
 import '../utils/app_colors.dart';
 
 class SummaryCard extends StatefulWidget {
@@ -57,7 +57,7 @@ class _SummaryCardState extends State<SummaryCard> {
   borderRadius: BorderRadius.circular(16),
   elevation: 4, // Bonus: Easily add shadows if your design needs them
      */
-    return BlocConsumer<PrayerCubit, PrayerState>(
+    return BlocConsumer<AdhanCubit, AdhanState>(
       listener: (context, state) {
         if (state is PrayerLoaded && state.showPermissionDialog) {
           _showPermissionDialog(context);

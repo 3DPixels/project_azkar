@@ -22,11 +22,10 @@ dependencies:
     sdk: flutter
 
   animations: ^3.0.0
-  cupertino_icons: ^1.0.8
-  equatable: ^2.0.7
+  cupertino_icons: ^2.0.0
+  equatable: ^3.0.0
   flutter_animate: ^4.5.2
   flutter_bloc: ^9.1.1
-  flutter_staggered_animations: ^1.1.1
 #  google_fonts: ^6.3.1
   intl: any
   reel_text: ^0.5.0
@@ -39,6 +38,8 @@ dependencies:
   hijri: ^3.0.1
   adhan: ^2.0.0+1
   flutter_local_notifications: ^22.3.1
+  timezone: ^0.11.1
+  flutter_timezone: ^5.1.0
 
 dev_dependencies:
   flutter_test:

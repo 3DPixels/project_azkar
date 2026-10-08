@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:project_azkar/services/cache_service.dart';
 import 'package:reel_text/reel_text.dart';
 
+import '../../../extensions/num_extension.dart';
 import '../../../utils/app_colors.dart';
-import '../../../utils/formatters.dart';
 
 class CompletionPage extends StatefulWidget {
   final int totalRead;

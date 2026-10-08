@@ -1,87 +1,49 @@
-import 'package:flutter/material.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:geolocator/geolocator.dart';
-import 'cache_service.dart';
+import 'dart:ui'; // Required for the Locale class
 
-enum LocationPermissionResult {
-  granted,
-  denied,
-  permanentlyDenied,
-  serviceDisabled,
-}
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 
 class LocationService {
-  /// Check permissions without requesting them yet
-  Future<LocationPermissionResult> checkPermissionStatus() async {
-    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) return LocationPermissionResult.serviceDisabled;
+  final Geocoding _geocoding = Geocoding();
 
-    LocationPermission permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      return LocationPermissionResult.denied;
-    }
-    if (permission == LocationPermission.deniedForever) {
-      return LocationPermissionResult.permanentlyDenied;
-    }
-    return LocationPermissionResult.granted;
+  Future<bool> isServiceEnabled() async {
+    return await Geolocator.isLocationServiceEnabled();
   }
 
-  /// Request permissions from OS
-  Future<LocationPermissionResult> requestPermission() async {
-    LocationPermission permission = await Geolocator.requestPermission();
-    if (permission == LocationPermission.denied) {
-      return LocationPermissionResult.denied;
-    }
-    if (permission == LocationPermission.deniedForever) {
-      return LocationPermissionResult.permanentlyDenied;
-    }
-    return LocationPermissionResult.granted;
+  Future<LocationPermission> checkPermission() async {
+    return await Geolocator.checkPermission();
   }
 
-  /// Fetch location fast: Cache -> Last Known GPS -> Fresh GPS
-  Future<Map<String, dynamic>> fetchLocation() async {
-    // 1. Check last known position for instant response
-    Position? position = await Geolocator.getLastKnownPosition();
+  Future<LocationPermission> requestPermission() async {
+    return await Geolocator.requestPermission();
+  }
 
-    // 2. Fallback to fresh position if last known is null
-    position ??= await Geolocator.getCurrentPosition(
-      locationSettings: const LocationSettings(accuracy: LocationAccuracy.low),
+  Future<Position?> getLastKnownPosition() async {
+    return await Geolocator.getLastKnownPosition();
+  }
+
+  Future<Position> getCurrentPosition() async {
+    return await Geolocator.getCurrentPosition(
+      locationSettings: const LocationSettings(
+        accuracy: LocationAccuracy.medium,
+        timeLimit: Duration(seconds: 10),
+      ),
     );
+  }
 
-    String cityFormatted = 'القاهرة، مصر';
+  Future<Placemark?> getPlacemark(double lat, double lng) async {
     try {
-      final geocoding = Geocoding();
-      List<Placemark> placemarks = await geocoding.placemarkFromCoordinates(
-        position.latitude,
-        position.longitude,
-        locale: Locale('ar'), // Force Arabic locale for reverse geocoding
+      List<Placemark> placemarks = await _geocoding.placemarkFromCoordinates(
+        lat,
+        lng,
+        locale: const Locale('ar'),
       );
-
       if (placemarks.isNotEmpty) {
-        final place = placemarks.first;
-        final city =
-            place.locality ??
-            place.subAdministrativeArea ??
-            place.administrativeArea;
-        final country = place.country ?? '';
-        cityFormatted = city != null && city.isNotEmpty
-            ? '$city، $country'
-            : country;
+        return placemarks.first;
       }
-    } catch (_) {
-      // Fallback city string remains Cairo if geocoding fails
+    } catch (e) {
+      return null;
     }
-
-    await CacheService.cacheLocation(
-      position.latitude,
-      position.longitude,
-      cityFormatted,
-    );
-
-    return {
-      'lat': position.latitude,
-      'lng': position.longitude,
-      'city': cityFormatted,
-    };
+    return null;
   }
 }

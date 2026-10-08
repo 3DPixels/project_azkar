@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project_azkar/data/models/prayer_model.dart';
 
+import '../../extensions/num_extension.dart';
 import '../../utils/app_fonts.dart';
-import '../../utils/formatters.dart';
 
 class PrayerDetails extends StatefulWidget {
   final PrayerModel prayer;
