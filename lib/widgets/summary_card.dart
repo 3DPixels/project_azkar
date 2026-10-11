@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_azkar/cubits/adhan_cubit.dart';
+import 'package:project_azkar/cubits/prayer_times_cubit.dart';
 import 'package:project_azkar/widgets/prayer_time.dart';
 import 'package:project_azkar/widgets/time_remaining_container.dart';
 
+import '../extensions/date_time_extnesions.dart';
 import '../utils/app_colors.dart';
 
 class SummaryCard extends StatefulWidget {
@@ -14,74 +15,54 @@ class SummaryCard extends StatefulWidget {
 }
 
 class _SummaryCardState extends State<SummaryCard> {
-  ScrollController? _scrollController;
+  final ScrollController _scrollController = ScrollController();
 
-  @override
-  void dispose() {
-    _scrollController?.dispose();
-    super.dispose();
-  }
+  void _scrollToCurrentPrayer(int index) {
+    if (index == -1 || !_scrollController.hasClients) return;
 
-  void _scrollToCurrentPrayer(
-    List<Map<String, dynamic>> prayers,
-    double maxWidth,
-  ) {
-    int targetIndex = prayers.indexWhere(
-      (p) => p['isCurrent'] == true || p['isNext'] == true,
-    );
-    if (targetIndex == -1) targetIndex = 0;
-
-    const double itemWidth = 85.0;
-    double centerOffset =
-        (targetIndex * itemWidth) + (itemWidth / 2) - (maxWidth / 2);
-    if (centerOffset < 0) centerOffset = 0;
+    // Estimate width of a single item + spacing (approx 80px item + 16px padding)
+    const double itemWidth = 96.0;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_scrollController != null && _scrollController!.hasClients) {
-        _scrollController!.animateTo(
-          centerOffset,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      } else {
-        _scrollController = ScrollController(initialScrollOffset: centerOffset);
-      }
+      if (!_scrollController.hasClients) return;
+      double screenWidth = MediaQuery.of(context).size.width;
+
+      // Calculate offset to center the item
+      double offset = (index * itemWidth) - (screenWidth / 2) + (itemWidth / 2);
+
+      // Prevent scrolling past limits
+      offset = offset.clamp(0.0, _scrollController.position.maxScrollExtent);
+
+      _scrollController.animateTo(
+        offset,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
     });
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    //TODO maybe switch the outer container with material widget with these properties to get the elevation and shadow easily without needing to manage the box shadow manually
-    /**
-  color: const Color(0xFF1A2A1F), // Your solid base color goes here
-  borderRadius: BorderRadius.circular(16),
-  elevation: 4, // Bonus: Easily add shadows if your design needs them
-     */
-    return BlocConsumer<AdhanCubit, AdhanState>(
-      listener: (context, state) {
-        if (state is PrayerLoaded && state.showPermissionDialog) {
-          _showPermissionDialog(context);
-        }
-      },
+    return BlocBuilder<PrayerTimesCubit, PrayerTimesState>(
       builder: (context, state) {
-        if (state is PrayerLoading || state is PrayerInitial) {
-          return const SizedBox(
-            height: 180,
-            child: Center(child: CircularProgressIndicator()),
-          );
+        if (state.currentPrayerIndex != -1) {
+          _scrollToCurrentPrayer(state.currentPrayerIndex);
         }
-        if (state is PrayerLoaded) {
-          return Container(
-            decoration: BoxDecoration(
-              //TODO choose one of these two colors after testing them in the app
-              // color: const Color(0xFF1A2A1F),
-              color: const Color(0xFF1C261F),
-              borderRadius: BorderRadius.circular(16),
-            ),
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Material(
+            color: const Color(0xFF1A2A1F), // solid base color
+            borderRadius: BorderRadius.circular(16),
+            elevation: 3,
             child: Container(
-              // padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.red,
                 gradient: LinearGradient(
                   colors: [
                     AppColors.darkGreenPageBG.withValues(alpha: .8),
@@ -91,133 +72,108 @@ class _SummaryCardState extends State<SummaryCard> {
                 ),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.1),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
               ),
               child: Column(
-                spacing: 12,
+                spacing: 16,
                 children: [
                   // First Row: Location, Hijri Date, Prayer Name, Countdown
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: .start,
+                    spacing: 10,
+                    children: [
+                      Flexible(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          spacing: 4,
+                          spacing: 6,
                           children: [
                             Row(
+                              spacing: 4,
                               children: [
-                                Icon(
-                                  Icons.location_on,
-                                  size: 16,
-                                  color: Theme.of(context).colorScheme.primary,
+                                Flexible(
+                                  child: Text(
+                                    '${state.city}، ${state.country}',
+                                    overflow: .ellipsis,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge
+                                        ?.copyWith(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.primary,
+                                        ),
+                                  ),
                                 ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  state.locationName,
-                                  style: Theme.of(context).textTheme.labelMedium
-                                      ?.copyWith(
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.primary,
+                                if (state.locationStatus ==
+                                    LocationStatus.loading)
+                                  const Padding(
+                                    padding: EdgeInsets.only(right: 5.0),
+                                    child: SizedBox(
+                                      height: 12,
+                                      width: 12,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color: Colors.green,
                                       ),
-                                ),
+                                    ),
+                                  ),
+                                if (state.locationStatus !=
+                                    LocationStatus.loading)
+                                  Icon(
+                                    Icons.location_on,
+                                    size: 16,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
+                                  ),
                               ],
                             ),
                             Text(
-                              state.hijriDate,
-                              style: Theme.of(context).textTheme.labelSmall
+                              DateTime.now().toHijriString(),
+                              style: Theme.of(context).textTheme.labelLarge
                                   ?.copyWith(color: Colors.white70),
-                            ),
-                            Text(
-                              state.currentOrNextPrayerTitle,
-                              style: Theme.of(context).textTheme.titleLarge,
                             ),
                           ],
                         ),
-                        TimeRemainingContainer(
-                          targetTime: state.nextPrayerDateTime,
-                          onTimerComplete: () {
-                            // Instantly refresh prayers when the countdown finishes
-                            context.read<PrayerCubit>().initPrayerTimes();
-                          },
-                        ),
-                      ],
-                    ),
+                      ),
+                      TimeRemainingContainer(
+                        targetTime: state.timerTarget,
+                        isPostAdhan: state.isPostAdhan,
+                        onTimerComplete: () {
+                          // Re-trigger calculation to transition state
+                          context.read<PrayerTimesCubit>().calculatePrayers();
+                        },
+                      ),
+                    ],
                   ),
 
                   // Second Row: Horizontal Prayers List
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      _scrollToCurrentPrayer(
-                        state.prayers,
-                        constraints.maxWidth,
-                      );
-
-                      return SizedBox(
-                        height: 90,
-                        child: ListView.builder(
-                          controller: _scrollController ??= ScrollController(),
-                          scrollDirection: Axis.horizontal,
-                          itemCount: state.prayers.length,
-                          itemExtent: 85,
-                          itemBuilder: (context, index) {
-                            final item = state.prayers[index];
-                            return PrayerTime(
-                              prayer: item['title'],
-                              prayerTime: item['timeStr'],
-                              passed: item['isPassed'],
-                              currentPrayer:
-                                  item['isCurrent'] || item['isNext'],
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  ),
+                  if (state.prayers.isNotEmpty)
+                    SizedBox(
+                      height: 90,
+                      child: ListView.separated(
+                        controller: _scrollController,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: state.prayers.length,
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(width: 30),
+                        itemBuilder: (context, index) {
+                          final prayer = state.prayers[index];
+                          return PrayerTime(
+                            passed: prayer.isPassed,
+                            currentPrayer: prayer.isCurrent,
+                            prayer: prayer.name,
+                            prayerTime: prayer.timeString,
+                          );
+                        },
+                      ),
+                    ),
                 ],
               ),
             ),
-          );
-        }
-
-        return const SizedBox.shrink();
+          ),
+        );
       },
     );
   }
-}
-
-void _showPermissionDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (dialogContext) => AlertDialog(
-      title: const Text('إذن الموقع مطلوب'),
-      content: const Text(
-        'يحتاج التطبيق إلى إذن تحديد الموقع لحساب أوقات الصلاة والقبلة بدقة الخاصة بمدينتك.',
-      ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.pop(dialogContext);
-          },
-          child: const Text('تجاهل (استخدام الموقع الافتراضي)'),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pop(dialogContext);
-            context.read<PrayerCubit>().requestLocationAndFetch();
-          },
-          child: const Text('السماح بالموقع'),
-        ),
-      ],
-    ),
-  );
 }

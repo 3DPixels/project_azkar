@@ -73,9 +73,9 @@ class HomeAzkarGrid extends StatelessWidget {
   const HomeAzkarGrid({super.key});
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
+    return SliverGrid.builder(
+      // shrinkWrap: true,
+      // physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 16.0,

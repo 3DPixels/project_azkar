@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 
-class AdhanModel extends Equatable {
+class PrayerTimeModel extends Equatable {
   final String name;
   final String timeString;
   final DateTime time;
   final bool isPassed;
   final bool isCurrent;
 
-  const AdhanModel({
+  const PrayerTimeModel({
     required this.name,
     required this.timeString,
     required this.time,
@@ -15,14 +15,14 @@ class AdhanModel extends Equatable {
     this.isCurrent = false,
   });
 
-  AdhanModel copyWith({
+  PrayerTimeModel copyWith({
     String? name,
     String? timeString,
     DateTime? time,
     bool? isPassed,
     bool? isCurrent,
   }) {
-    return AdhanModel(
+    return PrayerTimeModel(
       name: name ?? this.name,
       timeString: timeString ?? this.timeString,
       time: time ?? this.time,

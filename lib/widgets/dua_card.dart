@@ -74,7 +74,7 @@ class _DuaCardState extends State<DuaCard> {
 
       widget.onTap?.call();
     } else {
-      HapticFeedback.successNotification();
+      HapticFeedback.selectionClick();
       widget.onTap?.call();
     }
   }
@@ -231,7 +231,7 @@ class _DuaCardState extends State<DuaCard> {
                                             if (widget
                                                 .supplication
                                                 .source
-                                                .isEmpty)
+                                                .isNotEmpty)
                                               TextButton.icon(
                                                 onPressed: () {
                                                   // showModalBottomSheet(
@@ -276,86 +276,94 @@ class _DuaCardState extends State<DuaCard> {
                                                     backgroundColor: widget
                                                         .containerBackgroundColor,
                                                     showDragHandle: true,
-                                                    enableDrag: false,
+                                                    // enableDrag: false,
 
-                                                    builder: (context) => Padding(
-                                                      padding:
-                                                          const EdgeInsets.symmetric(
-                                                            horizontal: 10.0,
-                                                          ),
-                                                      child: Column(
-                                                        spacing: 10,
-                                                        crossAxisAlignment:
-                                                            .start,
-                                                        mainAxisSize: .min,
-                                                        children: [
-                                                          Text(
-                                                            'تفاصيل المصدر',
-                                                            style: TextStyle(
-                                                              fontSize: 20,
-                                                              fontWeight: .bold,
+                                                    builder: (context) => SafeArea(
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets.symmetric(
+                                                              horizontal: 20.0,
                                                             ),
-                                                          ),
-                                                          Text(
-                                                            widget
-                                                                .supplication
-                                                                .source,
-                                                            style: TextStyle(
-                                                              fontSize: 20,
-                                                              fontWeight: .bold,
-                                                              color: widget
-                                                                  .buttonsColor,
-                                                            ),
-                                                          ),
-                                                          Text(
-                                                            widget
-                                                                .supplication
-                                                                .source,
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.grey,
-                                                              fontWeight: .w600,
-                                                            ),
-                                                          ),
-                                                          Text(
-                                                            widget
-                                                                    .supplication
-                                                                    .benefitSource ??
-                                                                widget
-                                                                    .supplication
-                                                                    .benefit,
-                                                            style: TextStyle(
-                                                              fontWeight: .w600,
-                                                            ),
-                                                          ),
-                                                          OutlinedButton(
-                                                            onPressed: () =>
-                                                                Navigator.pop(
-                                                                  context,
-                                                                ),
-                                                            style: OutlinedButton.styleFrom(
-                                                              side: BorderSide(
-                                                                color: widget
-                                                                    .buttonsColor,
-                                                              ),
-                                                              minimumSize: Size(
-                                                                .infinity,
-                                                                45,
-                                                              ),
-                                                            ),
-                                                            child: Text(
-                                                              'إغلاق',
+                                                        child: Column(
+                                                          spacing: 10,
+                                                          crossAxisAlignment:
+                                                              .start,
+                                                          mainAxisSize: .min,
+                                                          children: [
+                                                            Text(
+                                                              'تفاصيل المصدر',
                                                               style: TextStyle(
-                                                                color: widget
-                                                                    .buttonsColor,
                                                                 fontSize: 20,
                                                                 fontWeight:
                                                                     .bold,
                                                               ),
                                                             ),
-                                                          ),
-                                                          SizedBox(height: 5),
-                                                        ],
+                                                            Text(
+                                                              widget
+                                                                  .supplication
+                                                                  .source,
+                                                              style: TextStyle(
+                                                                fontSize: 20,
+                                                                fontWeight:
+                                                                    .bold,
+                                                                color: widget
+                                                                    .buttonsColor,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              widget
+                                                                  .supplication
+                                                                  .source,
+                                                              style: TextStyle(
+                                                                color:
+                                                                    Colors.grey,
+                                                                fontWeight:
+                                                                    .w600,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              widget
+                                                                      .supplication
+                                                                      .benefitSource ??
+                                                                  widget
+                                                                      .supplication
+                                                                      .benefit,
+                                                              style: TextStyle(
+                                                                fontWeight:
+                                                                    .w600,
+                                                              ),
+                                                            ),
+                                                            SizedBox(),
+                                                            OutlinedButton(
+                                                              onPressed: () =>
+                                                                  Navigator.pop(
+                                                                    context,
+                                                                  ),
+                                                              style: OutlinedButton.styleFrom(
+                                                                side: BorderSide(
+                                                                  color: widget
+                                                                      .buttonsColor,
+                                                                ),
+                                                                minimumSize:
+                                                                    Size(
+                                                                      .infinity,
+                                                                      45,
+                                                                    ),
+                                                              ),
+                                                              child: Text(
+                                                                'إغلاق',
+                                                                style: TextStyle(
+                                                                  color: widget
+                                                                      .buttonsColor,
+                                                                  fontSize: 20,
+                                                                  fontWeight:
+                                                                      .bold,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            SizedBox(height: 5),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   );

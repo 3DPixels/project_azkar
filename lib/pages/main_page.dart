@@ -63,7 +63,7 @@ class _MainPageState extends State<MainPage> {
               child: SizedBox(
                 width: 600,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  padding: const EdgeInsets.only(top: 10.0),
                   child: PageView(
                     controller: _pageController,
                     onPageChanged: (index) {

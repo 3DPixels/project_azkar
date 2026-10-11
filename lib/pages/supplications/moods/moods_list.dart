@@ -103,7 +103,6 @@ class _MoodsListState extends State<MoodsList> {
                     ],
                   ),
                 ),
-                //TODO check if safe area is necessary here on phones
                 // SafeArea prevents your custom column from clipping into the status bar
                 child: SafeArea(
                   child: Column(

@@ -1,17 +1,22 @@
+import 'package:adhan/adhan.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:project_azkar/data/models/adhan_model.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:project_azkar/data/models/prayer_time_model.dart';
 
+import '../services/adhan_service.dart';
+import '../services/cache_service.dart';
 import '../services/location_service.dart';
 
-part 'adhan_state.dart';
+part 'prayer_times_state.dart';
 
-class AdhanCubit extends Cubit<AdhanState> {
+class PrayerTimesCubit extends Cubit<PrayerTimesState> {
   final LocationService _locationService;
   final AdhanService _adhanService;
 
-  AdhanCubit(this._locationService, this._adhanService)
-    : super(const AdhanState()) {
+  PrayerTimesCubit(this._locationService, this._adhanService)
+    : super(const PrayerTimesState()) {
     _initializeLocationFlow();
   }
 
@@ -91,13 +96,8 @@ class AdhanCubit extends Cubit<AdhanState> {
     );
 
     try {
-      print('Fetching current position...');
       Position? position = await _locationService.getCurrentPosition();
 
-      // Reverse Geocoding
-      print(
-        'Fetching placemark for coordinates: ${position.latitude}, ${position.longitude}',
-      );
       Placemark? place = await _locationService.getPlacemark(
         position.latitude,
         position.longitude,
@@ -153,33 +153,33 @@ class AdhanCubit extends Cubit<AdhanState> {
       state.country,
     );
 
-    final List<PrayerModel> allPrayers = [
-      PrayerModel(
+    final List<PrayerTimeModel> allPrayers = [
+      PrayerTimeModel(
         name: 'صلاة الفجر',
         timeString: _adhanService.formatTime(todayPrayers.fajr),
         time: todayPrayers.fajr,
       ),
-      PrayerModel(
+      PrayerTimeModel(
         name: 'صلاة الشروق',
         timeString: _adhanService.formatTime(todayPrayers.sunrise),
         time: todayPrayers.sunrise,
       ),
-      PrayerModel(
+      PrayerTimeModel(
         name: 'صلاة الظهر',
         timeString: _adhanService.formatTime(todayPrayers.dhuhr),
         time: todayPrayers.dhuhr,
       ),
-      PrayerModel(
+      PrayerTimeModel(
         name: 'صلاة العصر',
         timeString: _adhanService.formatTime(todayPrayers.asr),
         time: todayPrayers.asr,
       ),
-      PrayerModel(
+      PrayerTimeModel(
         name: 'صلاة المغرب',
         timeString: _adhanService.formatTime(todayPrayers.maghrib),
         time: todayPrayers.maghrib,
       ),
-      PrayerModel(
+      PrayerTimeModel(
         name: 'صلاة العشاء',
         timeString: _adhanService.formatTime(todayPrayers.isha),
         time: todayPrayers.isha,
@@ -228,7 +228,7 @@ class AdhanCubit extends Cubit<AdhanState> {
 
     final updatedList = allPrayers.asMap().entries.map((entry) {
       int idx = entry.key;
-      PrayerModel p = entry.value;
+      PrayerTimeModel p = entry.value;
 
       bool passed = false;
       bool current = false;

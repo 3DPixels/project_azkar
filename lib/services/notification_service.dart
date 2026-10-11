@@ -80,7 +80,7 @@ class NotificationService {
           'مواقيت الصلاة و اذكار يومية',
           groupKey: 'dalil_almuslim_group',
           importance: Importance.max,
-          priority: Priority.high,
+          priority: Priority.max,
           category: AndroidNotificationCategory.reminder,
         ),
       ),
@@ -115,22 +115,6 @@ class NotificationService {
     await _plugin.show(
       id: 0,
       title: 'title',
-      notificationDetails: NotificationDetails(
-        android: AndroidNotificationDetails(
-          'hourly_azkar',
-          'أذكار متكررة',
-          groupKey: 'dalil_almuslim_group',
-          category: AndroidNotificationCategory.reminder,
-          playSound: false,
-        ),
-      ),
-    );
-  }
-
-  Future<void> showNotificationWithIcon() async {
-    await _plugin.show(
-      id: 1,
-      title: 'title',
       body: 'body',
       notificationDetails: NotificationDetails(
         android: AndroidNotificationDetails(
@@ -138,6 +122,7 @@ class NotificationService {
           'أذكار متكررة',
           groupKey: 'dalil_almuslim_group',
           category: AndroidNotificationCategory.reminder,
+          playSound: false,
         ),
       ),
     );

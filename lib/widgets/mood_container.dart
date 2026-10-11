@@ -38,11 +38,14 @@ class MoodContainer extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(12.0)),
           ),
           closedBuilder: (BuildContext context, VoidCallback openContainer) {
-            return InkWell(
-              onTap: openContainer,
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: Icon(iconData, color: iconColor),
+            return Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: openContainer,
+                child: Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Icon(iconData, color: iconColor),
+                ),
               ),
             );
           },

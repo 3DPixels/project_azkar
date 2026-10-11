@@ -1,5 +1,3 @@
-import 'package:animations/animations.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'app_colors.dart';
@@ -18,15 +16,17 @@ ThemeData darkTheme() {
     ),
     fontFamily: AppFonts.ibmPlex,
     textTheme: const TextTheme(
-      titleLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      headlineLarge: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      titleLarge: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
       titleMedium: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       titleSmall: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-      labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-      labelMedium: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-      labelSmall: TextStyle(fontSize: 12),
-      bodyLarge: TextStyle(fontSize: 14, color: Color(0xFF94A3B8)),
-      bodyMedium: TextStyle(fontSize: 12),
-      bodySmall: TextStyle(fontSize: 10),
+
+      labelLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+      labelMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+      labelSmall: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+      bodyLarge: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+      bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+      bodySmall: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
     ).apply(bodyColor: Colors.white, displayColor: Colors.white),
     // navigationBarTheme: NavigationBarThemeData(
     //   backgroundColor: AppColors.darkGreenNavBarBG,

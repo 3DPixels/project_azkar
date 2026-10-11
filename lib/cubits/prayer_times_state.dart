@@ -1,4 +1,4 @@
-part of 'adhan_cubit.dart';
+part of 'prayer_times_cubit.dart';
 
 enum LocationStatus {
   initial,
@@ -10,7 +10,7 @@ enum LocationStatus {
   error,
 }
 
-class AdhanState extends Equatable {
+class PrayerTimesState extends Equatable {
   final LocationStatus locationStatus;
   final String locationSource;
   final String locationMessage;
@@ -20,13 +20,13 @@ class AdhanState extends Equatable {
   final double longitude;
 
   // Prayer Data
-  final List<AdhanModel> prayers;
+  final List<PrayerTimeModel> prayers;
   final String currentPrayerName;
   final int currentPrayerIndex;
   final DateTime? timerTarget;
   final bool isPostAdhan; // True if within 25 mins after adhan
 
-  const AdhanState({
+  const PrayerTimesState({
     this.locationStatus = LocationStatus.initial,
     this.locationSource = '',
     this.locationMessage = '',
@@ -41,7 +41,7 @@ class AdhanState extends Equatable {
     this.isPostAdhan = false,
   });
 
-  AdhanState copyWith({
+  PrayerTimesState copyWith({
     LocationStatus? locationStatus,
     String? locationSource,
     String? locationMessage,
@@ -50,13 +50,13 @@ class AdhanState extends Equatable {
     double? latitude,
     double? longitude,
     String? hijriDate,
-    List<AdhanModel>? prayers,
+    List<PrayerTimeModel>? prayers,
     String? currentPrayerName,
     int? currentPrayerIndex,
     DateTime? timerTarget,
     bool? isPostAdhan,
   }) {
-    return AdhanState(
+    return PrayerTimesState(
       locationStatus: locationStatus ?? this.locationStatus,
       locationSource: locationSource ?? this.locationSource,
       locationMessage: locationMessage ?? this.locationMessage,

@@ -40,6 +40,7 @@ class AzkarPage extends StatelessWidget {
           );
         },
         child: Scaffold(
+          backgroundColor: AppColors.darkGreenPageBG,
           body: DefaultTabController(
             length: 2,
             initialIndex: 0,
@@ -52,7 +53,7 @@ class AzkarPage extends StatelessWidget {
                     expandedHeight: 170,
                     forceElevated: innerBoxIsScrolled,
                     scrolledUnderElevation: 0,
-                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    backgroundColor: AppColors.darkGreenPageBG,
                     flexibleSpace: FlexibleSpaceBar(
                       background: SafeArea(
                         child: Padding(
