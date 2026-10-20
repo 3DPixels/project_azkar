@@ -45,10 +45,13 @@ class NotificationScheduler {
         lng,
       );
 
+      final daysLeft = lastDate?.difference(now).inDays;
+
       // Keep schedule if within 20km and >= 3 days left
       if (distance < 20000 &&
-          lastDate != null &&
-          lastDate.difference(now).inDays >= 3) {
+          daysLeft != null &&
+          daysLeft >= 3 &&
+          daysLeft <= 7) {
         return; // Schedule is still valid, do nothing
       }
     }

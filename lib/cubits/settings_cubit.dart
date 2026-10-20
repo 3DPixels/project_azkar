@@ -55,6 +55,7 @@ class SettingsCubit extends Cubit<SettingsState> {
     required double lat,
     required double lng,
     required String country,
+    bool force = false,
   }) async {
     // Runs on app start. force is false. It will only schedule if the cache requires it.
     await _scheduler.scheduleAllNotifications(
@@ -63,7 +64,7 @@ class SettingsCubit extends Cubit<SettingsState> {
       country: country,
       enablePrayers: state.prayerNotifications,
       enableAzkar: state.morningNightAzkarNotifications,
-      force: false,
+      force: force,
     );
   }
 

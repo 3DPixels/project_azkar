@@ -20,7 +20,7 @@ class PrayerTimesCubit extends Cubit<PrayerTimesState> {
     _initializeLocationFlow();
   }
 
-  Future<void> _initializeLocationFlow() async {
+  Future<void> _initializeLocationFlow({bool isManual = false}) async {
     // 1. Load Cache Immediately
     final cached = CacheService.getCachedLocation();
     if (cached != null) {
@@ -31,6 +31,7 @@ class PrayerTimesCubit extends Cubit<PrayerTimesState> {
           country: cached['country'],
           latitude: cached['lat'],
           longitude: cached['lng'],
+          isManualRefresh: isManual,
           locationSource: 'من الذاكرة المؤقتة',
           locationMessage: 'جاري التحقق من الصلاحيات...',
         ),
@@ -43,6 +44,7 @@ class PrayerTimesCubit extends Cubit<PrayerTimesState> {
           country: 'السعودية',
           latitude: 24.7136,
           longitude: 46.6753,
+          isManualRefresh: isManual,
           locationSource: 'الموقع الافتراضي',
           locationMessage: 'لا يوجد موقع محفوظ',
         ),
@@ -266,7 +268,7 @@ class PrayerTimesCubit extends Cubit<PrayerTimesState> {
     await Future.delayed(
       const Duration(milliseconds: 2000),
     ); // Optional: slight delay for UX
-    // Simply re-trigger the flow. The Cupertino spinner handles the UI loading state.
-    await _initializeLocationFlow();
+
+    await _initializeLocationFlow(isManual: true);
   }
 }

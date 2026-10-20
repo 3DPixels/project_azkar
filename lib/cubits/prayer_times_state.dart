@@ -18,6 +18,7 @@ class PrayerTimesState extends Equatable {
   final String country;
   final double latitude;
   final double longitude;
+  final bool isManualRefresh;
 
   // Prayer Data
   final List<PrayerTimeModel> prayers;
@@ -34,6 +35,7 @@ class PrayerTimesState extends Equatable {
     this.country = 'السعودية',
     this.latitude = 24.7136,
     this.longitude = 46.6753,
+    this.isManualRefresh = false,
     this.prayers = const [],
     this.currentPrayerName = '',
     this.currentPrayerIndex = -1,
@@ -49,6 +51,7 @@ class PrayerTimesState extends Equatable {
     String? country,
     double? latitude,
     double? longitude,
+    bool? isManualRefresh,
     String? hijriDate,
     List<PrayerTimeModel>? prayers,
     String? currentPrayerName,
@@ -64,6 +67,7 @@ class PrayerTimesState extends Equatable {
       country: country ?? this.country,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
+      isManualRefresh: isManualRefresh ?? this.isManualRefresh,
       prayers: prayers ?? this.prayers,
       currentPrayerName: currentPrayerName ?? this.currentPrayerName,
       currentPrayerIndex: currentPrayerIndex ?? this.currentPrayerIndex,
@@ -81,6 +85,7 @@ class PrayerTimesState extends Equatable {
     country,
     latitude,
     longitude,
+    isManualRefresh,
     prayers,
     currentPrayerName,
     currentPrayerIndex,
