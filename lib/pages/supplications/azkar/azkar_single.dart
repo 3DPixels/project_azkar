@@ -30,11 +30,9 @@ class AzkarSingle extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
           child: Column(
             children: [
-              Expanded(
-                child: AzkarSingleCard(
-                  key: ValueKey(supplication.dua),
-                  supplication: supplication,
-                ),
+              AzkarSingleCard(
+                key: ValueKey(supplication.dua),
+                supplication: supplication,
               ),
               SizedBox(height: 25),
               GestureDetector(

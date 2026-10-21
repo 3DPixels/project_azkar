@@ -12,4 +12,6 @@ abstract class AppIcons {
   static const String sparkle = "assets/icons/Sparkle.svg";
   static const String thinking = "assets/icons/Thinking.svg";
   static const String waterDrop = "assets/icons/WaterDrop.svg";
+  static const String autoPlay = "assets/icons/autoplay.svg";
+  static const String autoStop = "assets/icons/autostop.svg";
 }

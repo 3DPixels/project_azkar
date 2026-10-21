@@ -230,16 +230,14 @@ class _PrayerDetailsState extends State<PrayerDetails> {
                       Text(
                         widget.prayer.importantStep!.title,
                         style: Theme.of(context).textTheme.titleMedium!
-                            .copyWith(
-                              color: Color(0xFF586C42),
-                              fontWeight: FontWeight.bold,
-                            ),
+                            .copyWith(color: Color(0xFF586C42)),
                       ),
+
                       Text(
                         widget.prayer.importantStep!.subtitle,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleMedium!
-                            .copyWith(height: 2, fontWeight: FontWeight.w500),
+                            .copyWith(height: 2, fontFamily: AppFonts.notoSans),
                       ),
                     ],
                   ),
@@ -410,7 +408,7 @@ class StepTile extends StatelessWidget {
                         child: Text(
                           innerText!,
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.titleMedium
+                          style: Theme.of(context).textTheme.titleSmall
                               ?.copyWith(fontFamily: AppFonts.notoSans),
                         ),
                       ),

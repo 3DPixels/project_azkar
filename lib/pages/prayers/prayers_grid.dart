@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:project_azkar/data/models/prayer_model.dart';
 import 'package:project_azkar/data/repos/prayers_repo.dart';
 import 'package:project_azkar/pages/prayers/prayer_details.dart';
@@ -55,11 +56,16 @@ class PrayerCard extends StatelessWidget {
               CircleAvatar(
                 backgroundColor: AppColors.accent.withValues(alpha: .1),
                 radius: 28,
-                child: Icon(
-                  Icons.nights_stay_outlined,
-                  color: AppColors.accent,
-                  size: 22,
-                ),
+                child: prayer.iconData != null
+                    ? Icon(prayer.iconData, color: AppColors.accent, size: 28)
+                    : SvgPicture.asset(
+                        prayer.iconPath!,
+                        width: 24,
+                        colorFilter: ColorFilter.mode(
+                          AppColors.accent,
+                          BlendMode.srcIn,
+                        ),
+                      ),
               ),
               Text(
                 prayer.title,

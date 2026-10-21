@@ -169,6 +169,7 @@ class _MoodsListState extends State<MoodsList> {
                   bottomColor: widget.mood.colorPalette.cardBottomColor,
                   containerBackgroundColor:
                       widget.mood.colorPalette.cardBackgroundColor,
+                  duaIndex: index + 1,
                 );
               },
               separatorBuilder: (context, index) => const SizedBox(height: 16),

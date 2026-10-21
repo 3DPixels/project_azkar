@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:project_azkar/utils/app_fonts.dart';
+import 'package:project_azkar/widgets/dua_details_sheet.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../data/models/dua_model.dart';
@@ -15,6 +16,7 @@ class DuaCard extends StatefulWidget {
   final Color borderColor;
   final Color bottomColor;
   final Color containerBackgroundColor;
+  final int? duaIndex;
 
   // Optional parameters for counting functionality
   final bool enableCounter;
@@ -31,6 +33,7 @@ class DuaCard extends StatefulWidget {
     required this.borderColor,
     required this.bottomColor,
     required this.containerBackgroundColor,
+    this.duaIndex,
     this.enableCounter = false,
     this.currentCount = 0,
     this.targetCount = 0,
@@ -59,7 +62,7 @@ class _DuaCardState extends State<DuaCard> {
   // --- Normal Tap Logic (Kept EXACTLY the same) ---
   void _handleTap() async {
     if (widget.currentCount == 1) {
-      HapticFeedback.vibrate();
+      HapticFeedback.mediumImpact();
       setState(() {
         isFading = true;
       });
@@ -95,7 +98,7 @@ class _DuaCardState extends State<DuaCard> {
     widget.onUndo?.call();
   }
 
-  // --- New Hold-to-Skip Logic ---
+  // --- Hold-to-Skip Logic ---
   void _startLongPress() {
     // 1. Initial vibration when the half-second hold is registered
     HapticFeedback.selectionClick();
@@ -215,157 +218,59 @@ class _DuaCardState extends State<DuaCard> {
                                                         AppFonts.notoSans,
                                                   ),
                                             ),
-                                            Divider(
-                                              thickness: 1,
-                                              color: widget.borderColor,
-                                            ),
-                                            Text(
-                                              widget.supplication.benefit,
-                                              maxLines: 3,
-                                              overflow: .ellipsis,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge
-                                                  ?.copyWith(color: iconsColor),
-                                            ),
+                                            if (!(widget
+                                                    .supplication
+                                                    .benefit
+                                                    .isEmpty &&
+                                                widget
+                                                    .supplication
+                                                    .source
+                                                    .isEmpty))
+                                              Divider(
+                                                thickness: 1,
+                                                color: widget.borderColor,
+                                              ),
+                                            if (widget
+                                                .supplication
+                                                .benefit
+                                                .isNotEmpty)
+                                              Text(
+                                                widget.supplication.benefit,
+                                                maxLines: 3,
+                                                overflow: .ellipsis,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge
+                                                    ?.copyWith(
+                                                      color: iconsColor,
+                                                    ),
+                                              ),
                                             if (widget
                                                 .supplication
                                                 .source
                                                 .isNotEmpty)
                                               TextButton.icon(
                                                 onPressed: () {
-                                                  // showModalBottomSheet(
-                                                  //   context: context,
-                                                  //   isScrollControlled:
-                                                  //       true, // 1. REQUIRED for the sheet to expand beyond 50%
-                                                  //   builder: (context) {
-                                                  //     return DraggableScrollableSheet(
-                                                  //       initialChildSize:
-                                                  //           0.4, // Starts at 40% of screen height
-                                                  //       minChildSize:
-                                                  //           0.2, // Can collapse down to 20%
-                                                  //       maxChildSize:
-                                                  //           0.9, // Can expand up to 90%
-                                                  //       expand:
-                                                  //           false, // Keeps the modal constraints
-                                                  //       // 2. The builder gives you the crucial scrollController
-                                                  //       builder: (context, scrollController) {
-                                                  //         // 3. You MUST attach it to a scrollable widget
-                                                  //         return SingleChildScrollView(
-                                                  //           controller:
-                                                  //               scrollController,
-                                                  //           child: Padding(
-                                                  //             padding:
-                                                  //                 const EdgeInsets.symmetric(
-                                                  //                   horizontal:
-                                                  //                       10.0,
-                                                  //                 ),
-                                                  //             child: Column(
-                                                  //               children: [
-                                                  //                 // Your content goes here
-                                                  //               ],
-                                                  //             ),
-                                                  //           ),
-                                                  //         );
-                                                  //       },
-                                                  //     );
-                                                  //   },
-                                                  // );
                                                   showModalBottomSheet(
                                                     context: context,
                                                     backgroundColor: widget
                                                         .containerBackgroundColor,
                                                     showDragHandle: true,
-                                                    // enableDrag: false,
-
-                                                    builder: (context) => SafeArea(
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets.symmetric(
-                                                              horizontal: 20.0,
-                                                            ),
-                                                        child: Column(
-                                                          spacing: 10,
-                                                          crossAxisAlignment:
-                                                              .start,
-                                                          mainAxisSize: .min,
-                                                          children: [
-                                                            Text(
-                                                              'تفاصيل المصدر',
-                                                              style: TextStyle(
-                                                                fontSize: 20,
-                                                                fontWeight:
-                                                                    .bold,
-                                                              ),
-                                                            ),
-                                                            Text(
+                                                    builder: (context) =>
+                                                        DuaDetailsSheet(
+                                                          source: widget
+                                                              .supplication
+                                                              .source,
+                                                          benefit:
                                                               widget
                                                                   .supplication
-                                                                  .source,
-                                                              style: TextStyle(
-                                                                fontSize: 20,
-                                                                fontWeight:
-                                                                    .bold,
-                                                                color: widget
-                                                                    .buttonsColor,
-                                                              ),
-                                                            ),
-                                                            Text(
+                                                                  .benefitSource ??
                                                               widget
                                                                   .supplication
-                                                                  .source,
-                                                              style: TextStyle(
-                                                                color:
-                                                                    Colors.grey,
-                                                                fontWeight:
-                                                                    .w600,
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              widget
-                                                                      .supplication
-                                                                      .benefitSource ??
-                                                                  widget
-                                                                      .supplication
-                                                                      .benefit,
-                                                              style: TextStyle(
-                                                                fontWeight:
-                                                                    .w600,
-                                                              ),
-                                                            ),
-                                                            SizedBox(),
-                                                            OutlinedButton(
-                                                              onPressed: () =>
-                                                                  Navigator.pop(
-                                                                    context,
-                                                                  ),
-                                                              style: OutlinedButton.styleFrom(
-                                                                side: BorderSide(
-                                                                  color: widget
-                                                                      .buttonsColor,
-                                                                ),
-                                                                minimumSize:
-                                                                    Size(
-                                                                      .infinity,
-                                                                      45,
-                                                                    ),
-                                                              ),
-                                                              child: Text(
-                                                                'إغلاق',
-                                                                style: TextStyle(
-                                                                  color: widget
-                                                                      .buttonsColor,
-                                                                  fontSize: 20,
-                                                                  fontWeight:
-                                                                      .bold,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            SizedBox(height: 5),
-                                                          ],
+                                                                  .benefit,
+                                                          buttonsColor: widget
+                                                              .buttonsColor,
                                                         ),
-                                                      ),
-                                                    ),
                                                   );
                                                 },
                                                 style: TextButton.styleFrom(
@@ -478,7 +383,7 @@ class _DuaCardState extends State<DuaCard> {
                                       if (!widget.enableCounter)
                                         // State 1: Counter disabled (Standard view for rest of app)
                                         Text(
-                                          'Dua #1',
+                                          'Dua #${widget.duaIndex ?? 1}',
                                           style: TextStyle(
                                             color: iconsColor,
                                             fontWeight: FontWeight.w600,

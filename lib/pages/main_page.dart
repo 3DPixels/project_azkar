@@ -16,11 +16,7 @@ class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
   late PageController _pageController;
 
-  final List<Widget> _tabs = [
-    KeepAlivePage(child: HomePage()),
-    PrayersPage(),
-    SettingsPage(),
-  ];
+  final List<Widget> _tabs = [HomePage(), PrayersPage(), SettingsPage()];
 
   @override
   void initState() {
@@ -67,9 +63,7 @@ class _MainPageState extends State<MainPage> {
                   child: PageView(
                     controller: _pageController,
                     onPageChanged: (index) {
-                      setState(() {
-                        _currentIndex = index;
-                      });
+                      _currentIndex = index;
                     },
                     children: _tabs,
                   ),
@@ -99,30 +93,5 @@ class _MainPageState extends State<MainPage> {
         );
       },
     );
-  }
-}
-
-/// A simple wrapper widget that forces its child to stay alive
-/// even when it scrolls off-screen in a PageView.
-class KeepAlivePage extends StatefulWidget {
-  final Widget child;
-
-  const KeepAlivePage({super.key, required this.child});
-
-  @override
-  State<KeepAlivePage> createState() => _KeepAlivePageState();
-}
-
-class _KeepAlivePageState extends State<KeepAlivePage>
-    with AutomaticKeepAliveClientMixin {
-  // Setting this to true tells Flutter not to destroy the widget
-  @override
-  bool get wantKeepAlive => true;
-
-  @override
-  Widget build(BuildContext context) {
-    // This super call is required for the mixin to work correctly
-    super.build(context);
-    return widget.child;
   }
 }

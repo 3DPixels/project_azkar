@@ -3,8 +3,8 @@ import 'package:project_azkar/data/repos/zekr_repo.dart';
 import 'package:project_azkar/pages/supplications/azkar/azkar_page.dart';
 import 'package:project_azkar/utils/enums.dart';
 
-import '../../data/models/card_pallete_model.dart';
-import '../../widgets/gradient_card.dart';
+import '../../../data/models/card_pallete_model.dart';
+import 'gradient_card.dart';
 
 class AzkarCardData {
   final String title;
