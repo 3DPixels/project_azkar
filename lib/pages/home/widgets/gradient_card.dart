@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../data/models/card_pallete_model.dart';
 
@@ -6,7 +7,8 @@ class GradientCard extends StatelessWidget {
   final CardPalette palette;
   final String title;
   final String subtitle;
-  final IconData icon;
+  final IconData? icon;
+  final String? iconPath;
   final VoidCallback? onTap;
 
   const GradientCard({
@@ -14,7 +16,8 @@ class GradientCard extends StatelessWidget {
     required this.palette,
     required this.title,
     required this.subtitle,
-    required this.icon,
+    this.icon,
+    this.iconPath,
     required this.onTap,
   });
 
@@ -45,7 +48,9 @@ class GradientCard extends StatelessWidget {
                 color: palette.glowColor,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(icon, color: palette.iconColor, size: 24),
+              child: icon != null
+                  ? Icon(icon, color: palette.iconColor, size: 24)
+                  : SvgPicture.asset(iconPath!, width: 24),
             ),
             SizedBox(height: 10),
             Text(title, style: Theme.of(context).textTheme.titleSmall),

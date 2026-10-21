@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project_azkar/data/repos/zekr_repo.dart';
 import 'package:project_azkar/pages/supplications/azkar/azkar_page.dart';
+import 'package:project_azkar/utils/app_icons.dart';
 import 'package:project_azkar/utils/enums.dart';
 
 import '../../../data/models/card_pallete_model.dart';
@@ -9,14 +10,16 @@ import 'gradient_card.dart';
 class AzkarCardData {
   final String title;
   final String subtitle;
-  final IconData icon;
+  final IconData? icon;
+  final String? iconPath;
   final CardPalette palette;
   final DuaTime duaTime; // Added your enum here!
 
   const AzkarCardData({
     required this.title,
     required this.subtitle,
-    required this.icon,
+    this.icon,
+    this.iconPath,
     required this.palette,
     required this.duaTime,
   });
@@ -48,7 +51,7 @@ final List<AzkarCardData> azkarCards = [
   AzkarCardData(
     title: 'أذكار بعد الصلاة',
     subtitle: 'ختام الصلاة',
-    icon: Icons.night_shelter,
+    iconPath: AppIcons.islamicSign,
     palette: const CardPalette(
       iconColor: Color(0xFF17CE55),
       glowColor: Color(0xFF15281A),
@@ -90,6 +93,7 @@ class HomeAzkarGrid extends StatelessWidget {
           title: card.title,
           subtitle: card.subtitle,
           icon: card.icon,
+          iconPath: card.iconPath,
           onTap: () {
             Navigator.push(
               context,
