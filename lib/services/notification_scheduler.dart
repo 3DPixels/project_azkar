@@ -107,10 +107,12 @@ class NotificationScheduler {
     }
 
     // 4. Update the cache only if scheduling actually occurred
-    await CacheService.cacheLastScheduledDate(
-      now.add(const Duration(days: 6)).toIso8601String(),
-    );
-    await CacheService.cacheScheduledCoordinates(lat, lng);
+    if (enablePrayers || enableAzkar) {
+      await CacheService.cacheLastScheduledDate(
+        now.add(const Duration(days: 6)).toIso8601String(),
+      );
+      await CacheService.cacheScheduledCoordinates(lat, lng);
+    }
   }
 }
 

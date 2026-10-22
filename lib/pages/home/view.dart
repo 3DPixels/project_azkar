@@ -75,7 +75,6 @@ class _HomePageState extends State<HomePage>
               lat: state.latitude,
               lng: state.longitude,
               country: state.country,
-              force: state.isManualRefresh,
             );
           },
         ),

@@ -57,7 +57,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (_) => PrayerTimesCubit(locationService, adhanService),
         ),
-        BlocProvider(create: (_) => SettingsCubit(scheduler, notifiService)),
+        BlocProvider(
+          create: (_) => SettingsCubit(scheduler, notifiService),
+          lazy: false,
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
