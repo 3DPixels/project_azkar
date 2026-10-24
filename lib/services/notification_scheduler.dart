@@ -32,29 +32,30 @@ class NotificationScheduler {
     bool force = false,
   }) async {
     final now = DateTime.now();
-    final lastScheduledString = CacheService.getLastScheduledDate();
-    final scheduledCoords = CacheService.getScheduledCoordinates();
+    // final lastScheduledString = CacheService.getLastScheduledDate();
+    // final scheduledCoords = CacheService.getScheduledCoordinates();
 
+    //? Force scheduling for now until I figure out if it's necessary to throttle it or not.
     // 1. Check if we can skip scheduling
-    if (!force && lastScheduledString != null && scheduledCoords != null) {
-      final lastDate = DateTime.tryParse(lastScheduledString);
-      final double distance = Geolocator.distanceBetween(
-        scheduledCoords.lat,
-        scheduledCoords.lng,
-        lat,
-        lng,
-      );
+    // if (!force && lastScheduledString != null && scheduledCoords != null) {
+    //   final lastDate = DateTime.tryParse(lastScheduledString);
+    //   final double distance = Geolocator.distanceBetween(
+    //     scheduledCoords.lat,
+    //     scheduledCoords.lng,
+    //     lat,
+    //     lng,
+    //   );
 
-      final daysLeft = lastDate?.difference(now).inDays;
+    //   final daysLeft = lastDate?.difference(now).inDays;
 
-      // Keep schedule if within 20km and >= 3 days left
-      if (distance < 20000 &&
-          daysLeft != null &&
-          daysLeft >= 3 &&
-          daysLeft <= 7) {
-        return; // Schedule is still valid, do nothing
-      }
-    }
+    //   // Keep schedule if within 20km and >= 3 days left
+    //   if (distance < 20000 &&
+    //       daysLeft != null &&
+    //       daysLeft >= 3 &&
+    //       daysLeft <= 7) {
+    //     return; // Schedule is still valid, do nothing
+    //   }
+    // }
 
     // 2. Clear existing notifications based on user preferences
     if (enablePrayers) await cancelAllPrayers();
