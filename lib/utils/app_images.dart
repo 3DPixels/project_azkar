@@ -6,4 +6,6 @@ abstract class AppImages {
   static const String prayerJanazah = "assets/images/prayer-janazah.png";
   static const String prayerJumma = "assets/images/prayer-jumma.png";
   static const String prayerWetr = "assets/images/prayer-wetr.png";
+  static const String prayerIstisqa = "assets/images/prayer-istisqa.png";
+  static const String prayerKusuf = "assets/images/prayer-kusuf.png";
 }

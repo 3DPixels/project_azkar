@@ -45,6 +45,7 @@ class _PrayerDetailsState extends State<PrayerDetails> {
     return Scaffold(
       body: CustomScrollView(
         controller: _scrollController,
+        physics: BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
             expandedHeight: _expandedHeight,
@@ -136,7 +137,7 @@ class _PrayerDetailsState extends State<PrayerDetails> {
                         ),
                         const SizedBox(height: 12),
                         Text(
-                          'فضل ${widget.prayer.title}',
+                          widget.prayer.title,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 28,
@@ -263,11 +264,7 @@ class _PrayerDetailsState extends State<PrayerDetails> {
                     crossAxisAlignment: .start,
                     spacing: 10,
                     children: [
-                      Icon(
-                        Icons.info_outline,
-                        color: Color(0xFF536C41),
-                        size: 22,
-                      ),
+                      Icon(Icons.info, color: Color(0xFF536C41), size: 22),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

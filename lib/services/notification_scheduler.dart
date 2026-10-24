@@ -1,5 +1,3 @@
-import 'package:geolocator/geolocator.dart';
-
 import 'adhan_service.dart';
 import 'cache_service.dart';
 import 'notification_service.dart';

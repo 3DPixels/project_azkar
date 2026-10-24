@@ -9,14 +9,6 @@ import '../cubits/settings_cubit.dart';
 class CalculationMethodDialog extends StatelessWidget {
   const CalculationMethodDialog({super.key});
 
-  /// The caller now passes NOTHING except the context!
-  static Future<void> show(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (context) => const CalculationMethodDialog(),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SettingsCubit, SettingsState>(

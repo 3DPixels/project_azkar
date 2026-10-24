@@ -28,6 +28,11 @@ ThemeData darkTheme() {
       bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       bodySmall: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
     ).apply(bodyColor: Colors.white, displayColor: Colors.white),
+    textSelectionTheme: const TextSelectionThemeData(
+      cursorColor: AppColors.primary,
+      selectionColor: AppColors.secondary,
+      selectionHandleColor: AppColors.primary,
+    ),
     // navigationBarTheme: NavigationBarThemeData(
     //   backgroundColor: AppColors.darkGreenNavBarBG,
     //   // indicatorColor: AppColors.primary.withAlpha(100), // Toned down primary

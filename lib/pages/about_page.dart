@@ -1,78 +1,139 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'package:url_launcher/url_launcher.dart';
+import 'package:project_azkar/utils/app_fonts.dart';
+import 'package:project_azkar/utils/app_colors.dart';
 import '../../utils/app_images.dart';
 
-class AboutScreen extends StatelessWidget {
-  const AboutScreen({super.key});
+class AboutPage extends StatelessWidget {
+  const AboutPage({super.key});
+
+  Future<void> _launchUrl(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green,
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
         ),
-        backgroundColor: Colors.green,
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarIconBrightness: Brightness.light, // For Android (dark icons)
-          statusBarBrightness: Brightness.light, // For iOS (dark icons)
-        ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
         child: Center(
-          child: SizedBox(
-            width: 400,
-            child: Column(
-              children: [
-                const CircleAvatar(
-                  radius: 60,
-                  backgroundImage: AssetImage(AppImages.profile),
-                ),
-                const Text(
-                  'Ammar Ismail',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Pacifico',
+          child: Column(
+            children: [
+              ClipOval(
+                child: Transform.scale(
+                  scale: 1.3,
+                  child: Image.asset(
+                    AppImages.profile,
+                    width: 130,
+                    height: 130,
+                    fit: BoxFit.cover,
                   ),
                 ),
-                const Text(
-                  'FLUTTER DEVELOPER',
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                "عمار احمد اسماعيل",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: AppFonts.amiri,
                 ),
-                const Divider(
-                  height: 25,
-                  color: Colors.grey,
-                  indent: 100,
-                  endIndent: 100,
+              ),
+              const SizedBox(height: 6),
+              const Text(
+                'FLUTTER DEVELOPER',
+                style: TextStyle(
+                  color: AppColors.primary,
+                  fontSize: 13,
+                  letterSpacing: 1.5,
+                  fontWeight: FontWeight.w600,
                 ),
-                // 5.verticalSpace,
-                const ListTile(
-                  tileColor: Colors.white,
-                  leading: Icon(Icons.email, color: Colors.green),
-                  title: TextSelectionTheme(
-                    data: TextSelectionThemeData(
-                      selectionColor: Colors.grey,
-                      selectionHandleColor: Colors.greenAccent,
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 28),
+                child: Divider(
+                  color: AppColors.darkBorder,
+                  endIndent: 40,
+                  indent: 40,
+                ),
+              ),
+
+              _buildContactTile(
+                context,
+                icon: Icons.email_outlined,
+                title: 'ammar.salim2020@outlook.com',
+                onTap: () => _launchUrl('mailto:ammar.salim2020@outlook.com'),
+                trailingIcon: Icons.copy,
+                onTrailingTap: () {
+                  Clipboard.setData(
+                    const ClipboardData(text: 'ammar.salim2020@outlook.com'),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('تم نسخ البريد الإلكتروني'),
+                      backgroundColor: AppColors.darkSurface,
                     ),
-                    child: SelectableText(
-                      'ammar.salim2020@outlook.com',
-                      style: TextStyle(color: Colors.green),
-                    ),
-                  ),
+                  );
+                },
+              ),
+              const SizedBox(height: 12),
+
+              _buildContactTile(
+                context,
+                icon: Icons.link,
+                title: 'LinkedIn',
+                onTap: () => _launchUrl(
+                  'https://www.linkedin.com/in/ammar-ahmad-ismail-24bb24vv',
                 ),
-              ],
-            ),
+                trailingIcon: Icons.arrow_forward_ios,
+              ),
+            ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildContactTile(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+    IconData? trailingIcon,
+    VoidCallback? onTrailingTap,
+  }) {
+    return ListTile(
+      tileColor: AppColors.darkSurface,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: const BorderSide(color: AppColors.darkBorder, width: 1),
+      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+      onTap: onTap,
+      leading: Icon(icon, color: AppColors.primary),
+      title: Text(
+        title,
+        style: const TextStyle(color: Colors.white, fontSize: 15),
+        textAlign: .center,
+        textDirection: TextDirection.ltr,
+      ),
+      trailing: trailingIcon != null
+          ? IconButton(
+              icon: Icon(trailingIcon, color: AppColors.hint, size: 20),
+              onPressed: onTrailingTap ?? onTap,
+            )
+          : null,
     );
   }
 }

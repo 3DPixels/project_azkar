@@ -11,16 +11,18 @@ class PrayersGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: GridView.count(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        crossAxisCount: 2,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
-        mainAxisExtent: 157,
-        children: PrayersRepo.allPrayers
-            .map((prayer) => PrayerCard(prayer))
-            .toList(),
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      sliver: SliverGrid.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 12,
+          mainAxisExtent: 157,
+        ),
+        itemCount: PrayersRepo.allPrayers.length,
+        itemBuilder: (context, index) =>
+            PrayerCard(PrayersRepo.allPrayers[index]),
       ),
     );
   }

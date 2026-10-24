@@ -151,6 +151,7 @@ class Body extends StatelessWidget {
           padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
           sliver: HomeAzkarGrid(),
         ),
+        const SliverToBoxAdapter(child: SizedBox(height: 18)),
       ],
     );
   }

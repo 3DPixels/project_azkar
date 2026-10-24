@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:project_azkar/utils/app_icons.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../data/models/dua_model.dart';
@@ -26,19 +24,19 @@ class _AzkarSingleCardState extends State<AzkarSingleCard> {
 
   final iconsColor = const Color(0xFF94A3B8);
 
-  void _toggleSpeed() {
-    setState(() {
-      if (playSpeed == 1.0) {
-        playSpeed = 1.25;
-      } else if (playSpeed == 1.25) {
-        playSpeed = 1.5;
-      } else if (playSpeed == 1.5) {
-        playSpeed = 2.0;
-      } else {
-        playSpeed = 1.0;
-      }
-    });
-  }
+  // void _toggleSpeed() {
+  //   setState(() {
+  //     if (playSpeed == 1.0) {
+  //       playSpeed = 1.25;
+  //     } else if (playSpeed == 1.25) {
+  //       playSpeed = 1.5;
+  //     } else if (playSpeed == 1.5) {
+  //       playSpeed = 2.0;
+  //     } else {
+  //       playSpeed = 1.0;
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
